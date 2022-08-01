@@ -32,7 +32,6 @@ def show_bar(request):
 
 def show_radar(request):
     pks = list(map(int, request.GET.get("pk").split(",")))
-    print()
     make_radar(DATA_FILENAME, pks,
                {"raisedhands": 100, "VisitedResources": 100, "AnnouncementsView": 100, "Discussion": 100}, None,
                "statistic/templates/cache/show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
