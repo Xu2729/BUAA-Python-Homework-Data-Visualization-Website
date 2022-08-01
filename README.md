@@ -22,12 +22,24 @@ cd ../../
 
 ```shell
 pip install -r requirements.txt
+# 如果这一步出问题，请手动输入这四条命令
+pip install django
+pip install pandas
+pip install pyecharts
+pip install pymysql
+# 如果仍有问题，建议利用搜索引擎解决
 ```
 
 运行服务
 
 ```shell
 python manage.py runserver
+# 之后在浏览器上打开 http://127.0.0.1:8000/index 就能看到效果图了
+
+# 如果想部署在服务器上让别人访问，应该先将 djangoProject1/settings
+# 中的第26 行改为 DEBUG = False，然后使用下面的命令
+python manage.py runserver 0.0.0.0:8000
+# 这样就能通过 <ip>:8000 进行访问了
 ```
 
 ## Linux
@@ -49,10 +61,22 @@ source venv/bin/activate
 
 ```shell
 pip3 install -r requirements.txt
+# 如果这一步出问题，请手动输入这四条命令
+pip3 install django
+pip3 install pandas
+pip3 install pyecharts
+pip3 install pymysql
+# 如果仍有问题，建议利用搜索引擎解决
 ```
 
 运行服务
 
 ```shell
 python3 manage.py runserver
+# 之后在浏览器上打开 http://127.0.0.1:8000/index 就能看到效果图了
+
+# 如果想部署在服务器上让别人访问，应该先将 djangoProject1/settings
+# 中的第26 行改为 DEBUG = False，然后使用下面的命令
+python3 manage.py runserver 0.0.0.0:8000
+# 这样就能通过 <ip>:8000 进行访问了
 ```
