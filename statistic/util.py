@@ -14,10 +14,17 @@ def make_pie(data_filename: str, key_name: str, title=None, save_filename="pie.h
     if title is None:
         title = key_name + " statistic"
     pie = (
-        Pie()
+        Pie(
+            init_opts=opts.InitOpts(bg_color="white")
+        )
             .add(key_name, data, center=["42%", "52%"])
             .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                             legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical"), )
+                             legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
+                                                         pos_top="8%"),
+                             toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                 data_zoom=None, restore=None, magic_type=None
+                             )))
             .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
     )
     pie.render(save_filename)
@@ -33,11 +40,17 @@ def make_bar(data_filename: str, key_name: str, group_by=None, use_stack=False, 
         keys = pd.DataFrame(data.keys())[0].tolist()
         values = pd.DataFrame(data.values())[0].tolist()
         bar = (
-            Bar()
+            Bar(
+                init_opts=opts.InitOpts(bg_color="white")
+            )
                 .add_xaxis(keys)
                 .add_yaxis("", values, category_gap="35%")
                 .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)))
+                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
+                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                     data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
+                                         type_=("line", "bar")))))
         )
         bar.render(save_filename)
     else:
@@ -50,10 +63,16 @@ def make_bar(data_filename: str, key_name: str, group_by=None, use_stack=False, 
             temp = [{"value": int(v), "percent": int(v) / sum_dict[k]} for k, v in temp.items()]
             tot_data[group_key] = temp
         bar = (
-            Bar()
+            Bar(
+                init_opts=opts.InitOpts(bg_color="white")
+            )
                 .add_xaxis(keys)
                 .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)))
+                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
+                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                     data_zoom=None, restore=None,
+                                 )))
         )
         if use_stack:
             for k, v in tot_data.items():
@@ -81,9 +100,15 @@ def make_radar(data_filename: str, pks: list, keyname_and_max: dict, title=None,
     if title is None:
         title = "students radar"
     radar = (
-        Radar()
+        Radar(
+            init_opts=opts.InitOpts(bg_color="white")
+        )
             .add_schema(schema)
-            .set_global_opts(title_opts=opts.TitleOpts(title=title), legend_opts=opts.LegendOpts())
+            .set_global_opts(title_opts=opts.TitleOpts(title=title), legend_opts=opts.LegendOpts(),
+                             toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                 data_zoom=None, restore=None, magic_type=None
+                             )))
     )
     for i in pks:
         temp = list(map(int, [data.iloc[i][k] for k in keyname_and_max.keys()]))

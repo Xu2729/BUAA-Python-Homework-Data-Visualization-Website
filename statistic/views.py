@@ -11,8 +11,8 @@ def index(request):
 
 def show_pie(request):
     key = request.GET.get("key")
-    make_pie(DATA_FILENAME, key, None, "statistic/templates/show_pie_{}.html".format(key))
-    return render(request, "show_pie_{}.html".format(key))
+    make_pie(DATA_FILENAME, key, None, "statistic/templates/cache/show_pie_{}.html".format(key))
+    return render(request, "cache/show_pie_{}.html".format(key))
 
 
 def show_bar(request):
@@ -26,8 +26,8 @@ def show_bar(request):
     else:
         use_stack = False
     make_bar(DATA_FILENAME, key, group_by, use_stack, None,
-             "statistic/templates/show_bar_{}_{}_{}.html".format(key, group_by, use_stack))
-    return render(request, "show_bar_{}_{}_{}.html".format(key, group_by, use_stack))
+             "statistic/templates/cache/show_bar_{}_{}_{}.html".format(key, group_by, use_stack))
+    return render(request, "cache/show_bar_{}_{}_{}.html".format(key, group_by, use_stack))
 
 
 def show_radar(request):
@@ -35,5 +35,5 @@ def show_radar(request):
     print()
     make_radar(DATA_FILENAME, pks,
                {"raisedhands": 100, "VisitedResources": 100, "AnnouncementsView": 100, "Discussion": 100}, None,
-               "statistic/templates/show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
-    return render(request, "show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
+               "statistic/templates/cache/show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
+    return render(request, "cache/show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
