@@ -5,30 +5,38 @@
     <title>数据可视化分析包</title>
 </head>
 <body>
-<h1>男女比例饼状图</h1>
-<iframe src="/index/show_pie/?key=gender" frameborder="0" , height="600px" , width="1200px"></iframe>
-</body>
-<h1>Topic饼图</h1>
-<iframe src="/index/show_pie/?key=Topic" frameborder="0" , height="600px" , width="1200px"></iframe>
-<h1>Topic条形图1</h1>
-<iframe src="/index/show_bar/?key=Topic&group_by=null&use_stack=false" frameborder="0" , height="600px" ,
-        width="1200px"></iframe>
-<h1>Topic条形图2</h1>
-<iframe src="/index/show_bar/?key=Topic&group_by=gender&use_stack=false" frameborder="0" , height="600px" ,
-        width="1200px"></iframe>
-<h1>Topic条形图3</h1>
-<iframe src="/index/show_bar/?key=Topic&group_by=gender&use_stack=true" frameborder="0" , height="600px" ,
-        width="1200px"></iframe>
-<h1>学生0雷达图</h1>
-<iframe src="/index/show_radar/?pk=0" frameborder="0" , height="600px" , width="1200px"></iframe>
-<h1>学生10雷达图</h1>
-<iframe src="/index/show_radar/?pk=10" frameborder="0" , height="600px" , width="1200px"></iframe>
-<h1>学生5,6,7对比雷达图</h1>
-<iframe src="/index/show_radar/?pk=5,6,7" frameborder="0" , height="600px" , width="1200px"></iframe>
-<h1>上传文件示例</h1>
+<h1>如果想使用新的数据，请在这里上传你的数据</h1>
 <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <label>上传文件：</label> <input type="file" class="input_file" name="csv_file">
     <input type="submit" value="提交">
 </form>
+<h1>男女比例饼状图</h1>
+<iframe src="/index/show_pie/?filename={{ filename }}&key=gender" frameborder="0" , height="600px" ,
+        width="1200px"></iframe>
+</body>
+<h1>Topic饼图</h1>
+<iframe src="/index/show_pie/?filename={{ filename }}&key=Topic" frameborder="0" , height="600px" ,
+        width="1200px"></iframe>
+<h1>Topic条形图1</h1>
+<iframe src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=null&use_stack=false" frameborder="0" ,
+        height="600px" ,
+        width="1200px"></iframe>
+<h1>Topic条形图2</h1>
+<iframe src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=gender&use_stack=false" frameborder="0" ,
+        height="600px" ,
+        width="1200px"></iframe>
+<h1>Topic条形图3</h1>
+<iframe src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=gender&use_stack=true" frameborder="0" ,
+        height="600px" ,
+        width="1200px"></iframe>
+<h1>学生0雷达图</h1>
+<iframe src="/index/show_radar/?filename={{ filename }}&pk=0" frameborder="0" , height="600px" ,
+        width="1200px"></iframe>
+<h1>学生10雷达图</h1>
+<iframe src="/index/show_radar/?filename={{ filename }}&pk=10" frameborder="0" , height="600px" ,
+        width="1200px"></iframe>
+<h1>学生5,6,7对比雷达图</h1>
+<iframe src="/index/show_radar/?filename={{ filename }}&pk=5,6,7" frameborder="0" , height="600px" ,
+        width="1200px"></iframe>
 </html>
