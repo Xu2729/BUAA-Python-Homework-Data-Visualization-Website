@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'py_homework',
         'USER': 'root',
-        'PASSWORD': '2729365638@buaa',
+        'PASSWORD': '1234',
         'HOST': '127.0.0.1',
         'PORT': 3306,
     }
