@@ -10,26 +10,26 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="/static/assets/img/favicon.png" rel="icon">
+    <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="/https://fonts.gstatic.com" rel="preconnect">
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="/static/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="/static/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="/static/assets/css/style.css" rel="stylesheet">
 
     <style>
         .wrap {
@@ -180,7 +180,7 @@
 
                         <li class="message-item">
                             <a href="#">
-                                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                                <img src="/static/assets/img/messages-1.jpg" alt="" class="rounded-circle">
                                 <div>
                                     <h4>Maria Hudson</h4>
                                     <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -194,7 +194,7 @@
 
                         <li class="message-item">
                             <a href="#">
-                                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                                <img src="/static/assets/img/messages-2.jpg" alt="" class="rounded-circle">
                                 <div>
                                     <h4>Anna Nelson</h4>
                                     <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -208,7 +208,7 @@
 
                         <li class="message-item">
                             <a href="#">
-                                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                                <img src="/static/assets/img/messages-3.jpg" alt="" class="rounded-circle">
                                 <div>
                                     <h4>David Muldon</h4>
                                     <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -231,8 +231,8 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+                        <img src="/static/assets/img/head.jpg" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Hyggge</span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -571,7 +571,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div class="text-center wrap">
-                                        <iframe id="iframe1" class="iframe" src="http://127.0.0.1:8000/index/show_pie/?key=gender" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_pie/?filename={{ filename }}&key=gender" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -605,7 +605,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_bar_Topic_gender_True.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_pie/?filename={{ filename }}&key=Topic" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -639,7 +639,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_bar_Topic_None_false.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=null&use_stack=false" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -673,7 +673,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_pie_gender.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=gender&use_stack=false" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -707,7 +707,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_pie_Topic.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=gender&use_stack=true" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -741,7 +741,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_radar_0.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_radar/?filename={{ filename }}&pk=0" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -775,7 +775,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_radar_10.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_radar/?filename={{ filename }}&pk=10" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -809,7 +809,7 @@
                                     <hr>
                                     <!-- Line Chart -->
                                     <div  class="text-center">
-                                        <iframe id="iframe1" class="iframe" src="assets/img/show_radar_5&6&7.html" 
+                                        <iframe id="iframe1" class="iframe" src="/index/show_radar/?filename={{ filename }}&pk=5,6,7" 
                                         frameborder="0" scrolling="auto"></iframe>
                                     </div>
 
@@ -831,7 +831,7 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Hyggge</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             <!-- All the links in the footer should remain intact. -->
@@ -846,17 +846,17 @@
             class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="/static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/vendor/chart.js/chart.min.js"></script>
+    <script src="/static/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="/static/assets/vendor/quill/quill.min.js"></script>
+    <script src="/static/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="/static/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="/static/assets/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="/static/assets/js/main.js"></script>
 
     <script>
         let ifreamList = document.getElementsByClassName("iframe");
@@ -869,7 +869,7 @@
             }
         }
 
-        doucument.getElementsByClassName("wrap")[0].style.background-color = "black";
+        // doucument.getElementsByClassName("wrap")[0].style.background-color = "black";
     </script>
 
 </body>
