@@ -18,12 +18,12 @@ from django.urls import path
 from statistic import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('index/show_pie/', views.show_pie),
-    path('index/show_bar/', views.show_bar),
-    path('index/show_radar/', views.show_radar),
-    path('index/', views.index),
-    path('upload/csv/', views.upload_csv)
-    # path(r'^static/(?P<path>.*)$', )
-
+    path("admin/", admin.site.urls),
+    path("index/show_pie/", views.show_pie),
+    path("index/show_bar/", views.show_bar),
+    path("index/show_radar/", views.show_radar),
+    path("index/", views.index),
+    path("upload/csv/", views.upload_csv),
+    path("login/", views.login),
+    path("register/", views.register),
 ]

@@ -2,6 +2,8 @@ import pandas as pd
 from pyecharts.charts import Bar, Pie, Radar
 from pyecharts import options as opts
 from pyecharts.commons.utils import JsCode
+from django.shortcuts import redirect
+from django.http import HttpRequest
 
 
 # 饼图
@@ -114,3 +116,18 @@ def make_radar(data_filename: str, pks: list, keyname_and_max: dict, title=None,
         temp = list(map(int, [data.iloc[i][k] for k in keyname_and_max.keys()]))
         radar.add("student " + str(i), [{"value": temp, "name": "student " + str(i)}])
     radar.render(save_filename)
+
+
+def require_login():
+    def decorator(func):
+        def wrapper(request: HttpRequest, *args, **kwargs):
+            cookies = request.COOKIES
+            is_login = cookies.get("is_login")
+            if is_login:
+                return func(request, *args, **kwargs)
+            else:
+                return redirect("/login/?next={}".format(request.path))
+
+        return wrapper
+
+    return decorator

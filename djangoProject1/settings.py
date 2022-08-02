@@ -12,22 +12,25 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+import yaml
+
+with open("config.yaml", 'r') as stream:
+    _YAML_CONFIG = yaml.safe_load(stream)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oj6m&$_92a-fbcoks6@6f)ef0^1@=bxvcpy7tw)4x6m&bm7!l^'
+SECRET_KEY = _YAML_CONFIG["DjangoSecretKey"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+ALLOWED_HOSTS = ["*"]
+DEBUG = _YAML_CONFIG["Debug"]
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -75,21 +78,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djangoProject1.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'py_homework',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
+
+        'NAME': _YAML_CONFIG["DatabaseName"],
+        'USER': _YAML_CONFIG["DatabaseUser"],
+        'PASSWORD': _YAML_CONFIG["DatabasePassword"],
+        'HOST': _YAML_CONFIG["DatabaseHost"],
+        'PORT': _YAML_CONFIG["DatabasePort"],
+
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -109,7 +112,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -122,7 +124,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
