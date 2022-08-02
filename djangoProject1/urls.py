@@ -24,4 +24,6 @@ urlpatterns = [
     path('index/show_radar/', views.show_radar),
     path('index/', views.index),
     path('upload/csv/', views.upload_csv)
+    # path(r'^static/(?P<path>.*)$', )
+
 ]
