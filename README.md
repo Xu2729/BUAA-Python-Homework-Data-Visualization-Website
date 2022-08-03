@@ -84,3 +84,11 @@ python3 manage.py runserver 0.0.0.0:8000
 ## 关于数据库
 
 目前仓库中的 config.yaml 使用的是 ECS 的 MySQL 数据库，可能比较慢，开发用建议修改为本地数据库
+
+首次使用数据库需要先在项目根目录执行以下两条命令建表，当 models.py 文件被修改时同样需要执行该操作
+
+```shell
+# 如果在 linux 环境下则是 python3
+python manage.py makemigrations
+python manage.py migrate
+```

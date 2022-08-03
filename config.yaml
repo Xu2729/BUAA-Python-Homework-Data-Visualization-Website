@@ -1,7 +1,8 @@
 Debug: true # Set to true for development
 
-# MySQOL
-DatabaseHost: 127.0.0.1
+
+# MySQL
+DatabaseHost: 123.57.26.223
 DatabasePort: 3306
 DatabaseUser: root
 DatabasePassword: "1234"
