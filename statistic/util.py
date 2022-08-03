@@ -24,7 +24,7 @@ def make_pie(data_filename: str, key_name: str, title=None, save_filename="pie.h
                              legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
                                                          pos_top="8%"),
                              toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
                                  data_zoom=None, restore=None, magic_type=None
                              )))
             .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
@@ -50,7 +50,7 @@ def make_bar(data_filename: str, key_name: str, group_by=None, use_stack=False, 
                 .set_global_opts(title_opts=opts.TitleOpts(title=title),
                                  xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
                                  toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
                                      data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
                                          type_=("line", "bar")))))
         )
@@ -62,7 +62,7 @@ def make_bar(data_filename: str, key_name: str, group_by=None, use_stack=False, 
         keys = list(sum_dict.keys())
         for group_key in group_keys:
             temp = dict(data[data[group_by] == group_key][key_name].value_counts())
-            temp = [{"value": int(v), "percent": int(v) / sum_dict[k]} for k, v in temp.items()]
+            temp = [{"value": int(temp[k]), "percent": int(temp[k]) / sum_dict[k]} for k in keys]
             tot_data[group_key] = temp
         bar = (
             Bar(
@@ -72,7 +72,7 @@ def make_bar(data_filename: str, key_name: str, group_by=None, use_stack=False, 
                 .set_global_opts(title_opts=opts.TitleOpts(title=title),
                                  xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
                                  toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
                                      data_zoom=None, restore=None,
                                  )))
         )
@@ -108,7 +108,7 @@ def make_radar(data_filename: str, pks: list, keyname_and_max: dict, title=None,
             .add_schema(schema)
             .set_global_opts(title_opts=opts.TitleOpts(title=title), legend_opts=opts.LegendOpts(),
                              toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=2), brush=None,
+                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
                                  data_zoom=None, restore=None, magic_type=None
                              )))
     )
