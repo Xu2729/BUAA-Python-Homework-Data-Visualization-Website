@@ -62,8 +62,14 @@ def make_bar(data_filename: str, key_name: str, group_by=None, use_stack=False, 
         keys = list(sum_dict.keys())
         for group_key in group_keys:
             temp = dict(data[data[group_by] == group_key][key_name].value_counts())
-            temp = [{"value": int(temp[k]), "percent": int(temp[k]) / sum_dict[k]} for k in keys]
-            tot_data[group_key] = temp
+            t = []
+            for k in keys:
+                if temp.get(k) is None:
+                    v = 0
+                else:
+                    v = int(temp[k])
+                t.append({"value": v, "percent": v / sum_dict[k]})
+            tot_data[group_key] = t
         bar = (
             Bar(
                 init_opts=opts.InitOpts(bg_color="white")

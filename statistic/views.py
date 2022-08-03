@@ -5,11 +5,6 @@ from statistic.models import User
 
 
 # Create your views here.
-# FILE_NAME = 'statistic/data/students_data_FIX.csv'
-
-
-# file_name = 'statistic/data/students_data_FIX.csv'
-
 
 @require_login()
 def index(request):
