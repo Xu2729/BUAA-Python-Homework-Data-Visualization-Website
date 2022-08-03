@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 import yaml
 
@@ -26,6 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = _YAML_CONFIG["DjangoSecretKey"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = _YAML_CONFIG["Debug"]
 
 ALLOWED_HOSTS = ["*"]
@@ -82,11 +84,13 @@ WSGI_APPLICATION = 'djangoProject1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+
         'NAME': _YAML_CONFIG["DatabaseName"],
         'USER': _YAML_CONFIG["DatabaseUser"],
         'PASSWORD': _YAML_CONFIG["DatabasePassword"],
         'HOST': _YAML_CONFIG["DatabaseHost"],
         'PORT': _YAML_CONFIG["DatabasePort"],
+
     }
 }
 
@@ -125,7 +129,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
