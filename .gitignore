@@ -1,12 +1,1 @@
-/statistic/templates/cache/show_bar_Topic_gender_False.html
-/statistic/templates/cache/show_bar_Topic_gender_True.html
-/statistic/templates/cache/show_bar_Topic_None_False.html
-/statistic/templates/cache/show_pie_gender.html
-/statistic/templates/cache/show_pie_Topic.html
-/statistic/templates/cache/show_radar_0.html
-/statistic/templates/cache/show_radar_5&6&7.html
-/statistic/templates/cache/show_radar_10.html
-/statistic/data/temp.csv
-/faster_config.yaml
-/venv/
-/.idea/
+**/__pycache__/
