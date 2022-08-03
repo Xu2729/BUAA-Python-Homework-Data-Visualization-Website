@@ -1,6 +1,6 @@
 Debug: true # Set to true for development
 
-# MySQOL
+# MySQL
 DatabaseHost: 123.57.26.223
 DatabasePort: 3306
 DatabaseUser: debian-sys-maint
