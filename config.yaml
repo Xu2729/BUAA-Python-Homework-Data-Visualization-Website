@@ -1,12 +1,11 @@
 Debug: true # Set to true for development
 
 # MySQL
-DatabaseHost: 127.0.0.1
+DatabaseHost: 123.57.26.223
 DatabasePort: 3306
-DatabaseUser: root
-DatabasePassword: "1234"
+DatabaseUser: debian-sys-maint
+DatabasePassword: "5DbTsIkIKYAOmQi4"
 DatabaseName: py_homework
 
 # Django specific
 DjangoSecretKey: django-insecure-oj6m&$_92a-fbcoks6@6f)ef0^1@=bxvcpy7tw)4x6m&bm7!l^
-
