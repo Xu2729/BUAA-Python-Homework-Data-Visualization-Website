@@ -202,15 +202,6 @@
                             <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i
                                         class="bi bi-three-dots"></i></a>
-                                <!-- <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul> -->
                             </div>
 
                             <div class="card-body">
@@ -219,6 +210,27 @@
                                 <hr>
                                 <!-- Line Chart -->
                                 <div class="text-center wrap">
+                                    <h3>饼图</h3>
+                                    <div>筛选条件</div>
+                                    <from method="post" action="show_bar">
+                                        <span>键</span>
+                                        <select class="col-md-2 col-sm-2 col-xs-12 select" id="select_school"
+                                                style="margin:5px 0;">
+                                            {% for k in table_keys %}
+                                                <option value="{{ k }}">{{ k }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <span> = 值</span>
+                                        <select class="col-md-2 col-sm-2 col-xs-12 select" id="select_school"
+                                                style="margin:5px 0;">
+                                            {% for k, v in table_key_values.items %}
+                                                <div>v</div>
+                                                {% for vv in v %}
+                                                    <option value="{{ vv }}">{{ vv }}</option>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </select>
+                                    </from>
                                     <iframe id="iframe1" class="iframe"
                                             src="/index/show_pie/?filename={{ filename }}&key=gender"
                                             frameborder="0" scrolling="auto"></iframe>

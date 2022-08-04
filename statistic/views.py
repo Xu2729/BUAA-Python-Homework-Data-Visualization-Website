@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from statistic.util import make_pie, make_bar, make_radar, require_login
+from statistic.util import make_pie, make_bar, make_radar, require_login, get_table_keys, get_table_key_values
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 
@@ -9,8 +9,13 @@ from statistic.models import User
 @require_login()
 def index(request):
     if request.GET.get("file") == "true":
-        return render(request, "index.html", {"filename": "temp.csv"})
-    return render(request, "index.html", {"filename": "students_data_FIX.csv"})
+        return render(request, "index.html", {"filename": "temp.csv",
+                                              "table_keys": get_table_keys("statistic/data/temp.csv"),
+                                              "table_key_values": get_table_key_values("statistic/data/temp.csv")})
+    return render(request, "index.html", {"filename": "students_data_FIX.csv",
+                                          "table_keys": get_table_keys("statistic/data/students_data_FIX.csv"),
+                                          "table_key_values": get_table_key_values(
+                                              "statistic/data/students_data_FIX.csv")})
 
 
 def show_pie(request):
