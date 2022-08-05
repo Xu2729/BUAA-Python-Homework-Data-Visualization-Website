@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar
-from statistic.util import require_login, get_table_keys, get_table_key_values, my_filter, analysis_file
+from statistic.util import require_login, get_table_keys, get_table_key_values
+from statistic.data_process import my_filter, analysis_file
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 
@@ -17,13 +18,13 @@ def index(request):
     else:
         args_dict["filename"] = "students_data_FIX.csv"
         tot_filename += "students_data_FIX.csv"
-    key_type, key_value = analysis_file(tot_filename)
+    key_type, key_value, key_description = analysis_file(tot_filename)
     args_dict["table_keys"] = get_table_keys(tot_filename)
     args_dict["table_key_values"] = get_table_key_values(tot_filename)
     args_dict["key_type"] = key_type
     args_dict["key_value"] = key_value
+    args_dict["key_description"] = key_description
     args_dict["url"] = request.path
-    print(args_dict["url"])
     if request.method == "GET":
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
         return render(request, "index.html", args_dict)
