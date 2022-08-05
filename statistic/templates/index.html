@@ -32,17 +32,12 @@
     <link href="/static/assets/css/style.css" rel="stylesheet">
 
     <style>
-        .wrap {
-            height: 520px
-        }
-
         .iframe {
             width: 100%;
             height: 520px;
             border: 0;
             transform: scale(1);
         }
-
     </style>
 </head>
 
@@ -104,7 +99,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="/login/?next=/index/">
+                        <a class="dropdown-item d-flex align-items-center" href="/logout/">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>Sign Out</span>
                         </a>
@@ -163,247 +158,127 @@
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
+
         <div class="row">
-            <!-- Left side columns -->
-            <div class="col-lg-12">
-                <div class="row">
-                    <h3>如果想使用新的数据，请在这里上传你的数据</h3>
-                    <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <label>上传文件：</label> <input type="file" class="input_file" name="csv_file">
-                        <input type="submit" value="提交">
-                    </form>
-                    <!-- chart -->
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 1 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center wrap">
-                                    <h3>饼图</h3>
-                                    <div>筛选条件</div>
-                                    <from method="post" action="show_bar">
-                                        <span>键</span>
-                                        <select class="col-md-2 col-sm-2 col-xs-12 select" id="select_school"
-                                                style="margin:5px 0;">
-                                            {% for k in table_keys %}
-                                                <option value="{{ k }}">{{ k }}</option>
-                                            {% endfor %}
-                                        </select>
-                                        <span> = 值</span>
-                                        <select class="col-md-2 col-sm-2 col-xs-12 select" id="select_school"
-                                                style="margin:5px 0;">
-                                            {% for k, v in table_key_values.items %}
-                                                <div>v</div>
-                                                {% for vv in v %}
-                                                    <option value="{{ vv }}">{{ vv }}</option>
-                                                {% endfor %}
-                                            {% endfor %}
-                                        </select>
-                                    </from>
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_pie/?filename={{ filename }}&key=gender"
-                                            frameborder="0" scrolling="auto"></iframe>
+            <!-- upload -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title text">If you want to use the new data, please upload it here ...
+                        </div>
+                        <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <!-- <label for="upload">
+                                <div class="text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"> upload:</div> </label>  -->
+                            <div class="row">
+                                <div class="col-3">
+                                    <input type="file" class="input_file form-control" name="csv_file" id="upload">
+                                </div>
+                                <div class="col-3">
+                                    <input class="btn btn-success btn-md" type="submit" value="提交">
                                 </div>
                             </div>
-                        </div>
+
+                        </form>
+
                     </div>
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 2 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_pie/?filename={{ filename }}&key=Topic"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 3 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=null&use_stack=false"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 4 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=gender&use_stack=false"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 5 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_bar/?filename={{ filename }}&key=Topic&group_by=gender&use_stack=true"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 6 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_radar/?filename={{ filename }}&pk=0"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 7 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_radar/?filename={{ filename }}&pk=10"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- chart  -->
-                    <div class="col-12">
-                        <div class="card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                        class="bi bi-three-dots"></i></a>
-
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Chart 8 <span>/Today</span></h5>
-                                <p class="">Student performance analysis...</p>
-                                <hr>
-                                <!-- Line Chart -->
-                                <div class="text-center">
-                                    <iframe id="iframe1" class="iframe"
-                                            src="/index/show_radar/?filename={{ filename }}&pk=5,6,7"
-                                            frameborder="0" scrolling="auto"></iframe>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-
                 </div>
-            </div><!-- End Left side columns -->
-        </div>
+            </div>
+
+            <!-- chart -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">Chart 1 <span>/Today</span></h5>
+                        <p class="">Student performance analysis...</p>
+                        <hr>
+
+                        <!-- Line Chart -->
+                        <div class="text-center" style="height: 600px">
+                            <form action="/index/" method="POST" id="select-form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-8 filter-bar" data-box-num="1">
+                                        <div class="filter-box">
+                                            <div class="row">
+                                                <!-- key -->
+                                                <label class="col-2 col-form-label">
+                                                    <div style="font-family: Avant Garde;">Key</div>
+                                                </label>
+                                                <div class="col-4">
+                                                    <select class="col-3 form-select" name="filter-key"> </select>
+                                                </div>
+                                                <!-- value -->
+                                                <label class="col-2 col-form-label">
+                                                    <div style="font-family: Avant Garde;">Value</div>
+                                                </label>
+                                                <div class="col-4">
+                                                    <select class="col-3 form-select" name="filter-value"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- filter-box-num -->
+                                        <input type="hidden" name="filterBoxNum" value="1">
+                                    </div>
+
+                                    <div class="col-2">
+                                        <div class="btn-group" role="group" id="button-group">
+                                            <button class="btn btn-danger btn-md" type="button" name="add-button">
+                                                <div
+                                                        style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                                                    +
+                                                </div>
+                                            </button>
+                                            <button class="btn btn-success btn-md" type="submit">screen</button>
+                                            <button class="btn btn-danger btn-md" type="button" name="del-button">
+                                                <div
+                                                        style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                                                    -
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                            <hr>
+                            <iframe id="iframe1" class="iframe"
+                                    src="{{ pic_url }}" frameborder="0"
+                                    scrolling="auto"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#            <!-- chart  -->#}
+            {#            <div class="col-12">#}
+            {#                <div class="card">#}
+            {##}
+            {#                    <div class="filter">#}
+            {#                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>#}
+            {#                    </div>#}
+            {##}
+            {#                    <div class="card-body">#}
+            {#                        <h5 class="card-title">Chart 3 <span>/Today</span></h5>#}
+            {#                        <p class="">Student performance analysis...</p>#}
+            {#                        <hr>#}
+            {#                        <!-- Line Chart -->#}
+            {#                        <div class="text-center">#}
+            {#                            <iframe id="iframe1" class="iframe"#}
+            {#                                    src="{{ pic_url }}"#}
+            {#                                    frameborder="0" scrolling="auto"></iframe>#}
+            {#                        </div>#}
+            {##}
+            {#                    </div>#}
+            {##}
+            {#                </div>#}
+            {#            </div>#}
+        </div><!-- End Left side columns -->
     </section>
 
 </main><!-- End #main -->
@@ -436,17 +311,121 @@
 <script src="/static/assets/js/main.js"></script>
 
 <script>
-    let ifreamList = document.getElementsByClassName("iframe");
-    for (iframe of ifreamList) {
-        // alert(iframe)
-        iframe.onload = function () {
-            var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-            var iframeHeight = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-            iframe.height = iframeHeight + 10;
+
+    // let ifreamList = document.getElementsByClassName("iframe");
+    // for (iframe of ifreamList) {
+    //     // alert(iframe)
+    //     iframe.onload = function () {
+    //         var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+    //         var iframeHeight = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+    //         iframe.height = iframeHeight + 10;
+    //     }
+    // }
+
+    var keyList = {{ table_keys | safe }};
+    var dict = {{ table_key_values | safe }};
+    initAllFilterBox();
+
+    function initAllFilterBox() {
+        filterBoxList = document.getElementsByClassName("filter-box");
+        for (filterBox of filterBoxList) {
+            initFilterBox(filterBox);
         }
     }
 
-    // doucument.getElementsByClassName("wrap")[0].style.background-color = "black";
+    function initFilterBox(filterBox) {
+        var select_1 = filterBox.children[0].children[1].children[0];
+        var select_2 = filterBox.children[0].children[3].children[0];
+        // alert(select_1)
+        select_2.innerHTML += "<option value=\"empty\"> -- Please Select --- </option>";
+        select_1.innerHTML += "<option value=\"empty\"> -- Please Select --- </option>";
+
+        // init the select box of "key"
+        for (let key of keyList) {
+            select_1.innerHTML += "<option value=" + key + ">" + key + "</option>";
+        }
+
+        // respond to the event
+        select_1.onchange = function (event) {
+            let index = select_1.selectedIndex;
+            let filterKey = select_1.options[index].value;
+            select_2.innerHTML = "<option value=\"empty\"> -- Please Select --- </option>";
+            if (filterKey != "empty") {
+                let valueList = dict[filterKey];
+                for (let value of valueList) {
+                    select_2.innerHTML += "<option value=" + value + ">" + value + "</option>";
+                }
+            }
+        }
+    }
+
+</script>
+
+<!-- add and remove filter box -->
+<script>
+    // add the filter box
+    var addButtonList = document.getElementsByName("add-button");
+    for (let addButton of addButtonList) {
+        addButton.onclick = addFilterBox;
+    }
+
+    // del the filter box
+    var delButtonList = document.getElementsByName("del-button");
+    for (let delButton of delButtonList) {
+        delButton.onclick = delFilterBox;
+    }
+
+    function addFilterBox() {
+        // get the filterBar
+        var filterBar = this.parentElement.parentElement.previousElementSibling;
+        // get the number of boxes;
+        var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
+        // create the new filter box
+        filterBar.setAttribute("data-box-num", ++filterBoxNum);
+        filterBar.children[1].value = filterBoxNum; //hidden input
+        var newFilterBox = document.createElement("div");
+        newFilterBox.className = "filter-box";
+        newFilterBox.innerHTML = `<div class="row">
+                                                    <!-- key -->
+                                                    <label class="col-2 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Key</div>
+                                                    </label>
+                                                    <div class="col-4">
+                                                        <select class="col-3 form-select" name="filter-key"> </select>
+                                                    </div>
+                                                    <!-- value -->
+                                                    <label class="col-2 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Value</div>
+                                                    </label>
+                                                    <div class="col-4">
+                                                        <select class="col-3 form-select" name="filter-value"></select>
+                                                    </div>
+                                                </div>`;
+        console.log(newFilterBox.innerHTML);
+        // add the box
+        filterBar.appendChild(newFilterBox);
+        // adjust the wrap
+        var wrap = filterBar.parentElement.parentElement.parentElement;
+        wrap.style.cssText = "height: " + (wrap.offsetHeight + 50);
+        // init the select box
+        initFilterBox(newFilterBox)
+    }
+
+    function delFilterBox() {
+        // get the filterBar
+        var filterBar = this.parentElement.parentElement.previousElementSibling;
+        // get the number of boxes;
+        var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
+        // del the box
+        if (filterBoxNum > 1) {
+            filterBar.setAttribute("data-box-num", --filterBoxNum);
+            filterBar.children[1].value = filterBoxNum; //hidden input
+            var filterBar = this.parentElement.parentElement.previousElementSibling;
+            var latestFilterBox = filterBar.lastElementChild;
+            filterBar.removeChild(latestFilterBox);
+        }
+    }
+
 </script>
 
 </body>

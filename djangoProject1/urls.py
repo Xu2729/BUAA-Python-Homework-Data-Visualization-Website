@@ -19,11 +19,14 @@ from statistic import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("index/show_pie/", views.show_pie),
-    path("index/show_bar/", views.show_bar),
-    path("index/show_radar/", views.show_radar),
+    path("show_pie/", views.show_pie),
+    path("show_bar/", views.show_bar),
+    path("show_radar/", views.show_radar),
     path("index/", views.index),
     path("upload/csv/", views.upload_csv),
     path("login/", views.login),
     path("register/", views.register),
+    path("logout/", views.logout),
+    path("find/", views.find),
+    # path("test/", views.test)
 ]
