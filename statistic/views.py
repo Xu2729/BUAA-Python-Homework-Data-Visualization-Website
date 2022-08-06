@@ -46,7 +46,6 @@ def index(request):
     if len(new_data) == 0:
         # TODO
         pass
-    print(str(chart_type) + "====")
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
         draw_pie(new_data, key, None, save_filename="statistic/templates/" + pic_name)
