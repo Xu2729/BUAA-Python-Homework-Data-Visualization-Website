@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar
-from statistic.util import require_login, get_table_keys, get_table_key_values
-from statistic.data_process import my_filter, analysis_file
+from statistic.util import require_login
+from statistic.data_process import my_filter, analysis_file, patten_range
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 
@@ -19,24 +19,33 @@ def index(request):
         args_dict["filename"] = "students_data_FIX.csv"
         tot_filename += "students_data_FIX.csv"
     key_type, key_value, key_description = analysis_file(tot_filename)
-    args_dict["table_keys"] = get_table_keys(tot_filename)
-    args_dict["table_key_values"] = get_table_key_values(tot_filename)
     args_dict["key_type"] = key_type
     args_dict["key_value"] = key_value
     args_dict["key_description"] = key_description
-    args_dict["url"] = request.path
     if request.method == "GET":
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
         return render(request, "index.html", args_dict)
-    keys = request.POST.getlist("filter-key")
-    values = request.POST.getlist("filter-value")
     filter_dict = {}
-    for i in range(len(keys)):
-        filter_dict[keys[i]] = values[i]
+    filter_num = int(request.POST.get("filterBoxNum"))
+    for i in range(filter_num):
+        k = request.POST.get("filter-key-" + str(i + 1))
+        v = request.POST.getlist("filter-value-" + str(i + 1), [])
+        if "" in v:
+            v.remove("")
+        if key_type[k] == "int":
+            filter_dict[k] = patten_range(v[0])
+        elif key_type[k] == "float":
+            filter_dict[k] = patten_range(v[0], True)
+        else:
+            filter_dict[k] = v
     file_name = "statistic/data/" + args_dict["filename"]
     key = "Topic"
     pic_name = "cache/show_pie_{}.html".format(key)
-    draw_pie(my_filter(file_name, **filter_dict), key, None, "statistic/templates/" + pic_name)
+    new_data = my_filter(file_name, **filter_dict)
+    if len(new_data) == 0:
+        # TODO
+        pass
+    draw_pie(new_data, key, None, "statistic/templates/" + pic_name)
     args_dict["pic_url"] = "/find/?path=" + pic_name
     return render(request, "index.html", args_dict)
 

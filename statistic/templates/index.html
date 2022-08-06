@@ -4,10 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <title>Python Homework</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Python Homework</title>
 
     <!-- Favicons -->
     <link href="/static/assets/img/favicon.png" rel="icon">
@@ -31,6 +32,10 @@
     <!-- Template Main CSS File -->
     <link href="/static/assets/css/style.css" rel="stylesheet">
 
+    <!-- Select -->
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">
+
+
     <style>
         .iframe {
             width: 100%;
@@ -46,10 +51,10 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center">
+        <div class="logo d-flex align-items-center">
             <img src="/static/assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Python Homework</span>
-        </a>
+        </div>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
@@ -202,22 +207,26 @@
                             <form action="/index/" method="POST" id="select-form">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-8 filter-bar" data-box-num="1">
+                                    <div class="col-10 filter-bar" data-box-num="1">
                                         <div class="filter-box">
                                             <div class="row">
                                                 <!-- key -->
-                                                <label class="col-2 col-form-label">
+                                                <label class="col-1 col-form-label">
                                                     <div style="font-family: Avant Garde;">Key</div>
                                                 </label>
                                                 <div class="col-4">
-                                                    <select class="col-3 form-select" name="filter-key"> </select>
+                                                    <select class="selectpicker select" name="filter-key-1" data-width="100%" data-live-search="true" title="Please Select"> </select>
                                                 </div>
                                                 <!-- value -->
-                                                <label class="col-2 col-form-label">
+                                                <label class="col-1 col-form-label">
                                                     <div style="font-family: Avant Garde;">Value</div>
                                                 </label>
                                                 <div class="col-4">
-                                                    <select class="col-3 form-select" name="filter-value"></select>
+                                                    <!-- type：odj -->
+                                                    <select class="selectpicker select" name="filter-value-1" data-width="100%"
+                                                       data-live-search="true" data-actions-box="true" title="Please Select" multiple></select>
+                                                    <!-- type: int -->
+                                                    <input type="text" class="form-control d-none" name="filter-value-1" disabled="disabled">
                                                 </div>
                                             </div>
                                         </div>
@@ -233,7 +242,7 @@
                                                     +
                                                 </div>
                                             </button>
-                                            <button class="btn btn-success btn-md" type="submit">screen</button>
+                                            <button class="btn btn-success btn-md" type="submit" name="submit-button">screen</button>
                                             <button class="btn btn-danger btn-md" type="button" name="del-button">
                                                 <div
                                                         style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
@@ -306,24 +315,22 @@
 <script src="/static/assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="/static/assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+<script src="/static/assets/vendor/vendor.min.js"></script>
+<script src="/static/assets/vendor/bootstrap/js/bootstrap-select.min.js"></script>
 
 <!-- Template Main JS File -->
 <script src="/static/assets/js/main.js"></script>
 
 <script>
 
-    // let ifreamList = document.getElementsByClassName("iframe");
-    // for (iframe of ifreamList) {
-    //     // alert(iframe)
-    //     iframe.onload = function () {
-    //         var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-    //         var iframeHeight = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-    //         iframe.height = iframeHeight + 10;
-    //     }
-    // }
+    var keyTypeDict = {{ key_type | safe}};
+    var keyValueDict = {{ key_value | safe}};
 
-    var keyList = {{ table_keys | safe }};
-    var dict = {{ table_key_values | safe }};
+    var keyList = [];
+    for (key in keyTypeDict) {
+        keyList.push(key);
+    }
+
     initAllFilterBox();
 
     function initAllFilterBox() {
@@ -334,32 +341,56 @@
     }
 
     function initFilterBox(filterBox) {
-        var select_1 = filterBox.children[0].children[1].children[0];
-        var select_2 = filterBox.children[0].children[3].children[0];
-        // alert(select_1)
-        select_2.innerHTML += "<option value=\"empty\"> -- Please Select --- </option>";
-        select_1.innerHTML += "<option value=\"empty\"> -- Please Select --- </option>";
+        var filterKey = filterBox.children[0].children[1].children[0];
+        var filterValue = filterBox.children[0].children[3].children[0];
+        var filterRange = filterBox.children[0].children[3].children[1];
+        // alert(filterKey)
+        filterKey.innerHTML = "";
+        filterValue.innerHTML = "";
 
         // init the select box of "key"
         for (let key of keyList) {
-            select_1.innerHTML += "<option value=" + key + ">" + key + "</option>";
+            filterKey.innerHTML += "<option value=" + key + ">" + key + "</option>";
         }
+        $('.select').selectpicker('refresh');
 
         // respond to the event
-        select_1.onchange = function (event) {
-            let index = select_1.selectedIndex;
-            let filterKey = select_1.options[index].value;
-            select_2.innerHTML = "<option value=\"empty\"> -- Please Select --- </option>";
-            if (filterKey != "empty") {
-                let valueList = dict[filterKey];
-                for (let value of valueList) {
-                    select_2.innerHTML += "<option value=" + value + ">" + value + "</option>";
+        filterKey.onchange = function () {
+            let index = filterKey.selectedIndex;
+            let selected = filterKey.options[index].value;
+            // judge whether keyType is "obj" or "int"
+            if (keyTypeDict[selected] == "obj" || index == 0) {
+                // display the select box, hide the input box
+                filterValue.setAttribute("class", "selectpicker select");
+                filterRange.setAttribute("class", "form-control d-none");
+                filterRange.setAttribute("disabled", "disabled");
+                // add the options to filterValue
+                filterValue.innerHTML = "";
+                if (selected != "empty") {
+                    let valueList = keyValueDict[selected];
+                    for (let value of valueList) {
+                        filterValue.innerHTML += "<option value=" + value + ">" + value + "</option>";
+                    }
                 }
+                // refresh the select box
+                $('.select').selectpicker('refresh');
             }
+            else {
+                // display the input box, hide the select box
+                filterValue.setAttribute("class", "selectpicker select d-none");
+                filterRange.setAttribute("class", "form-control");
+                filterRange.removeAttribute("disabled");
+
+                // add the information about number range to filterValue
+                filterRange.placeholder = "Input A Range:  " + keyValueDict[selected]["min"] + " ~ " + keyValueDict[selected]["max"];
+                $('.select').selectpicker('refresh');
+            }
+
         }
     }
 
 </script>
+
 
 <!-- add and remove filter box -->
 <script>
@@ -386,21 +417,25 @@
         var newFilterBox = document.createElement("div");
         newFilterBox.className = "filter-box";
         newFilterBox.innerHTML = `<div class="row">
-                                                    <!-- key -->
-                                                    <label class="col-2 col-form-label">
-                                                        <div style="font-family: Avant Garde;">Key</div>
-                                                    </label>
-                                                    <div class="col-4">
-                                                        <select class="col-3 form-select" name="filter-key"> </select>
-                                                    </div>
-                                                    <!-- value -->
-                                                    <label class="col-2 col-form-label">
-                                                        <div style="font-family: Avant Garde;">Value</div>
-                                                    </label>
-                                                    <div class="col-4">
-                                                        <select class="col-3 form-select" name="filter-value"></select>
-                                                    </div>
-                                                </div>`;
+                                                <!-- key -->
+                                                <label class="col-1 col-form-label">
+                                                    <div style="font-family: Avant Garde;">Key</div>
+                                                </label>
+                                                <div class="col-4">
+                                                    <select class="selectpicker select" name="filter-key-` + filterBoxNum + `" data-width="100%" data-live-search="true" title="Please Select"> </select>
+                                                </div>
+                                                <!-- value -->
+                                                <label class="col-1 col-form-label">
+                                                    <div style="font-family: Avant Garde;">Value</div>
+                                                </label>
+                                                <div class="col-4">
+                                                    <!-- type：odj -->
+                                                    <select class="selectpicker select" name="filter-value-` + filterBoxNum + `" data-width="100%"
+                                                        data-live-search="true" data-actions-box="true" title="Please Select" multiple></select>
+                                                    <!-- type: int -->
+                                                    <input type="text" class="form-control d-none" name="filter-value-` + filterBoxNum + `" disabled="disabled">
+                                                </div>
+                                            </div>`;
         console.log(newFilterBox.innerHTML);
         // add the box
         filterBar.appendChild(newFilterBox);
@@ -426,6 +461,16 @@
         }
     }
 
+</script>
+
+<!-- form validation -->
+<script>
+    var submitButtonList = document.getElementsByName("submit-button");
+    for (let submitButton of submitButtonList) {
+        submitButton.onsubmit = function() {
+
+        }
+    }
 </script>
 
 </body>
