@@ -180,6 +180,8 @@ def draw_line(data: DataFrame, key_name: str, group_by=None, title=None, mark_di
 
 
 def parse_mark_dict(mark_dict: dict):
+    if mark_dict is None:
+        return [], []
     mark_line_data = []
     if mark_dict["average"]:
         mark_line_data.append(opts.MarkLineItem(type_="average", name="平均值"))

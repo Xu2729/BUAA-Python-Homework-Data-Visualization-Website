@@ -17,8 +17,8 @@
     <!-- Google Fonts -->
     <link href="/https://fonts.gstatic.com" rel="preconnect">
     <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-            rel="stylesheet">
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -47,385 +47,397 @@
 </head>
 
 <body>
-<!-- ======= Header ======= -->
-<header id="header" class="header fixed-top d-flex align-items-center">
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-        <div class="logo d-flex align-items-center">
-            <img src="/static/assets/img/logo.png" alt="">
-            <span class="d-none d-lg-block">Python Homework</span>
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="logo d-flex align-items-center">
+                <img src="/static/assets/img/logo.png" alt="">
+                <span class="d-none d-lg-block">Python Homework</span>
+            </div>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+        <div class="search-bar">
+            <form class="search-form d-flex align-items-center" method="POST" action="#">
+                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+            </form>
         </div>
-        <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
 
-    <div class="search-bar">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
 
-    <nav class="header-nav ms-auto">
-        <ul class="d-flex align-items-center">
+                <li class="nav-item d-block d-lg-none">
+                    <a class="nav-link nav-icon search-bar-toggle " href="#">
+                        <i class="bi bi-search"></i>
+                    </a>
+                </li><!-- End Search Icon-->
 
-            <li class="nav-item d-block d-lg-none">
-                <a class="nav-link nav-icon search-bar-toggle " href="#">
-                    <i class="bi bi-search"></i>
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-primary badge-number">4</span>
+                    </a><!-- End Notification Icon -->
+                </li><!-- End Notification Nav -->
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-chat-left-text"></i>
+                        <span class="badge bg-success badge-number">3</span>
+                    </a><!-- End Messages Icon -->
+                </li><!-- End Messages Nav -->
+
+                <li class="nav-item dropdown pe-3">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="/static/assets/img/head.jpg" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Hyggge</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>Kevin Anderson</h6>
+                            <span>Web Designer</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="/logout/">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link " href="/index/">
+                    <i class="bi bi-grid"></i>
+                    <span>Statistic</span>
                 </a>
-            </li><!-- End Search Icon-->
+            </li><!-- End Dashboard Nav -->
 
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">4</span>
-                </a><!-- End Notification Icon -->
-            </li><!-- End Notification Nav -->
+            <li class="nav-heading">Pages</li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-chat-left-text"></i>
-                    <span class="badge bg-success badge-number">3</span>
-                </a><!-- End Messages Icon -->
-            </li><!-- End Messages Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/register/">
+                    <i class="bi bi-card-list"></i>
+                    <span>Register</span>
+                </a>
+            </li><!-- End Register Page Nav -->
 
-            <li class="nav-item dropdown pe-3">
-                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                    <img src="/static/assets/img/head.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">Hyggge</span>
-                </a><!-- End Profile Iamge Icon -->
-
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
-                        <span>Web Designer</span>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="/logout/">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
-                    </li>
-
-                </ul><!-- End Profile Dropdown Items -->
-            </li><!-- End Profile Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/login/">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Login</span>
+                </a>
+            </li><!-- End Login Page Nav -->
 
         </ul>
-    </nav><!-- End Icons Navigation -->
 
-</header><!-- End Header -->
+    </aside><!-- End Sidebar-->
 
-<!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+    <main id="main" class="main">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+        <div class="pagetitle">
+            <h1>Charts</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Charts</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
 
-        <li class="nav-item">
-            <a class="nav-link " href="/index/">
-                <i class="bi bi-grid"></i>
-                <span>Statistic</span>
-            </a>
-        </li><!-- End Dashboard Nav -->
+        <section class="section dashboard">
 
-        <li class="nav-heading">Pages</li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/register/">
-                <i class="bi bi-card-list"></i>
-                <span>Register</span>
-            </a>
-        </li><!-- End Register Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="/login/">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Login</span>
-            </a>
-        </li><!-- End Login Page Nav -->
-
-    </ul>
-
-</aside><!-- End Sidebar-->
-
-<main id="main" class="main">
-
-    <div class="pagetitle">
-        <h1>Charts</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Charts</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section dashboard">
-
-        <div class="row">
-            <!-- upload -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title text">If you want to use the new data, please upload it here ...
-                        </div>
-                        <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <!-- <label for="upload">
-                                <div class="text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"> upload:</div> </label>  -->
-                            <div class="row">
-                                <div class="col-3">
-                                    <input type="file" class="input_file form-control" name="csv_file" id="upload">
-                                </div>
-                                <div class="col-3">
-                                    <input class="btn btn-success btn-md" type="submit" value="提交">
-                                </div>
+            <div class="row">
+                <!-- upload -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title text">If you want to use the new data, please upload it here ...
                             </div>
-
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- chart -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                    </div>
-
-                    <div class="card-body">
-                        <h5 class="card-title">Chart 1 <span>/Today</span></h5>
-                        <p class="">Student performance analysis...</p>
-                        <hr>
-
-                        <!-- Line Chart -->
-                        <div class="text-center" style="height: 600px">
-                            <form action="/index/" method="POST" id="select-form">
+                            <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
+                                <!-- <label for="upload">
+                                <div class="text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"> upload:</div> </label>  -->
                                 <div class="row">
-                                    <div class="col-10 filter-bar" data-box-num="1">
-                                        <div class="filter-box">
-                                            <div class="row">
-                                                <!-- key -->
-                                                <label class="col-1 col-form-label">
-                                                    <div style="font-family: Avant Garde;">Key</div>
-                                                </label>
-                                                <div class="col-4">
-                                                    <select class="selectpicker select" name="filter-key-1" data-width="100%" data-live-search="true" title="Please Select"> </select>
-                                                </div>
-                                                <!-- value -->
-                                                <label class="col-1 col-form-label">
-                                                    <div style="font-family: Avant Garde;">Value</div>
-                                                </label>
-                                                <div class="col-4">
-                                                    <!-- type：odj -->
-                                                    <select class="selectpicker select" name="filter-value-1" data-width="100%"
-                                                       data-live-search="true" data-actions-box="true" title="Please Select" multiple></select>
-                                                    <!-- type: int -->
-                                                    <input type="text" class="form-control d-none" name="filter-value-1" disabled="disabled">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- filter-box-num -->
-                                        <input type="hidden" name="filterBoxNum" value="1">
+                                    <div class="col-3">
+                                        <input type="file" class="input_file form-control" name="csv_file" id="upload">
                                     </div>
-
-                                    <div class="col-2">
-                                        <div class="btn-group" role="group" id="button-group">
-                                            <button class="btn btn-danger btn-md" type="button" name="add-button">
-                                                <div
-                                                        style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                                                    +
-                                                </div>
-                                            </button>
-                                            <button class="btn btn-success btn-md" type="submit" name="submit-button">screen</button>
-                                            <button class="btn btn-danger btn-md" type="button" name="del-button">
-                                                <div
-                                                        style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                                                    -
-                                                </div>
-                                            </button>
-                                        </div>
+                                    <div class="col-3">
+                                        <input class="btn btn-success btn-md" type="submit" value="提交">
                                     </div>
-
                                 </div>
 
                             </form>
-                            <hr>
-                            <iframe id="iframe1" class="iframe"
-                                    src="{{ pic_url }}" frameborder="0"
-                                    scrolling="auto"></iframe>
+
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {#            <!-- chart  -->#}
-            {#            <div class="col-12">#}
-            {#                <div class="card">#}
-            {##}
-            {#                    <div class="filter">#}
-            {#                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>#}
-            {#                    </div>#}
-            {##}
-            {#                    <div class="card-body">#}
-            {#                        <h5 class="card-title">Chart 3 <span>/Today</span></h5>#}
-            {#                        <p class="">Student performance analysis...</p>#}
-            {#                        <hr>#}
-            {#                        <!-- Line Chart -->#}
-            {#                        <div class="text-center">#}
-            {#                            <iframe id="iframe1" class="iframe"#}
-            {#                                    src="{{ pic_url }}"#}
-            {#                                    frameborder="0" scrolling="auto"></iframe>#}
-            {#                        </div>#}
-            {##}
-            {#                    </div>#}
-            {##}
-            {#                </div>#}
-            {#            </div>#}
-        </div><!-- End Left side columns -->
-    </section>
+                <!-- chart -->
+                <div class="col-12">
+                    <form action="#" method="POST" id="select-form">
+                        {% csrf_token %}
+                        <div class="card">
+                            <div class="filter">
+                                    <span>
+                                        <a class="icon" href="#" data-bs-toggle="dropdown">
+                                            <span><b>Chart Type :</b></span>
+                                            <span id="chart-type-display">Pie Chart</span>
+                                            <input type="hidden" id="chart-type-submit" name="chart-type" value="1">
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                            <li class="dropdown-header text-start">
+                                                <h6>图表类型选择</h6>
+                                                <li><a class="dropdown-item" href="#" id="pie-chart">Pie Chart</a></li>
+                                                <li><a class="dropdown-item" href="#" id="bar-chart">Bar Chart</a></li>
+                                                <li><a class="dropdown-item" href="#" id="line-chart">Line Chart</a></li>
+                                            </li>
+                                        </ul>
+                                    </span>
 
-</main><!-- End #main -->
+                                    <span>
+                                        <a class="icon" href="#" data-bs-toggle="dropdown">
+                                            <span><b>Classification:</b></span>
+                                            <span id="chart-classify-display">Topic</span>
+                                            <input type="hidden" id="chart-classify-submit" name="chart-classify" value="Topic">
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="chart-classify-menu">
+                                            <li class="dropdown-header">
+                                                <h6>图表分类依据选择</h6>
+                                            </li>
+                                            <!-- written by js ... -->
+                                        </ul>
+                                    </span>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Chart 1 <span>/Today</span></h5>
+                                <p class="">Student performance analysis...</p>
+                                <hr>
+
+                                <!-- Line Chart -->
+                                <div class="text-center" style="height: 600px">
+                                    <div class="row">
+                                        <div class="col-8 filter-bar" data-box-num="1">
+                                            <div class="filter-box">
+                                                <div class="row">
+                                                    <!-- key -->
+                                                    <label class="col-2 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Key</div>
+                                                    </label>
+                                                    <div class="col-4">
+                                                        <select class="selectpicker select" name="filter-key-1"
+                                                            data-width="100%" data-live-search="true"
+                                                            title="Please Select"> </select>
+                                                    </div>
+                                                    <!-- value -->
+                                                    <label class="col-2 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Value</div>
+                                                    </label>
+                                                    <div class="col-4">
+                                                        <!-- type：odj -->
+                                                        <select class="selectpicker select" name="filter-value-1"
+                                                            data-width="100%" data-live-search="true"
+                                                            data-actions-box="true" title="Please Select"
+                                                            multiple></select>
+                                                        <!-- type: int -->
+                                                        <input type="text" class="form-control d-none"
+                                                            name="filter-value-1" disabled="disabled">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- filter-box-num -->
+                                            <input type="hidden" name="filterBoxNum" value="1">
+                                        </div>
+
+                                        <div class="col-2">
+                                            <div class="btn-group" role="group" id="button-group">
+                                                <button class="btn btn-danger btn-md" type="button" name="add-button">
+                                                    <div
+                                                        style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                                                        +
+                                                    </div>
+                                                </button>
+                                                <button class="btn btn-success btn-md" type="submit" id="submit"
+                                                    name="submit-button">screen</button>
+                                                <button class="btn btn-danger btn-md" type="button" name="del-button">
+                                                    <div
+                                                        style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                                                        -
+                                                    </div>
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <hr>
+                                    <iframe id="iframe1" class="iframe" src="{{ pic_url }}" frameborder="0"
+                                        scrolling="auto"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div><!-- End Left side columns -->
+        </section>
+
+    </main><!-- End #main -->
 
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>Hyggge</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-        Designed by <a href="#">BUAA</a>
-    </div>
-</footer><!-- End Footer -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Hyggge</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            Designed by <a href="#">BUAA</a>
+        </div>
+    </footer><!-- End Footer -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-        class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
-<script src="/static/assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/static/assets/vendor/chart.js/chart.min.js"></script>
-<script src="/static/assets/vendor/echarts/echarts.min.js"></script>
-<script src="/static/assets/vendor/quill/quill.min.js"></script>
-<script src="/static/assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="/static/assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="/static/assets/vendor/php-email-form/validate.js"></script>
-<script src="/static/assets/vendor/vendor.min.js"></script>
-<script src="/static/assets/vendor/bootstrap/js/bootstrap-select.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="/static/assets/js/main.js"></script>
+    <script src="/static/assets/js/jquery.3.2.1.min.js"></script>
 
-<!-- Template Main JS File -->
-<script src="/static/assets/js/main.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="/static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/vendor/chart.js/chart.min.js"></script>
+    <script src="/static/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="/static/assets/vendor/quill/quill.min.js"></script>
+    <script src="/static/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="/static/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+    <script src="/static/assets/vendor/vendor.min.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap-select.min.js"></script>
 
-<script>
+    <script>
 
-    var keyTypeDict = {{ key_type | safe}};
-    var keyValueDict = {{ key_value | safe}};
+        var keyTypeDict = {{ key_type | safe}};
+        var keyValueDict = {{ key_value | safe}};
 
-    var keyList = [];
-    for (key in keyTypeDict) {
-        keyList.push(key);
-    }
-
-    initAllFilterBox();
-
-    function initAllFilterBox() {
-        filterBoxList = document.getElementsByClassName("filter-box");
-        for (filterBox of filterBoxList) {
-            initFilterBox(filterBox);
+        var keyList = [];
+        for (key in keyTypeDict) {
+            keyList.push(key);
         }
-    }
 
-    function initFilterBox(filterBox) {
-        var filterKey = filterBox.children[0].children[1].children[0];
-        var filterValue = filterBox.children[0].children[3].children[0];
-        var filterRange = filterBox.children[0].children[3].children[1];
-        // alert(filterKey)
-        filterKey.innerHTML = "";
-        filterValue.innerHTML = "";
+        initAllFilterBox();
 
-        // init the select box of "key"
-        for (let key of keyList) {
-            filterKey.innerHTML += "<option value=" + key + ">" + key + "</option>";
+        function initAllFilterBox() {
+            filterBoxList = document.getElementsByClassName("filter-box");
+            for (filterBox of filterBoxList) {
+                initFilterBox(filterBox);
+            }
         }
-        $('.select').selectpicker('refresh');
 
-        // respond to the event
-        filterKey.onchange = function () {
-            let index = filterKey.selectedIndex;
-            let selected = filterKey.options[index].value;
-            // judge whether keyType is "obj" or "int"
-            if (keyTypeDict[selected] == "obj" || index == 0) {
-                // display the select box, hide the input box
-                filterValue.setAttribute("class", "selectpicker select");
-                filterRange.setAttribute("class", "form-control d-none");
-                filterRange.setAttribute("disabled", "disabled");
-                // add the options to filterValue
-                filterValue.innerHTML = "";
-                if (selected != "empty") {
-                    let valueList = keyValueDict[selected];
-                    for (let value of valueList) {
-                        filterValue.innerHTML += "<option value=" + value + ">" + value + "</option>";
+        function initFilterBox(filterBox) {
+            var filterKey = filterBox.children[0].children[1].children[0];
+            var filterValue = filterBox.children[0].children[3].children[0];
+            var filterRange = filterBox.children[0].children[3].children[1];
+            // alert(filterKey)
+            filterKey.innerHTML = "";
+            filterValue.innerHTML = "";
+
+            // init the select box of "key"
+            for (let key of keyList) {
+                filterKey.innerHTML += "<option value=" + key + ">" + key + "</option>";
+            }
+            $('.select').selectpicker('refresh');
+
+            // respond to the event
+            filterKey.onchange = function () {
+                let index = filterKey.selectedIndex;
+                let selected = filterKey.options[index].value;
+                // judge whether keyType is "obj" or "int"
+                if (keyTypeDict[selected] == "obj" || index == 0) {
+                    // display the select box, hide the input box
+                    filterValue.setAttribute("class", "selectpicker select");
+                    filterRange.setAttribute("class", "form-control d-none");
+                    filterRange.setAttribute("disabled", "disabled");
+                    // add the options to filterValue
+                    filterValue.innerHTML = "";
+                    if (selected != "empty") {
+                        let valueList = keyValueDict[selected];
+                        for (let value of valueList) {
+                            filterValue.innerHTML += "<option value=" + value + ">" + value + "</option>";
+                        }
                     }
+                    // refresh the select box
+                    $('.select').selectpicker('refresh');
                 }
-                // refresh the select box
-                $('.select').selectpicker('refresh');
-            }
-            else {
-                // display the input box, hide the select box
-                filterValue.setAttribute("class", "selectpicker select d-none");
-                filterRange.setAttribute("class", "form-control");
-                filterRange.removeAttribute("disabled");
+                else {
+                    // display the input box, hide the select box
+                    filterValue.setAttribute("class", "selectpicker select d-none");
+                    filterRange.setAttribute("class", "form-control");
+                    filterRange.removeAttribute("disabled");
 
-                // add the information about number range to filterValue
-                filterRange.placeholder = "Input A Range:  " + keyValueDict[selected]["min"] + " ~ " + keyValueDict[selected]["max"];
-                $('.select').selectpicker('refresh');
-            }
+                    // add the information about number range to filterValue
+                    filterRange.placeholder = "Input A Range:  " + keyValueDict[selected]["min"] + " ~ " + keyValueDict[selected]["max"];
+                    $('.select').selectpicker('refresh');
+                }
 
+            }
         }
-    }
 
-</script>
+    </script>
 
 
-<!-- add and remove filter box -->
-<script>
-    // add the filter box
-    var addButtonList = document.getElementsByName("add-button");
-    for (let addButton of addButtonList) {
-        addButton.onclick = addFilterBox;
-    }
+    <!-- add and remove filter box -->
+    <script>
+        // add the filter box
+        var addButtonList = document.getElementsByName("add-button");
+        for (let addButton of addButtonList) {
+            addButton.onclick = addFilterBox;
+        }
 
-    // del the filter box
-    var delButtonList = document.getElementsByName("del-button");
-    for (let delButton of delButtonList) {
-        delButton.onclick = delFilterBox;
-    }
+        // del the filter box
+        var delButtonList = document.getElementsByName("del-button");
+        for (let delButton of delButtonList) {
+            delButton.onclick = delFilterBox;
+        }
 
-    function addFilterBox() {
-        // get the filterBar
-        var filterBar = this.parentElement.parentElement.previousElementSibling;
-        // get the number of boxes;
-        var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
-        // create the new filter box
-        filterBar.setAttribute("data-box-num", ++filterBoxNum);
-        filterBar.children[1].value = filterBoxNum; //hidden input
-        var newFilterBox = document.createElement("div");
-        newFilterBox.className = "filter-box";
-        newFilterBox.innerHTML = `<div class="row">
+        function addFilterBox() {
+            // get the filterBar
+            var filterBar = this.parentElement.parentElement.previousElementSibling;
+            // get the number of boxes;
+            var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
+            // create the new filter box
+            filterBar.setAttribute("data-box-num", ++filterBoxNum);
+            filterBar.children[1].value = filterBoxNum; //hidden input
+            var newFilterBox = document.createElement("div");
+            newFilterBox.className = "filter-box";
+            newFilterBox.innerHTML = `<div class="row">
                                                 <!-- key -->
-                                                <label class="col-1 col-form-label">
+                                                <label class="col-2 col-form-label">
                                                     <div style="font-family: Avant Garde;">Key</div>
                                                 </label>
                                                 <div class="col-4">
                                                     <select class="selectpicker select" name="filter-key-` + filterBoxNum + `" data-width="100%" data-live-search="true" title="Please Select"> </select>
                                                 </div>
                                                 <!-- value -->
-                                                <label class="col-1 col-form-label">
+                                                <label class="col-2 col-form-label">
                                                     <div style="font-family: Avant Garde;">Value</div>
                                                 </label>
                                                 <div class="col-4">
@@ -436,42 +448,76 @@
                                                     <input type="text" class="form-control d-none" name="filter-value-` + filterBoxNum + `" disabled="disabled">
                                                 </div>
                                             </div>`;
-        console.log(newFilterBox.innerHTML);
-        // add the box
-        filterBar.appendChild(newFilterBox);
-        // adjust the wrap
-        var wrap = filterBar.parentElement.parentElement.parentElement;
-        wrap.style.cssText = "height: " + (wrap.offsetHeight + 50);
-        // init the select box
-        initFilterBox(newFilterBox)
-    }
+            console.log(newFilterBox.innerHTML);
+            // add the box
+            filterBar.appendChild(newFilterBox);
+            // adjust the wrap
+            var wrap = filterBar.parentElement.parentElement.parentElement;
+            wrap.style.cssText = "height: " + (wrap.offsetHeight + 50);
+            // init the select box
+            initFilterBox(newFilterBox)
+        }
 
-    function delFilterBox() {
-        // get the filterBar
-        var filterBar = this.parentElement.parentElement.previousElementSibling;
-        // get the number of boxes;
-        var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
-        // del the box
-        if (filterBoxNum > 1) {
-            filterBar.setAttribute("data-box-num", --filterBoxNum);
-            filterBar.children[1].value = filterBoxNum; //hidden input
+        function delFilterBox() {
+            // get the filterBar
             var filterBar = this.parentElement.parentElement.previousElementSibling;
-            var latestFilterBox = filterBar.lastElementChild;
-            filterBar.removeChild(latestFilterBox);
+            // get the number of boxes;
+            var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
+            // del the box
+            if (filterBoxNum > 1) {
+                filterBar.setAttribute("data-box-num", --filterBoxNum);
+                filterBar.children[1].value = filterBoxNum; //hidden input
+                var filterBar = this.parentElement.parentElement.previousElementSibling;
+                var latestFilterBox = filterBar.lastElementChild;
+                filterBar.removeChild(latestFilterBox);
+            }
         }
-    }
 
-</script>
+    </script>
 
-<!-- form validation -->
-<script>
-    var submitButtonList = document.getElementsByName("submit-button");
-    for (let submitButton of submitButtonList) {
-        submitButton.onsubmit = function() {
+    <!-- chart type display -->
+    <script>
+        var pieChart = document.getElementById("pie-chart");
+        var barChart = document.getElementById("bar-chart");
+        var lineChart = document.getElementById("line-chart");
+        var typeDisplay = document.getElementById("chart-type-display");
+        var typeSubmit = document.getElementById("chart-type-submit");
 
+        pieChart.onclick = function() {
+            typeDisplay.innerHTML = "Pie Chart";
+            typeSubmit.setAttribute("value", "1");
         }
-    }
-</script>
+
+        barChart.onclick = function() {
+            typeDisplay.innerHTML = "Bar Chart";
+            typeSubmit.setAttribute("value", "2");
+        }
+
+        lineChart.onclick = function() {
+            typeDisplay.innerHTML = "Line Chart";
+            typeSubmit.setAttribute("value", "3");
+        }
+    </script>
+
+    <!-- char classify display -->
+    <script>
+        var menu = document.getElementById("chart-classify-menu");
+        var classifyDisplay = document.getElementById("chart-classify-display");
+        var classifySubmit = document.getElementById("chart-classify-submit");
+
+
+        for (let key of keyList) {
+            menu.innerHTML += `<li><a class="dropdown-item" href="#" id="` + key + `">` + key + `</a></li>`;
+        }
+
+        for (let key of keyList) {
+            document.getElementById(key).onclick = function() {
+                classifyDisplay.innerHTML = key;
+                classifySubmit.setAttribute("value", key)
+            }
+        }
+
+    </script>
 
 </body>
 

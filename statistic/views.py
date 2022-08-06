@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from statistic.draw import draw_pie, draw_bar, draw_radar
+from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line
 from statistic.util import require_login
 from statistic.data_process import my_filter, analysis_file, patten_range
 from django.contrib.auth.hashers import make_password, check_password
@@ -39,13 +39,21 @@ def index(request):
         else:
             filter_dict[k] = v
     file_name = "statistic/data/" + args_dict["filename"]
-    key = "Topic"
-    pic_name = "cache/show_pie_{}.html".format(key)
+    key = request.POST.get("chart-classify")
+    chart_type = request.POST.get("")
     new_data = my_filter(file_name, **filter_dict)
     if len(new_data) == 0:
         # TODO
         pass
-    draw_pie(new_data, key, None, "statistic/templates/" + pic_name)
+    if chart_type == "1":
+        pic_name = "cache/show_pie_{}.html".format(key)
+        draw_pie(new_data, key, None, save_filename="statistic/templates/" + pic_name)
+    elif chart_type == "2":
+        pic_name = "cache/show_bar_{}.html".format(key)
+        draw_bar(new_data, key, save_filename="statistic/templates/" + pic_name)
+    else:
+        pic_name = "cache/show_line_{}.html".format(key)
+        draw_line(new_data, key, save_filename="statistic/templates/" + pic_name)
     args_dict["pic_url"] = "/find/?path=" + pic_name
     return render(request, "index.html", args_dict)
 
