@@ -31,5 +31,3 @@ def require_login():
         return wrapper
 
     return decorator
-
-

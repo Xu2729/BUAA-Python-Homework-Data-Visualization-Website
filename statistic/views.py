@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line
 from statistic.util import require_login
-from statistic.data_process import my_filter, analysis_file, patten_range
+from statistic.data_process import my_filter, analysis_file, patten_range, match_type
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 
@@ -18,7 +18,7 @@ def index(request):
     else:
         args_dict["filename"] = "students_data_FIX.csv"
         tot_filename += "students_data_FIX.csv"
-    key_type, key_value, key_description = analysis_file(tot_filename)
+    key_type, key_value, key_description, ori_data = analysis_file(tot_filename)
     args_dict["key_type"] = key_type
     args_dict["key_value"] = key_value
     args_dict["key_description"] = key_description
@@ -38,13 +38,15 @@ def index(request):
             filter_dict[k] = patten_range(v[0], True)
         else:
             filter_dict[k] = v
+    match_type(ori_data, key_type, filter_dict)
     file_name = "statistic/data/" + args_dict["filename"]
     key = request.POST.get("chart-classify")
-    chart_type = request.POST.get("")
+    chart_type = request.POST.get("chart-type")
     new_data = my_filter(file_name, **filter_dict)
     if len(new_data) == 0:
         # TODO
         pass
+    print(str(chart_type) + "====")
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
         draw_pie(new_data, key, None, save_filename="statistic/templates/" + pic_name)

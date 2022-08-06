@@ -28,7 +28,7 @@ def analysis_file(filename: str):
             key_type[key] = "float"
             key_values[key] = {"max": max(data[key].values), "min": min(data[key].values)}
             key_description[key] = dict(description[key])
-    return key_type, key_values, key_description
+    return key_type, key_values, key_description, data
 
 
 def my_filter(filename: str, **kwargs) -> DataFrame:
@@ -103,3 +103,11 @@ def patten_range(s: str, is_float=False) -> list:
             else:
                 ans.append(int(v))
     return ans
+
+
+def match_type(ori_df: DataFrame, key_type: dict, filter_dict: dict):
+    for k, v in filter_dict.items():
+        if ori_df[k].dtype == "int64" and key_type[k] == "obj":
+            filter_dict[k] = list(map(int, filter_dict[k]))
+        elif ori_df[k].dtype == "float64" and key_type[k] == "obj":
+            filter_dict[k] = list(map(float, filter_dict[k]))
