@@ -164,6 +164,7 @@
 
         <section class="section dashboard">
 
+            <!-- upload file -->
             <div class="row">
                 <!-- upload -->
                 <div class="col-12">
@@ -189,15 +190,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+
+            <!-- chart -->
+            <div class="row">
                 <!-- chart -->
                 <div class="col-12">
-                    <form action="#" method="POST" id="select-form">
+                    <form action="#" method="POST" id="chart-form">
                         {% csrf_token %}
                         <div class="card">
                             <div class="filter">
                                     <span>
-                                        <a class="icon" href="#" data-bs-toggle="dropdown">
+                                        <a class="icon" href="##" data-bs-toggle="dropdown">
                                             <span><b>Chart Type :</b></span>
                                             <span id="chart-type-display">Pie Chart</span>
                                             <input type="hidden" id="chart-type-submit" name="chart-type" value="1">
@@ -205,15 +210,15 @@
                                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                             <li class="dropdown-header text-start">
                                                 <h6>图表类型选择</h6>
-                                                <li><a class="dropdown-item" href="#" id="pie-chart">Pie Chart</a></li>
-                                                <li><a class="dropdown-item" href="#" id="bar-chart">Bar Chart</a></li>
-                                                <li><a class="dropdown-item" href="#" id="line-chart">Line Chart</a></li>
                                             </li>
+                                            <li><a class="dropdown-item" href="##" id="pie-chart">Pie Chart</a></li>
+                                            <li><a class="dropdown-item" href="##" id="bar-chart">Bar Chart</a></li>
+                                            <li><a class="dropdown-item" href="##" id="line-chart">Line Chart</a></li>
                                         </ul>
                                     </span>
 
                                     <span>
-                                        <a class="icon" href="#" data-bs-toggle="dropdown">
+                                        <a class="icon" href="##" data-bs-toggle="dropdown">
                                             <span><b>Classification:</b></span>
                                             <span id="chart-classify-display">Topic</span>
                                             <input type="hidden" id="chart-classify-submit" name="chart-classify" value="Topic">
@@ -225,17 +230,32 @@
                                             <!-- written by js ... -->
                                         </ul>
                                     </span>
+
+                                    <span>
+                                        <a class="icon" href="##" data-bs-toggle="dropdown">
+                                            <span><b>Group By:</b></span>
+                                            <span id="chart-group-display">Default</span>
+                                            <input type="hidden" id="chart-group-submit" name="chart-group" value="Default">
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="chart-group-menu">
+                                            <li class="dropdown-header">
+                                                <h6>图表分类依据选择</h6>
+                                            </li>
+                                            <li><a class="dropdown-item" href="##" id="group-Default">Default</a></li>
+                                            <!-- written by js ... -->
+                                        </ul>
+                                    </span>
                             </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Chart 1 <span>/Today</span></h5>
+                                <h5 class="card-title">Chart <span>| Today</span></h5>
                                 <p class="">Student performance analysis...</p>
                                 <hr>
 
                                 <!-- Line Chart -->
-                                <div class="text-center" style="height: 600px">
+                                <div class="text-center" style="height: 600px" id="wrap">
                                     <div class="row">
-                                        <div class="col-8 filter-bar" data-box-num="1">
+                                        <div class="col-10" data-box-num="1" id="filter-bar">
                                             <div class="filter-box">
                                                 <div class="row">
                                                     <!-- key -->
@@ -245,7 +265,7 @@
                                                     <div class="col-4">
                                                         <select class="selectpicker select" name="filter-key-1"
                                                             data-width="100%" data-live-search="true"
-                                                            title="Please Select"> </select>
+                                                            title="Please Select" required> </select>
                                                     </div>
                                                     <!-- value -->
                                                     <label class="col-2 col-form-label">
@@ -256,20 +276,20 @@
                                                         <select class="selectpicker select" name="filter-value-1"
                                                             data-width="100%" data-live-search="true"
                                                             data-actions-box="true" title="Please Select"
-                                                            multiple></select>
+                                                            multiple required></select>
                                                         <!-- type: int -->
                                                         <input type="text" class="form-control d-none"
-                                                            name="filter-value-1" disabled="disabled">
+                                                            name="filter-value-1" disabled="disabled" required>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- filter-box-num -->
-                                            <input type="hidden" name="filterBoxNum" value="1">
+                                            <input type="hidden" name="filterBoxNum" id="filter-box-num" value="1">
                                         </div>
 
                                         <div class="col-2">
                                             <div class="btn-group" role="group" id="button-group">
-                                                <button class="btn btn-danger btn-md" type="button" name="add-button">
+                                                <button class="btn btn-danger btn-md" type="button" id="add-button">
                                                     <div
                                                         style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
                                                         +
@@ -277,21 +297,51 @@
                                                 </button>
                                                 <button class="btn btn-success btn-md" type="submit" id="submit"
                                                     name="submit-button">screen</button>
-                                                <button class="btn btn-danger btn-md" type="button" name="del-button">
+                                                <button class="btn btn-danger btn-md" type="button" id="del-button">
                                                     <div
                                                         style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
                                                         -
                                                     </div>
                                                 </button>
                                             </div>
-
                                         </div>
+
 
                                     </div>
 
                                     <hr>
-                                    <iframe id="iframe1" class="iframe" src="{{ pic_url }}" frameborder="0"
-                                        scrolling="auto"></iframe>
+
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <iframe id="iframe1" class="iframe" src="{{ pic_url }}" frameborder="0"
+                                            scrolling="auto"></iframe>
+                                        </div>
+                                        <div class="col-1">
+                                            <div class="col-8">
+                                                <div class="d-none" id="check-box">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="average" id="check-1" name="check-box">
+                                                        <label class="form-check-label" for="check-1">
+                                                            average
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="max" id="check-2" name="check-box">
+                                                        <label class="form-check-label" for="check-2">
+                                                            max
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="min" id="check-3" name="check-box">
+                                                        <label class="form-check-label" for="check-3">
+                                                            min
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -299,6 +349,47 @@
                 </div>
 
             </div><!-- End Left side columns -->
+
+            <!-- table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Key Description <span>| Today</span></h5>
+                            <div>Student number: {{ tot_size }}</div>
+                            <table class="table table-borderless datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Key</th>
+                                        {% for i, j in key_description.raisedhands.items %}
+                                        <th scope="col">{{i}}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, j in key_description.items %}
+                                    <tr>
+                                        <th scope="row">{{ i }}</th>
+                                        {% for ii, jj in j.items %}
+                                        <td>{{ jj }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div><!-- End Recent Sales -->
+            </div>
+
+
+
         </section>
 
     </main><!-- End #main -->
@@ -337,6 +428,8 @@
 
         var keyTypeDict = {{ key_type | safe}};
         var keyValueDict = {{ key_value | safe}};
+        var filterBoxNum = 1;
+        var selectedKey = ["", ""]; //start from 1
 
         var keyList = [];
         for (key in keyTypeDict) {
@@ -362,118 +455,158 @@
 
             // init the select box of "key"
             for (let key of keyList) {
-                filterKey.innerHTML += "<option value=" + key + ">" + key + "</option>";
+                if (selectedKey.includes(key)) { //if key is in selectedKey
+                    filterKey.innerHTML += `<option class="d-none" name="` + key + `" value="` + key + `">` + key + `</option>`;
+                } else {
+                    filterKey.innerHTML += `<option name="` + key + `" value="` + key + `">` + key + `</option>`;
+                }
             }
+
+
+
             $('.select').selectpicker('refresh');
 
             // respond to the event
             filterKey.onchange = function () {
+                // get the new option of filterKey
                 let index = filterKey.selectedIndex;
-                let selected = filterKey.options[index].value;
-                // judge whether keyType is "obj" or "int"
-                if (keyTypeDict[selected] == "obj" || index == 0) {
+                let newOption = filterKey.options[index].value;
+                // refreshthe select box
+                var id = parseInt(filterKey.getAttribute("name").slice(11));
+                refreshKeyBox(id, selectedKey[id], newOption); // cost too much time!!!
+                // add the newOption to selectedKey
+                selectedKey[id] = newOption;
+                // check the type of the new option ("obj" or "int")
+                if (keyTypeDict[newOption] == "obj" || index == 0) {
                     // display the select box, hide the input box
                     filterValue.setAttribute("class", "selectpicker select");
+                    filterValue.setAttribute("required", "required");
                     filterRange.setAttribute("class", "form-control d-none");
                     filterRange.setAttribute("disabled", "disabled");
+                    filterRange.removeAttribute("required");
                     // add the options to filterValue
                     filterValue.innerHTML = "";
-                    if (selected != "empty") {
-                        let valueList = keyValueDict[selected];
+                    if (newOption != "empty") {
+                        let valueList = keyValueDict[newOption];
                         for (let value of valueList) {
-                            filterValue.innerHTML += "<option value=" + value + ">" + value + "</option>";
+                            filterValue.innerHTML += `<option value="` + value + `">` + value + `</option>`;
                         }
                     }
-                    // refresh the select box
-                    $('.select').selectpicker('refresh');
                 }
                 else {
                     // display the input box, hide the select box
                     filterValue.setAttribute("class", "selectpicker select d-none");
+                    filterValue.removeAttribute("required");
                     filterRange.setAttribute("class", "form-control");
                     filterRange.removeAttribute("disabled");
-
+                    filterRange.setAttribute("required", "required");
                     // add the information about number range to filterValue
-                    filterRange.placeholder = "Input A Range:  " + keyValueDict[selected]["min"] + " ~ " + keyValueDict[selected]["max"];
-                    $('.select').selectpicker('refresh');
+                    filterRange.placeholder = "Input A Range:  " + keyValueDict[newOption]["min"] + " ~ " + keyValueDict[newOption]["max"];
                 }
-
+                $('.select').selectpicker('refresh');   // cost too much time!!!
             }
         }
 
     </script>
-
 
     <!-- add and remove filter box -->
     <script>
         // add the filter box
-        var addButtonList = document.getElementsByName("add-button");
-        for (let addButton of addButtonList) {
-            addButton.onclick = addFilterBox;
-        }
+        var addButton = document.getElementById("add-button")
+        addButton.onclick = addFilterBox;
 
         // del the filter box
-        var delButtonList = document.getElementsByName("del-button");
-        for (let delButton of delButtonList) {
-            delButton.onclick = delFilterBox;
-        }
+        var delButton = document.getElementById("del-button");
+        delButton.onclick = delFilterBox;
+
 
         function addFilterBox() {
             // get the filterBar
-            var filterBar = this.parentElement.parentElement.previousElementSibling;
-            // get the number of boxes;
-            var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
+            var filterBar = document.getElementById("filter-bar");
             // create the new filter box
-            filterBar.setAttribute("data-box-num", ++filterBoxNum);
-            filterBar.children[1].value = filterBoxNum; //hidden input
-            var newFilterBox = document.createElement("div");
-            newFilterBox.className = "filter-box";
-            newFilterBox.innerHTML = `<div class="row">
-                                                <!-- key -->
-                                                <label class="col-2 col-form-label">
-                                                    <div style="font-family: Avant Garde;">Key</div>
-                                                </label>
-                                                <div class="col-4">
-                                                    <select class="selectpicker select" name="filter-key-` + filterBoxNum + `" data-width="100%" data-live-search="true" title="Please Select"> </select>
-                                                </div>
-                                                <!-- value -->
-                                                <label class="col-2 col-form-label">
-                                                    <div style="font-family: Avant Garde;">Value</div>
-                                                </label>
-                                                <div class="col-4">
-                                                    <!-- type：odj -->
-                                                    <select class="selectpicker select" name="filter-value-` + filterBoxNum + `" data-width="100%"
-                                                        data-live-search="true" data-actions-box="true" title="Please Select" multiple></select>
-                                                    <!-- type: int -->
-                                                    <input type="text" class="form-control d-none" name="filter-value-` + filterBoxNum + `" disabled="disabled">
-                                                </div>
-                                            </div>`;
-            console.log(newFilterBox.innerHTML);
-            // add the box
-            filterBar.appendChild(newFilterBox);
-            // adjust the wrap
-            var wrap = filterBar.parentElement.parentElement.parentElement;
-            wrap.style.cssText = "height: " + (wrap.offsetHeight + 50);
-            // init the select box
-            initFilterBox(newFilterBox)
-        }
+            if (filterBoxNum < 17) {
+                filterBar.setAttribute("data-box-num", ++filterBoxNum);
+                document.getElementById("filter-box-num").value = filterBoxNum; //hidden input
 
-        function delFilterBox() {
-            // get the filterBar
-            var filterBar = this.parentElement.parentElement.previousElementSibling;
-            // get the number of boxes;
-            var filterBoxNum = parseInt(filterBar.getAttribute("data-box-num"));
-            // del the box
-            if (filterBoxNum > 1) {
-                filterBar.setAttribute("data-box-num", --filterBoxNum);
-                filterBar.children[1].value = filterBoxNum; //hidden input
-                var filterBar = this.parentElement.parentElement.previousElementSibling;
-                var latestFilterBox = filterBar.lastElementChild;
-                filterBar.removeChild(latestFilterBox);
+                var newFilterBox = document.createElement("div");
+                newFilterBox.className = "filter-box";
+                newFilterBox.innerHTML = `<div class="row">
+                                                    <!-- key -->
+                                                    <label class="col-2 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Key</div>
+                                                    </label>
+                                                    <div class="col-4">
+                                                        <select class="selectpicker select" name="filter-key-` + filterBoxNum + `" data-width="100%"
+                                                        data-live-search="true" title="Please Select" required> </select>
+                                                    </div>
+                                                    <!-- value -->
+                                                    <label class="col-2 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Value</div>
+                                                    </label>
+                                                    <div class="col-4">
+                                                        <!-- type：odj -->
+                                                        <select class="selectpicker select" name="filter-value-` + filterBoxNum + `" data-width="100%"
+                                                            data-live-search="true" data-actions-box="true" title="Please Select" multiple required></select>
+                                                        <!-- type: int -->
+                                                        <input type="text" class="form-control d-none" name="filter-value-` + filterBoxNum + `" disabled="disabled" required>
+                                                    </div>
+                                                </div>`;
+                // add the box
+                filterBar.appendChild(newFilterBox);
+                // adjust the selectKey
+                selectedKey.push("");
+                // adjust the wrap
+                var wrap = document.getElementById("wrap");
+                wrap.style.cssText = "height: " + (wrap.offsetHeight + 50);   // cost too much time !!!
+                // init the select box
+                initFilterBox(newFilterBox)
             }
         }
 
+        function delFilterBox() {
+            // get the filter bar
+            var filterBar = document.getElementById("filter-bar");
+            // del the box
+            if (filterBoxNum > 1) {
+                // get the last box
+                var latestFilterBox = filterBar.lastElementChild;
+                // get the filterKey of the last box
+                var filterKey = document.getElementsByName("filter-key-" + filterBoxNum)[0];
+                // get the current option of the filterKey
+                var index = filterKey.selectedIndex;
+                var option = filterKey.options[index].value;
+                // refresh all filter boxes
+                refreshKeyBox(filterBoxNum, option, "");
+                // delete the filter box
+                filterBar.setAttribute("data-box-num", --filterBoxNum);
+                document.getElementById("filter-box-num").value = filterBoxNum; //hidden input
+                filterBar.removeChild(latestFilterBox);
+                // adjust the selectKey
+                selectedKey.pop();
+
+            }
+        }
     </script>
+
+    <script>
+        // refreshKeyBox(2, "", "gender");
+
+        function refreshKeyBox(id, originKey, nowKey) { //表示数组selectedKey中第id个位置的内容从originKey更改成了nowKey
+            for (let i = 1; i <= filterBoxNum; i++) {
+                if (i == id) continue;
+                let selectBox = document.getElementsByName("filter-key-"+i)[0];
+                for (let option of selectBox.children) {
+                    if (option.innerHTML == nowKey) {
+                        option.setAttribute("class", "d-none");
+                    } else if (option.innerHTML == originKey) {
+                        option.setAttribute("class", "");
+                    }
+                }
+            }
+            $('.select').selectpicker('refresh');
+        }
+    </script>
+
 
     <!-- chart type display -->
     <script>
@@ -486,38 +619,141 @@
         pieChart.onclick = function() {
             typeDisplay.innerHTML = "Pie Chart";
             typeSubmit.setAttribute("value", "1");
+            document.getElementById("check-box").setAttribute("class", "d-none");
         }
 
         barChart.onclick = function() {
             typeDisplay.innerHTML = "Bar Chart";
             typeSubmit.setAttribute("value", "2");
+            document.getElementById("check-box").setAttribute("class", "");
         }
 
         lineChart.onclick = function() {
             typeDisplay.innerHTML = "Line Chart";
             typeSubmit.setAttribute("value", "3");
+            document.getElementById("check-box").setAttribute("class", "");
         }
     </script>
 
-    <!-- char classify display -->
+    <!-- classify and group -->
     <script>
-        var menu = document.getElementById("chart-classify-menu");
+        var classifyMenu = document.getElementById("chart-classify-menu");
         var classifyDisplay = document.getElementById("chart-classify-display");
         var classifySubmit = document.getElementById("chart-classify-submit");
+        var groupMenu = document.getElementById("chart-group-menu");
+        var groupDisplay = document.getElementById("chart-group-display");
+        var groupSubmit = document.getElementById("chart-group-submit");
+        var nowClass = "";
+        var nowGroup = "";
 
-
+        // add options
         for (let key of keyList) {
-            menu.innerHTML += `<li><a class="dropdown-item" href="#" id="` + key + `">` + key + `</a></li>`;
-        }
-
-        for (let key of keyList) {
-            document.getElementById(key).onclick = function() {
-                classifyDisplay.innerHTML = key;
-                classifySubmit.setAttribute("value", key)
+            if (keyTypeDict[key] == "obj") {
+                groupMenu.innerHTML += `<li><a class="dropdown-item" href="##" id="group-` + key + `">` + key + `</a></li>`;
+                classifyMenu.innerHTML += `<li><a class="dropdown-item" href="##" id="classify-` + key + `">` + key + `</a></li>`;
             }
         }
 
+        changeClass("Topic");
+        changeGroup("Default");
+
+        // response to the click event
+        for (let key of keyList) {
+            if (keyTypeDict[key] == "obj") {
+                document.getElementById("classify-" + key).onclick = function() {
+                    changeClass(key);
+                };
+                document.getElementById("group-" + key).onclick = function() {
+                    changeGroup(key);
+                };
+            }
+        }
+        document.getElementById("group-Default").onclick = function(){changeGroup("Default")};
+
+        // changeClass
+        function changeClass(key) {
+            classifyDisplay.innerHTML = key;
+            classifySubmit.setAttribute("value", key);
+            // hide the same option of `Group By` box
+            let ori = document.getElementById("group-" + nowClass);
+            if (ori != null) ori.setAttribute("class", "dropdown-item");
+            nowClass = key;
+            let now = document.getElementById("group-" + nowClass);
+            if (now != null) now.setAttribute("class", "dropdown-item d-none");
+        }
+
+        // changeGroup
+        function changeGroup(key) {
+            groupDisplay.innerHTML = key;
+            groupSubmit.setAttribute("value", key);
+            // hide the same option of `Classification` box
+            let ori = document.getElementById("classify-" + nowGroup);
+            if(ori != null) ori.setAttribute("class", "dropdown-item");
+            nowGroup = key;
+            let now = document.getElementById("classify-" + nowGroup);
+            if(now != null) now.setAttribute("class", "dropdown-item d-none");
+        }
     </script>
+
+
+    <!-- Form validation -->
+    <script>
+        var form = document.getElementById("chart-form");
+
+        // response to the submit event
+        form.onsubmit = function() {
+            // verify chart type
+            // verifyChartType();
+            // verifyInput
+            var ret = verifyInput();
+            return ret;
+        }
+
+
+        function verifyChartType() {
+            var checkBox = document.getElementById("check-box");
+            var chartType = document.getElementById("chart-type-submit");
+            switch (chartType.value) {
+                case "1" : checkBox.setAttribute("class", "d-none");
+                case "2" : checkBox.setAttribute("class", "");
+                case "3" : checkBox.setAttribute("class", "");
+            }
+        }
+
+
+        function verifyInput() {
+            var keysOfIntType = ["AnnouncementsView", "Discussion", "VisitedResources", "raisedhands"];
+            var regex1 = /^(\d+(\.\d+)?)$/i;
+            var regex2 = /^(\d+(\.\d+)?)[-](\d+(\.\d+)?)$/i;
+            var regex3 = /^[\(,\[](\d+(\.\d+)?)[,](\d+(\.\d+)?)[\),\]]$/i;
+
+            for (let i = 1; i <= filterBoxNum; i++) {
+                let keyBox = document.getElementsByName("filter-key-"+i)[0];
+                let inputBox = document.getElementsByName("filter-value-"+i)[1];
+                let index = keyBox.selectedIndex;
+                let option = keyBox.options[index].value;
+                if (keysOfIntType.includes(option)) {
+                    var minBoundary = parseInt(keyValueDict[option]["min"]);
+                    var maxBoundary = parseInt(keyValueDict[option]["max"]);
+                    var userInput = inputBox.value.trim();
+                    var list = userInput.split(";");
+                    for (s of list) {
+                        if (!regex1.test(s.trim()) && !regex2.test(s.trim()) && !regex3.test(s.trim())) {
+                            alert(`输入格式有误, 请重新输入！\n正确格式实例如下：\n` +
+                                    `example1 = "1-10;20;30-40"\n` +
+                                    `example2 = "(10,20];(30,40);[70,90];25"\n` +
+                                    `example3 = "1-10;(13,15]"\n` +
+                                    `example4 = "(1.0,2.0);[3.0,4.0];5.0"`);
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+    </script>
+
 
 </body>
 

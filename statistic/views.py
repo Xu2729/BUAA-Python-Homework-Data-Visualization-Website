@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
-from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line
+from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line, draw_frequency_histogram
 from statistic.util import require_login
-from statistic.data_process import my_filter, analysis_file, patten_range, match_type
+from statistic.data_process import my_filter, analysis_file, patten_range
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 
@@ -22,6 +22,7 @@ def index(request):
     args_dict["key_type"] = key_type
     args_dict["key_value"] = key_value
     args_dict["key_description"] = key_description
+    args_dict["tot_size"] = len(ori_data)
     if request.method == "GET":
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
         return render(request, "index.html", args_dict)
@@ -38,23 +39,37 @@ def index(request):
             filter_dict[k] = patten_range(v[0], True)
         else:
             filter_dict[k] = v
-    match_type(ori_data, key_type, filter_dict)
-    file_name = "statistic/data/" + args_dict["filename"]
     key = request.POST.get("chart-classify")
     chart_type = request.POST.get("chart-type")
-    new_data = my_filter(file_name, **filter_dict)
+    group_by = request.POST.get("chart-group")
+    if group_by == "Default":
+        group_by = None
+    _, _, key_description, new_data = analysis_file(tot_filename, filter_dict)
+    args_dict["key_description"] = key_description
+    args_dict["tot_size"] = len(new_data)
+    mark_data = request.POST.getlist("check-box")
+    mark_dict = {}
+    for k in ["average", "max", "min"]:
+        if k in mark_data:
+            mark_dict[k] = True
+        else:
+            mark_dict[k] = False
     if len(new_data) == 0:
-        # TODO
-        pass
+        return HttpResponse("抱歉，没有匹配的数据")
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
         draw_pie(new_data, key, None, save_filename="statistic/templates/" + pic_name)
     elif chart_type == "2":
         pic_name = "cache/show_bar_{}.html".format(key)
-        draw_bar(new_data, key, save_filename="statistic/templates/" + pic_name)
-    else:
+        draw_bar(new_data, key, group_by, mark_dict=mark_dict, save_filename="statistic/templates/" + pic_name)
+    elif chart_type == "3":
         pic_name = "cache/show_line_{}.html".format(key)
-        draw_line(new_data, key, save_filename="statistic/templates/" + pic_name)
+        draw_line(new_data, key, group_by, mark_dict=mark_dict, save_filename="statistic/templates/" + pic_name)
+    else:
+        pic_name = "cache/show_frequency_histogram_{}.html".format(key)
+        space = int(request.POST.get("space"))
+        draw_frequency_histogram(new_data, key, space, group_by, mark_dict=mark_dict,
+                                 save_filename="statistic/templates/" + pic_name)
     args_dict["pic_url"] = "/find/?path=" + pic_name
     return render(request, "index.html", args_dict)
 
@@ -88,7 +103,8 @@ def logout(request):
 def show_pie(request):
     file_name = "statistic/data/" + request.GET.get("filename")
     key = request.GET.get("key")
-    draw_pie(my_filter(file_name, **{}), key, None, "statistic/templates/cache/show_pie_{}.html".format(key))
+    data = my_filter(file_name, **{})
+    draw_pie(data, key, None, "statistic/templates/cache/show_pie_{}.html".format(key))
     return render(request, "cache/show_pie_{}.html".format(key))
 
 
@@ -103,7 +119,8 @@ def show_bar(request):
         use_stack = True
     else:
         use_stack = False
-    draw_bar(my_filter(file_name, **{}), key, group_by, use_stack, False, None,
+    data = my_filter(file_name, **{})
+    draw_bar(data, key, group_by, use_stack, False, None,
              "statistic/templates/cache/show_bar_{}_{}_{}.html".format(key, group_by, use_stack))
     return render(request, "cache/show_bar_{}_{}_{}.html".format(key, group_by, use_stack))
 
@@ -111,7 +128,8 @@ def show_bar(request):
 def show_radar(request):
     pks = list(map(int, request.GET.get("pk").split(",")))
     file_name = "statistic/data/" + request.GET.get("filename")
-    draw_radar(my_filter(file_name, **{}), pks,
+    data = my_filter(file_name, **{})
+    draw_radar(data, pks,
                {"raisedhands": 100, "VisitedResources": 100, "AnnouncementsView": 100, "Discussion": 100}, None,
                "statistic/templates/cache/show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
     return render(request, "cache/show_radar_{}.html".format(request.GET.get("pk").replace(",", "&")))
