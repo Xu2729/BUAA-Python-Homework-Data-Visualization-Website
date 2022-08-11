@@ -6,32 +6,63 @@ from pandas import DataFrame
 
 
 # 饼图
-def draw_pie(data: DataFrame, key_name: str, title=None, save_filename="pie.html"):
-    data = dict(data[key_name].value_counts())
-    keys = pd.DataFrame(data.keys())
-    values = pd.DataFrame(data.values())
-    data = list(zip(keys[0].tolist(), values[0].tolist()))
+def draw_pie(data: DataFrame, key_name: str, group_by=None, title=None, save_filename="pie.html"):
     if title is None:
         title = key_name + " statistic"
-    pie = (
-        Pie(
-            init_opts=opts.InitOpts(bg_color="white")
+    if group_by is None:
+        data = dict(data[key_name].value_counts())
+        keys = pd.DataFrame(data.keys())
+        values = pd.DataFrame(data.values())
+        data = list(zip(keys[0].tolist(), values[0].tolist()))
+        pie = (
+            Pie(
+                init_opts=opts.InitOpts(bg_color="white")
+            )
+                .add(key_name, data, center=["42%", "52%"])
+                .set_global_opts(title_opts=opts.TitleOpts(title=title),
+                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+                                     data_zoom=None, restore=None, magic_type=None)))
+                .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
         )
-            .add(key_name, data, center=["42%", "52%"])
-            .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                             toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                 save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                 data_zoom=None, restore=None, magic_type=None)))
-            .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
-    )
-    if len(data) > 5:
-        pie.set_global_opts(title_opts=opts.TitleOpts(title=title),
-                            legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
-                                                        pos_top="8%"),
-                            toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                data_zoom=None, restore=None, magic_type=None)))
-    pie.render(save_filename)
+        if len(data) > 5:
+            pie.set_global_opts(title_opts=opts.TitleOpts(title=title),
+                                legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
+                                                            pos_top="8%"),
+                                toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                    save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+                                    data_zoom=None, restore=None, magic_type=None)))
+        pie.render(save_filename)
+    else:
+        page = Page()
+        group_keys = pd.DataFrame(dict(data[group_by].value_counts()).keys())[0].tolist()
+        group_keys.sort()
+        for group_key in group_keys:
+            temp_data = data[data[group_by] == group_key]
+            temp_data = dict(temp_data[key_name].value_counts())
+            keys = pd.DataFrame(temp_data.keys())
+            values = pd.DataFrame(temp_data.values())
+            temp_data = list(zip(keys[0].tolist(), values[0].tolist()))
+            pie = (
+                Pie(
+                    init_opts=opts.InitOpts(bg_color="white")
+                )
+                    .add(key_name, temp_data, center=["42%", "52%"])
+                    .set_global_opts(title_opts=opts.TitleOpts(title=title + " {}={}".format(group_by, group_key)),
+                                     toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                         save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+                                         data_zoom=None, restore=None, magic_type=None)))
+                    .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
+            )
+            if len(temp_data) > 5:
+                pie.set_global_opts(title_opts=opts.TitleOpts(title=title + " {}={}".format(group_by, group_key)),
+                                    legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
+                                                                pos_top="8%"),
+                                    toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                                        save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+                                        data_zoom=None, restore=None, magic_type=None)))
+            page.add(pie)
+        page.render(save_filename)
 
 
 def _make_frequency_histogram_data(data: DataFrame, key_name: str, space: int):

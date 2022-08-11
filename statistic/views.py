@@ -60,7 +60,7 @@ def index(request):
         return HttpResponse("抱歉，没有匹配的数据")
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
-        draw_pie(new_data, key, None, save_filename="statistic/templates/" + pic_name)
+        draw_pie(new_data, key, group_by, None, save_filename="statistic/templates/" + pic_name)
     elif chart_type == "2":
         pic_name = "cache/show_bar_{}.html".format(key)
         draw_bar(new_data, key, group_by, mark_dict=mark_dict, save_filename="statistic/templates/" + pic_name)
