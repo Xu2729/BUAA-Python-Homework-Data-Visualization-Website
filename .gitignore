@@ -1,6 +1,7 @@
 /statistic/templates/cache/*
 !/statistic/templates/cache/useless.html
-/statistic/data/temp.csv
+/statistic/data/*
+!/statistic/data/students_data_FIX.csv
 /faster_config.yaml
 /venv/
 /.idea/

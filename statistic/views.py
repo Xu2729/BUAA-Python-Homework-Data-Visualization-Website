@@ -4,6 +4,7 @@ from statistic.util import require_login
 from statistic.data_process import my_filter, analysis_file, patten_range
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
+import csv
 
 
 # Create your views here.
@@ -24,6 +25,7 @@ def index(request):
     args_dict["key_description"] = key_description
     args_dict["tot_size"] = len(ori_data)
     if request.method == "GET":
+        ori_data.to_csv('statistic/data/_filter.csv', index=True, index_label="id")
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
         return render(request, "index.html", args_dict)
     filter_dict = {}
@@ -71,6 +73,7 @@ def index(request):
         draw_frequency_histogram(new_data, key, space, group_by, mark_dict=mark_dict,
                                  save_filename="statistic/templates/" + pic_name)
     args_dict["pic_url"] = "/find/?path=" + pic_name
+    new_data.to_csv("statistic/data/_filter.csv", index=True, index_label="id")
     return render(request, "index.html", args_dict)
 
 
@@ -151,6 +154,18 @@ def upload_csv(request):
     except Exception as e:
         print(e)
         return HttpResponse("保存文件时发生错误")
+
+
+def download_csv(request):
+    if request.method != "GET":
+        return HttpResponse("请求类型错误")
+    res = HttpResponse(content_type="text/csv")
+    res["Content-Disposition"] = "attachment; filename=\"selectData.csv"
+    writer = csv.writer(res)
+    with open("statistic/data/" + request.GET.get("file"), "r") as f:
+        reader = csv.reader(f)
+        writer.writerows(reader)
+    return res
 
 
 def register(request):
