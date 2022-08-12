@@ -135,7 +135,7 @@ def upload_csv(request):
         return redirect('/index/?file=true')
     except Exception as e:
         print(e)
-        return HttpResponse("保存文件时发生错误")
+        return redict_error(request, "an error occurred while saving the file", "/index/")
 
 
 def download_csv(request):

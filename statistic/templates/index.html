@@ -430,9 +430,10 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Data Description 1</h5>
+                        <h5 class="card-title">Numerical statistics</h5>
                         <!-- <p class="">Student number: {{ tot_size }}</p> -->
-                        <p> The keys here are of type "int" ...</p>
+                        <p> There are count, average, standard deviation and some other statistics of numerical
+                            values </p>
                         <hr>
 
                         <!-- int type -->
@@ -473,8 +474,8 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Data Description 2</h5>
-                        <p>The keys here are of type "obj"</p>
+                        <h5 class="card-title">Non-numerical statistics</h5>
+                        <p> There are count, percent of non-numerical values </p>
                         <!-- <div class="row">
                             <div class="col-4">
                                 <select class="selectpicker select" id="table-select"
@@ -991,7 +992,7 @@
                 var list = userInput.split(";");
                 for (s of list) {
                     if (!regex1.test(s.trim()) && !regex2.test(s.trim()) && !regex3.test(s.trim())) {
-                        alert(`输入格式有误, 请重新输入！\n正确格式实例如下：\n` +
+                        alert(`Incorrect input format, please re-enter!\nExample of the correct format is as follows:\n` +
                             `example1 = "1-10;20;30-40"\n` +
                             `example2 = "(10,20];(30,40);[70,90];25"\n` +
                             `example3 = "1-10;(13,15]"\n` +
