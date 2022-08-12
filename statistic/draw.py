@@ -9,60 +9,47 @@ from pandas import DataFrame
 def draw_pie(data: DataFrame, key_name: str, group_by=None, title=None, save_filename="pie.html"):
     if title is None:
         title = key_name + " statistic"
+    global_opts_dict = {"toolbox_opts": opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+        save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None, data_zoom=None, restore=None,
+        magic_type=None))}
+    series_opts_dict = {"label_opts": opts.LabelOpts(formatter="{b}: {c} ({d}%)")}
     if group_by is None:
         data = dict(data[key_name].value_counts())
         keys = pd.DataFrame(data.keys())
         values = pd.DataFrame(data.values())
         data = list(zip(keys[0].tolist(), values[0].tolist()))
-        pie = (
-            Pie(
-                init_opts=opts.InitOpts(bg_color="white")
-            )
-                .add(key_name, data, center=["42%", "52%"])
-                .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                     data_zoom=None, restore=None, magic_type=None)))
-                .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
-        )
-        if len(data) > 5:
-            pie.set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
-                                                            pos_top="8%"),
-                                toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                    save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                    data_zoom=None, restore=None, magic_type=None)))
+        global_opts_dict["title_opts"] = opts.TitleOpts(title=title)
+        pie = _make_pie(key_name, data, global_opts_dict, series_opts_dict)
         pie.render(save_filename)
     else:
         page = Page()
         group_keys = pd.DataFrame(dict(data[group_by].value_counts()).keys())[0].tolist()
         group_keys.sort()
         for group_key in group_keys:
+            global_opts_dict["title_opts"] = opts.TitleOpts(title=title + " {}={}".format(group_by, group_key))
             temp_data = data[data[group_by] == group_key]
             temp_data = dict(temp_data[key_name].value_counts())
             keys = pd.DataFrame(temp_data.keys())
             values = pd.DataFrame(temp_data.values())
             temp_data = list(zip(keys[0].tolist(), values[0].tolist()))
-            pie = (
-                Pie(
-                    init_opts=opts.InitOpts(bg_color="white")
-                )
-                    .add(key_name, temp_data, center=["42%", "52%"])
-                    .set_global_opts(title_opts=opts.TitleOpts(title=title + " {}={}".format(group_by, group_key)),
-                                     toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                         save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                         data_zoom=None, restore=None, magic_type=None)))
-                    .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c} ({d}%)"))
-            )
-            if len(temp_data) > 5:
-                pie.set_global_opts(title_opts=opts.TitleOpts(title=title + " {}={}".format(group_by, group_key)),
-                                    legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
-                                                                pos_top="8%"),
-                                    toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                        save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                        data_zoom=None, restore=None, magic_type=None)))
+            pie = _make_pie(key_name, temp_data, global_opts_dict, series_opts_dict)
             page.add(pie)
         page.render(save_filename)
+
+
+def _make_pie(key_name, data, global_set: dict, series_set: dict) -> Pie:
+    pie = (
+        Pie(
+            init_opts=opts.InitOpts(bg_color="white")
+        )
+            .add(key_name, data, center=["42%", "52%"])
+    )
+    if len(data) > 5:
+        global_set["legend_opts"] = opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
+                                                    pos_top="8%")
+    pie.set_global_opts(**global_set)
+    pie.set_series_opts(**series_set)
+    return pie
 
 
 def _make_frequency_histogram_data(data: DataFrame, key_name: str, space: int):
@@ -87,9 +74,14 @@ def draw_frequency_histogram(data: DataFrame, key_name: str, space=5, group_by=N
                              save_filename="frequency_histogram.html"):
     if title is None:
         title = key_name + " statistic"
+    global_opts_dict = {"datazoom_opts": opts.DataZoomOpts(),
+                        "toolbox_opts": opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                            save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+                            data_zoom=None, restore=None, magic_type=None))}
     mark_line_data, mark_point_data = _parse_mark_dict(mark_dict)
     if group_by is None:
         arr_x, arr_y = _make_frequency_histogram_data(data, key_name, space)
+        global_opts_dict["title_opts"] = opts.TitleOpts(title=title)
         bar = (
             Bar(
                 init_opts=opts.InitOpts(bg_color="white")
@@ -97,12 +89,8 @@ def draw_frequency_histogram(data: DataFrame, key_name: str, space=5, group_by=N
                 .add_xaxis(arr_x)
                 .add_yaxis("", arr_y, category_gap="0%", markline_opts=opts.MarkLineOpts(data=mark_line_data),
                            markpoint_opts=opts.MarkPointOpts(data=mark_point_data))
-                .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 datazoom_opts=opts.DataZoomOpts(),
-                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                     data_zoom=None, restore=None, magic_type=None)))
         )
+        bar.set_global_opts(**global_opts_dict)
         bar.render(save_filename)
     else:
         page = Page()
@@ -112,6 +100,7 @@ def draw_frequency_histogram(data: DataFrame, key_name: str, space=5, group_by=N
         keys = list(sum_dict.keys())
         keys.sort()
         for group_key in group_keys:
+            global_opts_dict["title_opts"] = opts.TitleOpts(title=title + ": {}={}".format(group_by, group_key))
             temp_data = data[data[group_by] == group_key]
             arr_x, arr_y = _make_frequency_histogram_data(temp_data, key_name, space)
             bar = (
@@ -122,12 +111,8 @@ def draw_frequency_histogram(data: DataFrame, key_name: str, space=5, group_by=N
                     .add_yaxis(group_key, arr_y, category_gap="0%",
                                markline_opts=opts.MarkLineOpts(data=mark_line_data),
                                markpoint_opts=opts.MarkPointOpts(data=mark_point_data))
-                    .set_global_opts(title_opts=opts.TitleOpts(title=title + ": {}={}".format(group_by, group_key)),
-                                     datazoom_opts=opts.DataZoomOpts(),
-                                     toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                         save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                         data_zoom=None, restore=None, magic_type=None)))
             )
+            bar.set_global_opts(**global_opts_dict)
             page.add(bar)
         page.render(save_filename)
 
@@ -138,7 +123,13 @@ def draw_bar(data: DataFrame, key_name: str, group_by=None, use_stack=False, rev
     if title is None:
         title = key_name + " statistic"
     mark_line_data, mark_point_data = _parse_mark_dict(mark_dict)
+    global_opts_dict = {"xaxis_opts": opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
+                        "title_opts": opts.TitleOpts(title=title)}
     if group_by is None:
+        global_opts_dict["toolbox_opts"] = opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+            save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+            data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
+                type_=("line", "bar"))))
         data = dict(data[key_name].value_counts())
         keys = pd.DataFrame(data.keys())[0].tolist()
         keys.sort()
@@ -150,27 +141,19 @@ def draw_bar(data: DataFrame, key_name: str, group_by=None, use_stack=False, rev
                 .add_xaxis(keys)
                 .add_yaxis("", values, category_gap="15%", markline_opts=opts.MarkLineOpts(data=mark_line_data),
                            markpoint_opts=opts.MarkPointOpts(data=mark_point_data))
-                .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
-                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                     data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
-                                         type_=("line", "bar")))))
         )
         if len(keys) > 5:
-            bar.set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                datazoom_opts=opts.DataZoomOpts(),
-                                legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
-                                                            pos_top="8%", item_gap=3),
-                                xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
-                                toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                    save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                    data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
-                                        type_=("line", "bar")))))
+            global_opts_dict["datazoom_opts"] = opts.DataZoomOpts()
+            global_opts_dict["legend_opts"] = opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
+                                                              pos_top="8%", item_gap=3)
+        bar.set_global_opts(**global_opts_dict)
         if reverse:
             bar.reversal_axis()
             bar.set_series_opts(label_opts=opts.LabelOpts(position="right"))
     else:
+        global_opts_dict["toolbox_opts"] = opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+            save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+            data_zoom=None, restore=None))
         group_keys = pd.DataFrame(dict(data[group_by].value_counts()).keys())[0].tolist()
         group_keys.sort()
         tot_data = {}
@@ -189,24 +172,15 @@ def draw_bar(data: DataFrame, key_name: str, group_by=None, use_stack=False, rev
                 init_opts=opts.InitOpts(bg_color="white")
             )
                 .add_xaxis(keys)
-                .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
-                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                     data_zoom=None, restore=None)))
         )
         if len(keys) > 5:
-            bar.set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                datazoom_opts=opts.DataZoomOpts(),
-                                legend_opts=opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
-                                                            pos_top="8%", item_gap=3),
-                                xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
-                                toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                    save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                    data_zoom=None, restore=None)))
+            global_opts_dict["datazoom_opts"] = opts.DataZoomOpts()
+            global_opts_dict["legend_opts"] = opts.LegendOpts(type_="scroll", pos_left="80%", orient="vertical",
+                                                              pos_top="8%", item_gap=3)
+        bar.set_global_opts(**global_opts_dict)
         if use_stack:
             for k, v in tot_data.items():
-                bar.add_yaxis(k, v, stack="s1", category_gap="50%",
+                bar.add_yaxis(k, v, stack="s1", category_gap="40%",
                               markline_opts=opts.MarkLineOpts(data=mark_line_data),
                               markpoint_opts=opts.MarkPointOpts(data=mark_point_data))
             if reverse:
@@ -254,6 +228,12 @@ def draw_line(data: DataFrame, key_name: str, group_by=None, title=None, mark_di
     if title is None:
         title = key_name + " statistic"
     mark_line_data, mark_point_data = _parse_mark_dict(mark_dict)
+    global_opts_dict = {"xaxis_opts": opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
+                        "title_opts": opts.TitleOpts(title=title),
+                        "toolbox_opts": opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
+                            save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
+                            data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
+                                type_=("line", "bar"))))}
     if group_by is None:
         data = dict(data[key_name].value_counts())
         keys = pd.DataFrame(data.keys())[0].tolist()
@@ -267,12 +247,6 @@ def draw_line(data: DataFrame, key_name: str, group_by=None, title=None, mark_di
                 .add_yaxis("", values,
                            markline_opts=opts.MarkLineOpts(data=mark_line_data),
                            markpoint_opts=opts.MarkPointOpts(data=mark_point_data))
-                .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
-                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                     data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
-                                         type_=("line", "bar")))))
         )
     else:
         group_keys = pd.DataFrame(dict(data[group_by].value_counts()).keys())[0].tolist()
@@ -290,16 +264,11 @@ def draw_line(data: DataFrame, key_name: str, group_by=None, title=None, mark_di
                 init_opts=opts.InitOpts(bg_color="white")
             )
                 .add_xaxis(keys)
-                .set_global_opts(title_opts=opts.TitleOpts(title=title),
-                                 xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(interval=0)),
-                                 toolbox_opts=opts.ToolboxOpts(is_show=True, feature=opts.ToolBoxFeatureOpts(
-                                     save_as_image=opts.ToolBoxFeatureSaveAsImageOpts(pixel_ratio=1.5), brush=None,
-                                     data_zoom=None, restore=None, magic_type=opts.ToolBoxFeatureMagicTypeOpts(
-                                         type_=("line", "bar")))))
         )
         for k, v in tot_data.items():
             line.add_yaxis("", v, markline_opts=opts.MarkLineOpts(data=mark_line_data),
                            markpoint_opts=opts.MarkPointOpts(data=mark_point_data))
+    line.set_global_opts(**global_opts_dict)
     line.render(save_filename)
 
 

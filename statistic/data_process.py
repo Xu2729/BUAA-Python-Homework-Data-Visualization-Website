@@ -1,6 +1,5 @@
 import pandas as pd
 from pandas import DataFrame
-import re
 
 
 def analysis_file(filename: str, filter_dict=None):
@@ -106,48 +105,3 @@ def make_func(select: list):
         return False
 
     return inner
-
-
-def patten_range(s: str, is_float=False) -> list:
-    s = re.sub(r"\s+", "", s)
-    tot = s.split(";")
-    ans = []
-    for v in tot:
-        if "-" in v:
-            if is_float:
-                a, b = v.split("-")
-                a = float(a) - 1e-9
-                b = float(b) + 1e-9
-                ans.append({"min": a, "max": b, "type": "[]"})
-            else:
-                a, b = v.split("-")
-                a = int(a)
-                b = int(b)
-                ans.append({"min": a, "max": b, "type": "[]"})
-        elif "," in v:
-            if is_float:
-                a, b = v[1:-1].split(",")
-                a = float(a) - 1e-9 if v[0] == "[" else float(a)
-                b = float(b) + 1e-9 if v[-1] == "]" else float(b)
-                ans.append({"min": a, "max": b, "type": v[0] + v[-1]})
-            else:
-                a, b = v[1:-1].split(",")
-                a = int(a)
-                b = int(b)
-                ans.append({"min": a, "max": b, "type": v[0] + v[-1]})
-        else:
-            if is_float:
-                a = float(v) - 1e-9
-                b = float(v) + 1e-9
-                ans.append({"min": a, "max": b, "type": "[]"})
-            else:
-                ans.append(int(v))
-    return ans
-
-
-def match_type(ori_df: DataFrame, key_type: dict, filter_dict: dict):
-    for k, v in filter_dict.items():
-        if ori_df[k].dtype == "int64" and key_type[k] == "obj":
-            filter_dict[k] = list(map(int, filter_dict[k]))
-        elif ori_df[k].dtype == "float64" and key_type[k] == "obj":
-            filter_dict[k] = list(map(float, filter_dict[k]))

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line, draw_frequency_histogram
-from statistic.util import require_login, redict_error
-from statistic.data_process import my_filter, analysis_file, patten_range
+from statistic.util import require_login, redict_error, parse_parameter
+from statistic.data_process import my_filter, analysis_file
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 import csv
@@ -19,45 +19,21 @@ def index(request):
     else:
         args_dict["filename"] = "students_data_FIX.csv"
         tot_filename += "students_data_FIX.csv"
-    key_type, key_value, key_description, ori_data = analysis_file(tot_filename)
+    key_type, args_dict["key_value"], args_dict["key_description"], ori_data = analysis_file(tot_filename)
     args_dict["key_type"] = key_type
-    args_dict["key_value"] = key_value
-    args_dict["key_description"] = key_description
     args_dict["tot_size"] = len(ori_data)
     if request.method == "GET":
         ori_data.to_csv('statistic/data/_filter.csv', index=True, index_label="id")
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
         return render(request, "index.html", args_dict)
-    filter_dict = {}
-    filter_num = int(request.POST.get("filterBoxNum"))
-    for i in range(filter_num):
-        k = request.POST.get("filter-key-" + str(i + 1))
-        v = request.POST.getlist("filter-value-" + str(i + 1), [])
-        if "" in v:
-            v.remove("")
-        if key_type[k] == "int":
-            filter_dict[k] = patten_range(v[0])
-        elif key_type[k] == "float":
-            filter_dict[k] = patten_range(v[0], True)
-        else:
-            filter_dict[k] = v
-    key = request.POST.get("chart-classify")
-    chart_type = request.POST.get("chart-type")
-    group_by = request.POST.get("chart-group")
-    if group_by == "Default":
-        group_by = None
-    _, _, key_description, new_data = analysis_file(tot_filename, filter_dict)
-    args_dict["key_description"] = key_description
+
+    filter_dict, chart_type, key, group_by, mark_dict = parse_parameter(request, key_type)
+    _, _, args_dict["key_description"], new_data = analysis_file(tot_filename, filter_dict)
     args_dict["tot_size"] = len(new_data)
-    mark_data = request.POST.getlist("check-box")
-    mark_dict = {}
-    for k in ["average", "max", "min"]:
-        if k in mark_data:
-            mark_dict[k] = True
-        else:
-            mark_dict[k] = False
+
     if len(new_data) == 0:
         return redirect(request, "no matching data")
+
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
         draw_pie(new_data, key, group_by, None, save_filename="statistic/templates/" + pic_name)
@@ -72,6 +48,7 @@ def index(request):
         space = int(request.POST.get("space"))
         draw_frequency_histogram(new_data, key, space, group_by, mark_dict=mark_dict,
                                  save_filename="statistic/templates/" + pic_name)
+
     args_dict["pic_url"] = "/find/?path=" + pic_name
     new_data.to_csv("statistic/data/_filter.csv", index=True, index_label="id")
     return render(request, "index.html", args_dict)
@@ -107,8 +84,9 @@ def logout(request):
 def show_pie(request):
     file_name = "statistic/data/" + request.GET.get("filename")
     key = request.GET.get("key")
+    group_by = request.GET.get("group_by")
     data = my_filter(file_name, **{})
-    draw_pie(data, key, None, "statistic/templates/cache/show_pie_{}.html".format(key))
+    draw_pie(data, key, group_by, None, save_filename="statistic/templates/cache/show_pie_{}.html".format(key))
     return render(request, "cache/show_pie_{}.html".format(key))
 
 
