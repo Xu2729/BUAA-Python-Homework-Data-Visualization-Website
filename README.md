@@ -27,6 +27,9 @@ pip install django
 pip install pandas
 pip install pyecharts
 pip install pymysql
+pip install pyyaml
+pip install sklearn
+pip install scipy
 # 如果仍有问题，建议利用搜索引擎解决
 ```
 
@@ -38,7 +41,7 @@ python manage.py runserver
 
 # 如果想部署在服务器上让别人访问，应该先将 djangoProject1/settings
 # 中的第26 行改为 DEBUG = False，然后使用下面的命令
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8000 --insecure
 # 这样就能通过 <ip>:8000 进行访问了
 ```
 
@@ -66,6 +69,9 @@ pip3 install django
 pip3 install pandas
 pip3 install pyecharts
 pip3 install pymysql
+pip3 install pyyaml
+pip3 install sklearn
+pip3 install scipy
 # 如果仍有问题，建议利用搜索引擎解决
 ```
 
@@ -77,7 +83,7 @@ python3 manage.py runserver
 
 # 如果想部署在服务器上让别人访问，应该先将 djangoProject1/settings
 # 中的第26 行改为 DEBUG = False，然后使用下面的命令
-python3 manage.py runserver 0.0.0.0:8000
+python3 manage.py runserver 0.0.0.0:8000 --insecure
 # 这样就能通过 <ip>:8000 进行访问了
 ```
 
