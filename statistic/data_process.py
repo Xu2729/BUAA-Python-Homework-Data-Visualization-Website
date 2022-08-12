@@ -1,5 +1,19 @@
 import pandas as pd
 from pandas import DataFrame
+from django.template.defaulttags import register
+
+
+@register.filter
+def get_dict_item(dictionary: dict, key):
+    return dictionary.get(key)
+
+
+@register.filter
+def get_list_item(my_list: list, index):
+    if index >= len(my_list):
+        return None
+    else:
+        return my_list[index]
 
 
 def analysis_file(filename: str, filter_dict=None):
@@ -59,13 +73,13 @@ def get_obj_description(data: DataFrame, key: str):
         i = 0
         for ele in temp:
             if i < 5:
-                ans.append({ele[0]: str(ele[1]) + "(%.2f%%)" % (100 * ele[1] / count)})
+                ans.append({ele[0]: [str(ele[1]), "%.2f%%" % (100 * ele[1] / count)]})
             else:
                 sum_ += int(ele[1])
             i += 1
-        ans.append({"Others": str(sum_) + "(%.2f%%)" % (100 * sum_ / count)})
+        ans.append({"Others": [str(sum_), "%.2f%%" % (100 * sum_ / count)]})
     else:
-        ans = [{ele[0]: str(ele[1]) + "(%.2f%%)" % (100 * ele[1] / count)} for ele in temp]
+        ans = [{ele[0]: [str(ele[1]), "%.2f%%" % (100 * ele[1] / count)]} for ele in temp]
     return ans
 
 

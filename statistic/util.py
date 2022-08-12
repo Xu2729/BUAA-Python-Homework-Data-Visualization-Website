@@ -26,18 +26,19 @@ def redict_error(request: HttpRequest, error_msg: str, next_url=None):
 
 def parse_parameter(request, key_type: dict):
     filter_dict = {}
-    filter_num = int(request.POST.get("filterBoxNum"))
-    for i in range(filter_num):
-        k = request.POST.get("filter-key-" + str(i + 1))
-        v = request.POST.getlist("filter-value-" + str(i + 1), [])
-        if "" in v:
-            v.remove("")
-        if key_type[k] == "int":
-            filter_dict[k] = patten_range(v[0])
-        elif key_type[k] == "float":
-            filter_dict[k] = patten_range(v[0], True)
-        else:
-            filter_dict[k] = v
+    if request.POST.get("filter-perm") == "true":
+        filter_num = int(request.POST.get("filterBoxNum"))
+        for i in range(filter_num):
+            k = request.POST.get("filter-key-" + str(i + 1))
+            v = request.POST.getlist("filter-value-" + str(i + 1), [])
+            if "" in v:
+                v.remove("")
+            if key_type[k] == "int":
+                filter_dict[k] = patten_range(v[0])
+            elif key_type[k] == "float":
+                filter_dict[k] = patten_range(v[0], True)
+            else:
+                filter_dict[k] = v
     key = request.POST.get("chart-classify")
     chart_type = request.POST.get("chart-type")
     group_by = request.POST.get("chart-group")
