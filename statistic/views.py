@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line, draw_frequency_histogram
-from statistic.util import require_login
+from statistic.util import require_login, redict_error
 from statistic.data_process import my_filter, analysis_file, patten_range
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
@@ -57,7 +57,7 @@ def index(request):
         else:
             mark_dict[k] = False
     if len(new_data) == 0:
-        return HttpResponse("抱歉，没有匹配的数据")
+        return redirect(request, "no matching data")
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
         draw_pie(new_data, key, group_by, None, save_filename="statistic/templates/" + pic_name)
@@ -89,11 +89,12 @@ def login(request):
     user = request.POST.get("user")
     pwd = request.POST.get("password")
     if not User.objects.filter(name=user).exists():
-        return render(request, "login.html", {"error_msg": "用户不存在"})
+        return render(request, "login.html", {"error_msg": "user doesn't exist"})
     if not check_password(pwd, User.objects.get(name=user).password):
-        return render(request, "login.html", {"error_msg": "密码错误"})
+        return render(request, "login.html", {"error_msg": "password error"})
     res = redirect(next_url)
     res.set_cookie("is_login", True)
+    res.set_cookie("user", user)
     return res
 
 
@@ -140,13 +141,13 @@ def show_radar(request):
 
 def upload_csv(request):
     if request.method != "POST":
-        return HttpResponse("请求类型错误")
+        return redict_error(request, "illegal access", "/index/")
     try:
         csv_file = request.FILES["csv_file"]
         if not csv_file.name.endswith(".csv"):
-            return HttpResponse("文件类型错误")
+            return redict_error(request, "wrong file type", "/index/")
         if csv_file.multiple_chunks():
-            return HttpResponse("文件大小超出限制（2.5MB）")
+            return redict_error(request, "file size exceeds limit(2.5MB)", "/index/")
         with open('statistic/data/temp.csv', 'wb') as f:
             for line in csv_file.chunks():
                 f.write(line)
@@ -158,7 +159,7 @@ def upload_csv(request):
 
 def download_csv(request):
     if request.method != "GET":
-        return HttpResponse("请求类型错误")
+        return redict_error(request, "illegal access", "/index/")
     res = HttpResponse(content_type="text/csv")
     res["Content-Disposition"] = "attachment; filename=\"selectData.csv"
     writer = csv.writer(res)
@@ -179,3 +180,7 @@ def register(request):
     User.objects.create(name=user, password=make_password(pwd, None, 'pbkdf2_sha256'), email=email, mobile=mobile,
                         introduction=introduction)
     return redirect("/login/?next=/index/")
+
+
+def error(request):
+    return render(request, "error.html", {"error_msg": "illegal access", "next": "/index/"})

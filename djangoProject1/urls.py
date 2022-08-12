@@ -28,6 +28,7 @@ urlpatterns = [
     path("register/", views.register),
     path("logout/", views.logout),
     path("find/", views.find),
-    path("download/csv/", views.download_csv)
+    path("download/csv/", views.download_csv),
+    path("error/", views.error),
     # path("test/", views.test)
 ]

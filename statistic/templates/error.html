@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+<h3>Error</h3>
+<div>Sorry, some errors occurred</div>
+<div>Error details: {{ error_msg }}</div>
+<div>
+    <p>The page will jump back to the previous page after
+        <span id="timer">5</span>
+        s
+    </p>
+</div>
+<div>
+    <a href="{{ next }}" id="next">You can click here to jump immediately</a>
+</div>
+
+<script>
+    var Os = document.getElementById("timer");
+    var num = 5;
+    var obj = document.getElementById("next");
+    var timer = setInterval(function () {
+        num--;
+        Os.innerText = num;
+        if (num == 0) {
+            window.location.href = obj.attributes["href"].nodeValue;
+        }
+    }, 1000)
+</script>
+</body>
+</html>
