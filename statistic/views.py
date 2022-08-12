@@ -22,6 +22,7 @@ def index(request):
     key_type, args_dict["key_value"], args_dict["key_description"], ori_data = analysis_file(tot_filename)
     args_dict["key_type"] = key_type
     args_dict["tot_size"] = len(ori_data)
+    args_dict["pic_num"] = 1
     if request.method == "GET":
         ori_data.to_csv('statistic/data/_filter.csv', index=True, index_label="id")
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
@@ -37,6 +38,7 @@ def index(request):
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
         draw_pie(new_data, key, group_by, None, save_filename="statistic/templates/" + pic_name)
+        args_dict["pic_num"] = len(new_data[group_by].value_counts())
     elif chart_type == "2":
         pic_name = "cache/show_bar_{}.html".format(key)
         draw_bar(new_data, key, group_by, mark_dict=mark_dict, save_filename="statistic/templates/" + pic_name)
@@ -48,6 +50,7 @@ def index(request):
         space = int(request.POST.get("space"))
         draw_frequency_histogram(new_data, key, space, group_by, mark_dict=mark_dict,
                                  save_filename="statistic/templates/" + pic_name)
+        args_dict["pic_num"] = len(new_data[group_by].value_counts())
 
     args_dict["pic_url"] = "/find/?path=" + pic_name
     new_data.to_csv("statistic/data/_filter.csv", index=True, index_label="id")
