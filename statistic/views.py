@@ -27,6 +27,7 @@ def index(request):
     if request.method == "GET":
         ori_data.to_csv('statistic/data/_filter.csv', index=True, index_label="id")
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
+        print(list(args_dict["key_type"].keys()))
         return render(request, "index.html", args_dict)
 
     filter_dict, chart_type, key, group_by, mark_dict = parse_parameter(request, key_type)
@@ -169,15 +170,18 @@ def error(request):
 
 
 def predict(request):
+    keys = ['gender', 'Nationality', 'PlaceofBirth', 'StageID', 'GradeID', 'SectionID', 'Topic', 'Semester', 'Relation',
+            'ParentAnsweringSurvey', 'ParentschoolSatisfaction']
+    im_keys = ['raisedhands', 'VisitedResources', 'AnnouncementsView', 'Discussion']
     if request.method == "GET":
         return render(request, "predict.html")
-    para_dict = {"gender": request.POST.get("gender"), "Topic": request.POST.get("Topic"),
-                 "raisedhands": int(request.POST.get("raisedhands")),
-                 "VisitedResources": int(request.POST.get("VisitedResources")),
-                 "AnnouncementsView": int(request.POST.get("AnnouncementsView")),
-                 "Nationality": "Iraq", "PlaceofBirth": "Iraq", "GradeID": "G-08", "Semester": "F", "Relation": "Mum",
-                 "Discussion": 100, "StudentAbsenceDays": "Under-7", "ParentschoolSatisfaction": "Bad",
-                 "ParentAnsweringSurvey": "Yes"}
+    para_dict = {"StudentAbsenceDays": request.POST.get("StudentAbsenceDays")}
+    for k in im_keys:
+        para_dict[k] = int(request.POST.get(k))
+    for k in keys:
+        if request.POST.get(k) != "NULL":
+            para_dict[k] = request.POST.get(k)
+    print(para_dict)
     result = predict_class(para_dict)
     return render(request, "predict.html", {"result": result})
 

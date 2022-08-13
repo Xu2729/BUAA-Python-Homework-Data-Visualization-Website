@@ -1,28 +1,682 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Python Homework</title>
+
+    <!-- Favicons -->
+    <link href="/static/assets/img/favicon.png" rel="icon">
+    <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="/https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="/static/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="/static/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+
+    <!-- Select -->
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">
+
 </head>
+
 <body>
-<form action="/predict/" method="POST">
-    {% csrf_token %}
-    <select name="Topic">
-        <option value="IT">IT</option>
-        <option value="History">History</option>
-    </select>
-    <select name="gender">
-        <option value="M">M</option>
-        <option value="F">F</option>
-    </select>
-    <input type="text" name="raisedhands" placeholder="0-100">
-    <input type="text" name="VisitedResources" placeholder="0-100">
-    <input type="text" name="AnnouncementsView" placeholder="0-100">
-    <input type="submit">submit
-</form>
-<h1>Result: </h1>
-{% for k, v in result.items %}
-    <div>{{ k }} : {{ v }}</div>
-{% endfor %}
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="logo d-flex align-items-center">
+                <img src="/static/assets/img/logo.png" alt="">
+                <span class="d-none d-lg-block">Python Homework</span>
+            </div>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+
+    </header><!-- End Header -->
+
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/index/">
+                    <i class="bi bi-grid"></i>
+                    <span>Statistic</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/display/"> <!-- TODO: add url to href !!! -->
+                    <i class="bi bi-layout-text-window-reverse"></i>
+                    <span>Display</span>
+                </a>
+            </li><!-- End Display Page Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link" href="/predict/">
+                    <i class="bi bi-menu-button-wide"></i><span>Predict</span>
+                </a>
+            </li><!-- End Prediction Page Nav -->
+
+            <li class="nav-heading">Pages</li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/register/">
+                    <i class="bi bi-card-list"></i>
+                    <span>Register</span>
+                </a>
+            </li><!-- End Register Page Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/login/">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Login</span>
+                </a>
+            </li><!-- End Login Page Nav -->
+        </ul>
+
+    </aside><!-- End Sidebar-->
+
+    <main id="main" class="main">
+
+
+        <div class="pagetitle">
+            <h1>Predict</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index/">Home</a></li>
+                    <li class="breadcrumb-item active">Predict</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+
+            <!-- chart -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Input</h5>
+                            <p> TODO TODO TODO TODO TODO TODO TODO </p>
+                            <hr>
+                            <form action="#" method="POST" id="form">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="row">
+
+                                            <!-- gender -->
+                                            <div class="col-5" class="gender">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">gender</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="gender"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="F">F</option>
+
+                                                                <option value="M">M</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Nationality -->
+                                            <div class="col-5 offset-1 class="Nationality">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Nationality</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="Nationality"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="Egypt">Egypt</option>
+
+                                                                <option value="Iran">Iran</option>
+
+                                                                <option value="Iraq">Iraq</option>
+
+                                                                <option value="Jordan">Jordan</option>
+
+                                                                <option value="KW">KW</option>
+
+                                                                <option value="Kuwait">Kuwait</option>
+
+                                                                <option value="Lebanon">Lebanon</option>
+
+                                                                <option value="Lybia">Lybia</option>
+
+                                                                <option value="Morocco">Morocco</option>
+
+                                                                <option value="Palestine">Palestine</option>
+
+                                                                <option value="SaudiArabia">SaudiArabia</option>
+
+                                                                <option value="Syria">Syria</option>
+
+                                                                <option value="Tunis">Tunis</option>
+
+                                                                <option value="USA">USA</option>
+
+                                                                <option value="venzuela">venzuela</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- PlaceofBirth -->
+                                            <div class="col-5" class="PlaceofBirth">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">PlaceofBirth</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="PlaceofBirth"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="Egypt">Egypt</option>
+
+                                                                <option value="Iran">Iran</option>
+
+                                                                <option value="Iraq">Iraq</option>
+
+                                                                <option value="Jordan">Jordan</option>
+
+                                                                <option value="Kuwait">Kuwait</option>
+
+                                                                <option value="Lebanon">Lebanon</option>
+
+                                                                <option value="Lybia">Lybia</option>
+
+                                                                <option value="Morocco">Morocco</option>
+
+                                                                <option value="Palestine">Palestine</option>
+
+                                                                <option value="SaudiArabia">SaudiArabia</option>
+
+                                                                <option value="Syria">Syria</option>
+
+                                                                <option value="Tunis">Tunis</option>
+
+                                                                <option value="USA">USA</option>
+
+                                                                <option value="venzuela">venzuela</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- StageID -->
+                                            <div class="col-5 offset-1" class="StageID">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">StageID</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="StageID"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="HighSchool">HighSchool</option>
+
+                                                                <option value="MiddleSchool">MiddleSchool</option>
+
+                                                                <option value="lowerlevel">lowerlevel</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- GradeID -->
+                                            <div class="col-5" class="GradeID">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">GradeID</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="GradeID"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="G-02">G-02</option>
+
+                                                                <option value="G-04">G-04</option>
+
+                                                                <option value="G-05">G-05</option>
+
+                                                                <option value="G-06">G-06</option>
+
+                                                                <option value="G-07">G-07</option>
+
+                                                                <option value="G-08">G-08</option>
+
+                                                                <option value="G-09">G-09</option>
+
+                                                                <option value="G-10">G-10</option>
+
+                                                                <option value="G-11">G-11</option>
+
+                                                                <option value="G-12">G-12</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- SectionID -->
+                                            <div class="col-5 offset-1" class="SectionID">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">SectionID</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="SectionID"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="A">A</option>
+
+                                                                <option value="B">B</option>
+
+                                                                <option value="C">C</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Topic -->
+                                            <div class="col-5" class="Topic">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Topic</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="Topic"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="Arabic">Arabic</option>
+
+                                                                <option value="Biology">Biology</option>
+
+                                                                <option value="Chemistry">Chemistry</option>
+
+                                                                <option value="English">English</option>
+
+                                                                <option value="French">French</option>
+
+                                                                <option value="Geology">Geology</option>
+
+                                                                <option value="History">History</option>
+
+                                                                <option value="IT">IT</option>
+
+                                                                <option value="Math">Math</option>
+
+                                                                <option value="Quran">Quran</option>
+
+                                                                <option value="Science">Science</option>
+
+                                                                <option value="Spanish">Spanish</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Semester -->
+                                            <div class="col-5 offset-1" class="Semester">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Semester</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="Semester"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="F">F</option>
+
+                                                                <option value="S">S</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Relation -->
+                                            <div class="col-5" class="Relation">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Relation</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="Relation"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="Father">Father</option>
+
+                                                                <option value="Mum">Mum</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ParentAnsweringSurvey -->
+                                            <div class="col-5 offset-1" class="ParentAnsweringSurvey">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">ParentAnsweringSurvey</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="ParentAnsweringSurvey"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="No">No</option>
+
+                                                                <option value="Yes">Yes</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- ParentschoolSatisfaction -->
+                                            <div class="col-5" class="ParentschoolSatisfaction">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">ParentschoolSatisfaction</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="ParentschoolSatisfaction"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Null" selected>NULL</option>
+
+                                                                <option value="Bad">Bad</option>
+
+                                                                <option value="Good">Good</option>
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- StudentAbsenceDays -->
+                                            <div class="col-5 offset-1" class="StudentAbsenceDays">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">StudentAbsenceDays</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <select class="selectpicker select"  name="StudentAbsenceDays"
+                                                                data-width="100%" data-live-search="true"
+                                                                data-actions-box="true" title="Please Select"
+                                                                multiple required>
+
+                                                                <option value="Above-7" selected>Above-7</option>
+                                                                <option value="Under-7">Under-7</option>
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- raisedhands -->
+                                            <div class="col-5" class="raisedhands">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">raisedhands</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <input type="text" class="form-control" placeholder="0 ~ 100"
+                                                            id="raisedhands-input" required name="raisedhands">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- VisitedResources -->
+                                            <div class="col-5 offset-1" class="VisitedResources">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">VisitedResources</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <input type="text" class="form-control" placeholder="0 ~ 100"
+                                                            id="VisitedResources-input" required name="VisitedResources">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- AnnouncementsView -->
+                                            <div class="col-5" class="AnnouncementsView">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">AnnouncementsView</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <input type="text" class="form-control" placeholder="0 ~ 100"
+                                                            id="AnnouncementsView-input" required name="AnnouncementsView">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Discussion -->
+                                            <div class="col-5 offset-1" class="Discussion">
+                                                <div class="row">
+                                                    <label class="col-6 col-form-label">
+                                                        <div style="font-family: Avant Garde;">Discussion</div>
+                                                    </label>
+                                                    <div class="col-6">
+
+                                                        <input type="text" class="form-control" placeholder="0 ~ 100"
+                                                            id="Discussion-input" required name="Discussion">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-12 text-center">
+                                    <input class="btn btn-warning rounded-pill btn-md" type="submit" value="Click Here To Predict" id="submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Left side columns -->
+
+            <!-- table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Result</h5>
+                            <p> Display the results of prediction ...</p>
+                            <hr>
+                            {% for k, v in result.items %}
+                                <div>{{ k }} : {{ v }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Left side columns -->
+        </section>
+    </main>
+
+    <!-- Template Main JS File -->
+    <script src="/static/assets/js/main.js"></script>
+    <script src="/static/assets/js/jquery.3.2.1.min.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="/static/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/vendor/chart.js/chart.min.js"></script>
+    <script src="/static/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="/static/assets/vendor/quill/quill.min.js"></script>
+    <script src="/static/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="/static/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+    <script src="/static/assets/vendor/vendor.min.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap-select.min.js"></script>
+
+    <!-- Form validation -->
+    <script>
+        var form = document.getElementById("form");
+        var keyList = ["raisedhands", "AnnouncementsView", "VisitedResources", "Discussion"];
+        var rangeMap = {
+            "raisedhands":{
+                "max": 100,
+                "min": 0
+            },
+            "AnnouncementsView":{
+                "max": 100,
+                "min": 0
+            },
+            "VisitedResources":{
+                "max": 100,
+                "min": 0
+            },
+            "Discussion":{
+                "max": 100,
+                "min": 0
+            }
+        }
+        var regex = /^\d+$/i
+
+        form.onsubmit = function () {
+            for (key of keyList) {
+                var inputBox = document.getElementById(key + "-input");
+                var userInput = inputBox.value.trim();
+                var number = parseInt(userInput)
+                if (!regex.test(userInput)) {
+                    alert("Incorrect input, please enter a sigle digit!\n");
+                    return false;
+                }
+                else if (rangeMap[key]["min"] > number || rangeMap[key]["max"] < number){
+                    alert("Incorrect input, please enter a digit which is in the given range!\n");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+
 </body>
+
 </html>
