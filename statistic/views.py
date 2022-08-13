@@ -181,7 +181,6 @@ def predict(request):
     for k in keys:
         if request.POST.get(k) != "NULL":
             para_dict[k] = request.POST.get(k)
-    print(para_dict)
     result = predict_class(para_dict)
     return render(request, "predict.html", {"result": result})
 
@@ -210,3 +209,31 @@ def display(request):
                {"raisedhands": 100, "VisitedResources": 100, "AnnouncementsView": 100, "Discussion": 100}, None,
                save_filename="statistic/templates/cache/radar_display.html")
     return render(request, "display.html", res_dict)
+
+
+def analysis_data_analysis(request):
+    return render(request, "analysis-data-analysis.html")
+
+
+def analysis_data_overview(request):
+    return render(request, "analysis-data-overview.html")
+
+
+def analysis_data_preprocessing(request):
+    return render(request, "analysis-data-preprocessing.html")
+
+
+def analysis_feature_selection(request):
+    return render(request, "analysis-feature-selection.html")
+
+
+def analysis_model_construction(request):
+    return render(request, "analysis-model-construction.html")
+
+
+def analysis_model_training(request):
+    return render(request, "analysis-model-training.html")
+
+
+def analysis_prediction(request):
+    return render(request, "analysis-prediction.html")

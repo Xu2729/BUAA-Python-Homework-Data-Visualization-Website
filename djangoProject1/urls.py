@@ -32,7 +32,15 @@ urlpatterns = [
     path("error/", views.error),
     path("predict/", views.predict),
     path("display/", views.display),
-    path("test/", views.test)
+    path("analysis/data/analysis", views.analysis_data_analysis),
+    path("analysis/data/overview", views.analysis_data_overview),
+    path("analysis/data/prepocessing", views.analysis_data_preprocessing),
+    path("analysis/feature/selection", views.analysis_feature_selection),
+    path("analysis/model/construction", views.analysis_model_construction),
+    path("analysis/model/training", views.analysis_model_training),
+    path("analysis/prediction", views.analysis_prediction),
+    path("test/", views.test),
+
 ]
 
 handler404 = views.page_not_found
