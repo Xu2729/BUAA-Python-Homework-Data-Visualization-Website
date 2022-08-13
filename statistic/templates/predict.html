@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/predict/" method="POST">
+    {% csrf_token %}
+    <select name="Topic">
+        <option value="IT">IT</option>
+        <option value="History">History</option>
+    </select>
+    <select name="gender">
+        <option value="M">M</option>
+        <option value="F">F</option>
+    </select>
+    <input type="text" name="raisedhands" placeholder="0-100">
+    <input type="text" name="VisitedResources" placeholder="0-100">
+    <input type="text" name="AnnouncementsView" placeholder="0-100">
+    <input type="submit">submit
+</form>
+<h1>Result: </h1>
+{% for k, v in result.items %}
+    <div>{{ k }} : {{ v }}</div>
+{% endfor %}
+</body>
+</html>

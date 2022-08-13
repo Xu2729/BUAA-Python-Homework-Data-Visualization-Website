@@ -1,6 +1,5 @@
 import pandas as pd
-from pyecharts.charts import Bar, Pie, Radar, Line, HeatMap, Page
-from pyecharts import options as opts
+from pyecharts.charts import Bar, Pie, Radar, Line
 from pyecharts.commons.utils import JsCode
 from pandas import DataFrame
 
@@ -277,10 +276,10 @@ def _parse_mark_dict(mark_dict: dict):
         return [], []
     mark_line_data = []
     if mark_dict["average"]:
-        mark_line_data.append(opts.MarkLineItem(type_="average", name="平均值"))
+        mark_line_data.append(opts.MarkLineItem(type_="average", name="average"))
     mark_point_data = []
     if mark_dict["max"]:
-        mark_point_data.append(opts.MarkPointItem(type_="max", name="最大值"))
+        mark_point_data.append(opts.MarkPointItem(type_="max", name="max"))
     if mark_dict["min"]:
-        mark_point_data.append(opts.MarkPointItem(type_="min", name="最小值"))
+        mark_point_data.append(opts.MarkPointItem(type_="min", name="min"))
     return mark_line_data, mark_point_data

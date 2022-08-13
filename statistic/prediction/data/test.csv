@@ -1,0 +1,12 @@
+gender,Nationality,PlaceofBirth,StageID,GradeID,SectionID,Topic,Semester,Relation,raisedhands,VisitedResources,AnnouncementsView,Discussion,ParentAnsweringSurvey,ParentschoolSatisfaction,StudentAbsenceDays,Class
+M,Kuwait,Kuwait,lowerlevel,G-04,A,IT,F,Father,15,16,2,20,Yes,Good,Under-7,2
+M,Kuwait,Kuwait,lowerlevel,G-04,A,IT,F,Father,20,20,3,25,Yes,Good,Under-7,2
+M,Kuwait,Kuwait,lowerlevel,G-04,A,IT,F,Father,10,7,0,30,No,Bad,Above-7,1
+M,Kuwait,Kuwait,lowerlevel,G-04,A,IT,F,Father,30,25,5,35,No,Bad,Above-7,1
+M,Kuwait,Kuwait,lowerlevel,G-04,A,IT,F,Father,40,50,12,50,No,Bad,Above-7,2
+F,Kuwait,Kuwait,lowerlevel,G-04,A,IT,F,Father,42,30,13,70,Yes,Bad,Above-7,2
+M,Kuwait,Kuwait,MiddleSchool,G-07,A,Math,F,Father,35,12,0,17,No,Bad,Above-7,1
+M,Kuwait,Kuwait,MiddleSchool,G-07,A,Math,F,Father,50,10,15,22,Yes,Good,Under-7,2
+F,Kuwait,Kuwait,MiddleSchool,G-07,A,Math,F,Father,12,21,16,50,Yes,Good,Under-7,2
+F,Kuwait,Kuwait,MiddleSchool,G-07,B,IT,F,Father,70,80,25,70,Yes,Good,Under-7,2
+M,Kuwait,Kuwait,MiddleSchool,G-07,A,Math,F,Father,50,88,30,80,Yes,Good,Under-7,3

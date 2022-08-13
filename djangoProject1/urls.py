@@ -30,5 +30,6 @@ urlpatterns = [
     path("find/", views.find),
     path("download/csv/", views.download_csv),
     path("error/", views.error),
-    # path("test/", views.test)
+    path("predict/", views.predict),
+    path("test/", views.test)
 ]

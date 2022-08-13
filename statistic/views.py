@@ -4,6 +4,7 @@ from statistic.util import require_login, redict_error, parse_parameter
 from statistic.data_process import my_filter, analysis_file
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
+from statistic.predict import predict_class
 import csv
 
 
@@ -165,3 +166,22 @@ def register(request):
 
 def error(request):
     return render(request, "error.html", {"error_msg": "illegal access", "next": "/index/"})
+
+
+def predict(request):
+    if request.method == "GET":
+        return render(request, "predict.html")
+    para_dict = {"gender": request.POST.get("gender"), "Topic": request.POST.get("Topic"),
+                 "raisedhands": int(request.POST.get("raisedhands")),
+                 "VisitedResources": int(request.POST.get("VisitedResources")),
+                 "AnnouncementsView": int(request.POST.get("AnnouncementsView")),
+                 "Nationality": "Iraq", "PlaceofBirth": "Iraq", "GradeID": "G-08", "Semester": "F", "Relation": "Mum",
+                 "Discussion": 100, "StudentAbsenceDays": "Under-7", "ParentschoolSatisfaction": "Bad",
+                 "ParentAnsweringSurvey": "Yes"}
+    print(para_dict)
+    result = predict_class(para_dict)
+    return render(request, "predict.html", {"result": result})
+
+
+def test(request):
+    return render(request, "pic_test.html")
