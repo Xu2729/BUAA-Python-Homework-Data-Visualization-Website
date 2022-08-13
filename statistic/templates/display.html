@@ -57,14 +57,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link  collapsed" href="/index/">
+            <a class="nav-link collapsed" href="/index/">
                 <i class="bi bi-grid"></i>
                 <span>Statistic</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/display/">
                 <i class="bi bi-layout-text-window-reverse"></i>
                 <span>Display</span>
             </a>
@@ -72,52 +72,9 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="/predict/">
-                <i class="bi bi-menu-button-wide"></i><span>Predict</span>
+                <i class="bi bi-menu-button-wide"></i><span>Prediction</span>
             </a>
         </li><!-- End Prediction Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link  collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-journal-text"></i><span>Analysis</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="/analysis/data/overview">
-                        <i class="bi bi-circle"></i><span>Data Overview</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/analysis/data/analysis" >
-                        <i class="bi bi-circle"></i><span>Data Analysis</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/analysis/model/construction">
-                        <i class="bi bi-circle"></i><span>Model Construction</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/analysis/data/prepocessing">
-                        <i class="bi bi-circle"></i><span>Data Preprocessing</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/analysis/feature/selection">
-                        <i class="bi bi-circle"></i><span>Feature Selection</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/analysis/model/training">
-                        <i class="bi bi-circle"></i><span>Model Training</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/analysis/prediction">
-                        <i class="bi bi-circle"></i><span>Prediction</span>
-                    </a>
-                </li>
-            </ul>
-        </li><!-- End Forms Nav -->
 
         <li class="nav-heading">Pages</li>
 
@@ -147,7 +104,7 @@
         <h1>Display</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="/index/">Home</a></li>
                 <li class="breadcrumb-item active">Display</li>
             </ol>
         </nav>
@@ -169,7 +126,7 @@
                                 <label class="col-2 col-form-label text-center">
                                     <div style="font-family: Avant Garde;">Student Id</div>
                                 </label>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <input type="text" class="form-control" name="student-id" id="student-id" required>
                                 </div>
                                 <div class="col-4">
@@ -188,27 +145,27 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card recent-sales overflow-auto">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        </div>
-
                         <div class="card-body">
                             <h5 class="card-title">Info Display</h5>
                             <p> Display details related to the selected student </p>
                             <hr>
-                            <table border="1">
-                                <tr>
-                                    {% for v in data_head %}
-                                        <td>{{ v }}</td>
-                                    {% endfor %}
-                                </tr>
-                                {% for line in data_body %}
+                            <table class="table table-bordered datatable">
+                                <thead>
                                     <tr>
-                                        {% for v in line %}
-                                            <td>{{ v }}</td>
+                                        {% for v in data_head %}
+                                        <th class="text-center">{{ v }}</th>
                                         {% endfor %}
                                     </tr>
-                                {% endfor %}
+                                </thead>
+                                <tbody>
+                                    {% for line in data_body %}
+                                    <tr>
+                                        {% for v in line %}
+                                        <td class="text-center">{{ v }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
                         </div>
                     </div>
