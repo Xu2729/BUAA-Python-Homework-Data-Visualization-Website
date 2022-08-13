@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line, draw_frequency_histogram
 from statistic.util import require_login, redict_error, parse_parameter
-from statistic.data_process import my_filter, analysis_file
+from statistic.data_process import my_filter, analysis_file, select_data
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
 from statistic.predict import predict_class
@@ -123,25 +123,25 @@ def show_radar(request):
 
 def upload_csv(request):
     if request.method != "POST":
-        return redict_error(request, "illegal access", "/index/")
+        return redict_error(request, "Illegal access", "/index/")
     try:
         csv_file = request.FILES["csv_file"]
         if not csv_file.name.endswith(".csv"):
-            return redict_error(request, "wrong file type", "/index/")
+            return redict_error(request, "Wrong file type", "/index/")
         if csv_file.multiple_chunks():
-            return redict_error(request, "file size exceeds limit(2.5MB)", "/index/")
+            return redict_error(request, "File size exceeds limit(2.5MB)", "/index/")
         with open('statistic/data/temp.csv', 'wb') as f:
             for line in csv_file.chunks():
                 f.write(line)
         return redirect('/index/?file=true')
     except Exception as e:
         print(e)
-        return redict_error(request, "an error occurred while saving the file", "/index/")
+        return redict_error(request, "An error occurred while saving the file", "/index/")
 
 
 def download_csv(request):
     if request.method != "GET":
-        return redict_error(request, "illegal access", "/index/")
+        return redict_error(request, "Illegal access", "/index/")
     res = HttpResponse(content_type="text/csv")
     res["Content-Disposition"] = "attachment; filename=\"selectData.csv"
     writer = csv.writer(res)
@@ -165,7 +165,7 @@ def register(request):
 
 
 def error(request):
-    return render(request, "error.html", {"error_msg": "illegal access", "next": "/index/"})
+    return render(request, "error.html", {"error_msg": "Illegal access", "next": "/index/"})
 
 
 def predict(request):
@@ -178,10 +178,31 @@ def predict(request):
                  "Nationality": "Iraq", "PlaceofBirth": "Iraq", "GradeID": "G-08", "Semester": "F", "Relation": "Mum",
                  "Discussion": 100, "StudentAbsenceDays": "Under-7", "ParentschoolSatisfaction": "Bad",
                  "ParentAnsweringSurvey": "Yes"}
-    print(para_dict)
     result = predict_class(para_dict)
     return render(request, "predict.html", {"result": result})
 
 
 def test(request):
     return render(request, "pic_test.html")
+
+
+def page_not_found(request, exception):
+    return redict_error(request, "Page not found", "/index/")
+
+
+def display(request):
+    res_dict = {"show": False}
+    if request.method == "GET":
+        return render(request, "display.html")
+    students = request.POST.get("student-id")
+    students = students.split(",")
+    students = list(map(int, students))
+    data = my_filter("statistic/data/students_data_FIX.csv", **{})
+    data_head, data_body = select_data(data, students)
+    res_dict["data_head"] = data_head
+    res_dict["data_body"] = data_body
+    res_dict["show"] = True
+    draw_radar(data, students,
+               {"raisedhands": 100, "VisitedResources": 100, "AnnouncementsView": 100, "Discussion": 100}, None,
+               save_filename="statistic/templates/cache/radar_display.html")
+    return render(request, "display.html", res_dict)

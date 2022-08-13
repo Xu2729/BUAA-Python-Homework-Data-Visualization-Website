@@ -119,3 +119,20 @@ def make_func(select: list):
         return False
 
     return inner
+
+
+def select_data(data: DataFrame, pks: list):
+    ans_head = ["id"]
+    ans_body = []
+    keys = data.columns
+    for key in keys:
+        ans_head.append(str(key))
+    for pk in pks:
+        temp_data = data.iloc[pk]
+        temp = [str(pk)]
+        for key in keys:
+            temp.append(str(temp_data[key]))
+        ans_body.append(temp)
+    print(ans_head)
+    print(ans_body)
+    return ans_head, ans_body

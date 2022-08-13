@@ -35,15 +35,6 @@
     <!-- Select -->
     <link href="/static/assets/vendor/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">
 
-
-    <style>
-        .iframe {
-            width: 100%;
-            height: 520px;
-            border: 0;
-            transform: scale(1);
-        }
-    </style>
 </head>
 
 <body>
@@ -382,7 +373,7 @@
                                 <div class="row">
                                     <div class="col-11">
                                         <iframe id="iframe1" class="iframe" src="{{ pic_url }}" frameborder="0"
-                                                scrolling="auto"></iframe>
+                                                scrolling="auto" style="width: 100%; height: 520px;"></iframe>
                                     </div>
                                     <div class="col-1">
                                         <div class="col-8">
@@ -1008,31 +999,18 @@
 </script>
 
 
-<!-- keys of type obj selection -->
+<!-- iframe -->
 <script>
-    var tableSelectBox = document.getElementById("table-select");
-    var lastOption = "";
-    tableSelectBox.innerHTML = "";
-    for (let key of keyList) {
-        if (keyTypeDict[key] == "obj") {
-            tableSelectBox.innerHTML += `<option id="` + key + `-table-select" value="` + key + `" selected>` + key + `</option>`;
-        }
+    var wrap = document.getElementById("wrap");
+    var iframe = document.getElementById("iframe1");
+    var picNum = {{ pic_num | safe}};
+    var wrapHeight = 50 + picNum * 540;
+    var iframeHeight = picNum * 540;
+
+    iframe.onload = function () {
+        wrap.style.cssText = "height: " + wrapHeight.toString() + "px";
+        iframe.style.cssText = "width: 100%; height: " + iframeHeight.toString() + "px";
     }
-
-    $('.select').selectpicker('refresh');
-    // init
-    document.getElementById("Topic-table-select").setAttribute("selected", "selected");
-    document.getElementById("table-Topic").setAttribute("class", "");
-    lastOption = "Topic";
-
-    tableSelectBox.onchange = function () {
-        var index = tableSelectBox.selectedIndex;
-        var newOption = tableSelectBox.options[index].value;
-        document.getElementById("table-" + lastOption).setAttribute("class", "d-none");
-        document.getElementById("table-" + newOption).setAttribute("class", "");
-        lastOption = newOption;
-    }
-
 </script>
 
 </body>

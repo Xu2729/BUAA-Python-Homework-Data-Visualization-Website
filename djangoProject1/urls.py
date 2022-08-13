@@ -31,5 +31,8 @@ urlpatterns = [
     path("download/csv/", views.download_csv),
     path("error/", views.error),
     path("predict/", views.predict),
+    path("display/", views.display),
     path("test/", views.test)
 ]
+
+handler404 = views.page_not_found

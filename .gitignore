@@ -2,6 +2,9 @@
 !/statistic/templates/cache/useless.html
 /statistic/data/*
 !/statistic/data/students_data_FIX.csv
+/statistic/templates/Feature_importance.html
+/statistic/templates/Heatmap.html
+/statistic/templates/Model-Accuracy.html
 /faster_config.yaml
 /venv/
 /.idea/
