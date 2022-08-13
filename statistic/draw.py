@@ -1,5 +1,6 @@
 import pandas as pd
-from pyecharts.charts import Bar, Pie, Radar, Line
+from pyecharts.charts import Bar, Pie, Radar, Line, Page
+from pyecharts import options as opts
 from pyecharts.commons.utils import JsCode
 from pandas import DataFrame
 
