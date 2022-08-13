@@ -31,6 +31,8 @@
 
     <!-- Template Main CSS File -->
     <link href="/static/assets/css/style.css" rel="stylesheet">
+    <!-- <link href="/static/assets/css/md.css" rel="stylesheet"> -->
+   <!-- <link href="/static/assets/css/katex.css" rel="stylesheet"> -->
 
     <!-- Select -->
     <link href="/static/assets/vendor/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">
@@ -57,14 +59,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link  collapsed" href="/index/">
+            <a class="nav-link collapsed" href="/index/">
                 <i class="bi bi-grid"></i>
                 <span>Statistic</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link collapsed" href="/display/">
                 <i class="bi bi-layout-text-window-reverse"></i>
                 <span>Display</span>
             </a>
@@ -77,10 +79,10 @@
         </li><!-- End Prediction Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link  collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Analysis</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <ul id="forms-nav" class="nav-content" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="/analysis/data/overview">
                         <i class="bi bi-circle"></i><span>Data Overview</span>
@@ -102,7 +104,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/analysis/feature/selection">
+                    <a href="/analysis/feature/selection" class="active">
                         <i class="bi bi-circle"></i><span>Feature Selection</span>
                     </a>
                 </li>
@@ -144,99 +146,31 @@
 
 
     <div class="pagetitle">
-        <h1>Display</h1>
+        <h1>Feature Selection</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Display</li>
+                <li class="breadcrumb-item"><a href="/index/">Home</a></li>
+                <li class="breadcrumb-item">Analysis</li>
+                <li class="breadcrumb-item active">Feature Selection</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
 
-        <!-- input student id -->
         <div class="row">
             <div class="col-12">
-                <div class="card">
+                <div class="card recent-sales overflow-auto">
                     <div class="card-body">
-                        <div class="card-title text">Please enter the id of the student whose details you want to view
-                            ...
-                        </div>
-                        <form action="/display/" method="POST" id="id-form">
-                            {% csrf_token %}
-                            <div class="row mb-3">
-                                <label class="col-2 col-form-label text-center">
-                                    <div style="font-family: Avant Garde;">Student Id</div>
-                                </label>
-                                <div class="col-4">
-                                    <input type="text" class="form-control" name="student-id" id="student-id" required>
-                                </div>
-                                <div class="col-4">
-                                    <input class="btn btn-danger btn-md" type="submit" value="Screen" id="submit">
-                                </div>
-                            </div>
-                        </form>
+                        <iframe src="/static/html/static-feature-selection.html" frameborder="0"
+                       scrolling="auto" style="width: 100%; height: 3000px;"></iframe>
+                        
+
                     </div>
                 </div>
             </div>
-        </div>
+        </div><!-- End Left side columns -->
 
-
-        {% if show %}
-            <!-- chart -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card recent-sales overflow-auto">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title">Info Display</h5>
-                            <p> Display details related to the selected student </p>
-                            <hr>
-                            <table border="1">
-                                <tr>
-                                    {% for v in data_head %}
-                                        <td>{{ v }}</td>
-                                    {% endfor %}
-                                </tr>
-                                {% for line in data_body %}
-                                    <tr>
-                                        {% for v in line %}
-                                            <td>{{ v }}</td>
-                                        {% endfor %}
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- End Left side columns -->
-
-            <!-- table -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="card recent-sales overflow-auto">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        </div>
-
-                        <div class="card-body">
-                            <h5 class="card-title">Radar Chart</h5>
-                            <p> Displays a radar chart depicting selected student information </p>
-                            <hr>
-                            <div id="wrap" style="height: 520px;">
-                                <iframe id="iframe1" class="iframe" src="/find/?path=cache/radar_display.html"
-                                        frameborder="0"
-                                        scrolling="auto" style="width: 100%; height: 520px;"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div><!-- End Left side columns -->
-        {% endif %}
     </section>
 </main>
 
@@ -254,29 +188,6 @@
 <script src="/static/assets/vendor/php-email-form/validate.js"></script>
 <script src="/static/assets/vendor/vendor.min.js"></script>
 <script src="/static/assets/vendor/bootstrap/js/bootstrap-select.min.js"></script>
-
-<!-- Form validation -->
-<script>
-    var inputBox = document.getElementById("student-id");
-    var submitButton = document.getElementById("submit");
-    var form = document.getElementById("id-form");
-    var regex = /^\d+$/i
-
-    form.onsubmit = function () {
-        var userInput = inputBox.value.trim();
-        var idList = userInput.split(",")
-        for (id of idList) {
-            if (!regex.test(id.trim())) {
-                alert("Incorrect input format, please re-enter!\nExample of the correct format is as follows\n\n" +
-                    "example1: 124\n" + "example2: 152,253,114,258");
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-</script>
 
 </body>
 
