@@ -11,14 +11,7 @@ import config
 from util import get_model_name
 
 
-def regression_train(data):
-    # train data and test data
-    all_features = list(data.columns.values)
-    all_features.remove("Class")
-    x = data[all_features].values
-    y = data["Class"].values
-    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, train_size=0.8)
-
+def regression_train(x_train, x_test, y_train, y_test):
     # regression
     print("-----regression_train-----")
     for model in config.regression_models:

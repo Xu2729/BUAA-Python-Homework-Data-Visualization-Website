@@ -24,11 +24,34 @@ def train_models():
     feature_importance.frequency_selection()
     feature_importance.chi_selection()
 
-    data = data_loader.load_data_onehot(config.training_data_path)
+    data = data_loader.load_data_raw(config.training_data_path, transform=False)
+    # train data and test data
+    x_features = list(data.columns.values)
+    x_features.remove("Class")
+    x = data[x_features].values
+    y = data["Class"].values
+    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=None, train_size=0.8)
 
-    classify_train(data)
-    regression_train(data)
+    train_data = pandas.DataFrame(x_train.copy(), index=range(x_train.shape[0]), columns=config.all_features)
+    train_data["Class"] = y_train.copy()
+    test_data = pandas.DataFrame(x_test.copy(), index=range(x_test.shape[0]), columns=config.all_features)
+    test_data["Class"] = y_test.copy()
+    config.train_set = train_data
+    config.test_set = test_data
+
+    x_train = data_loader.load_data_onehot(x_train, load_class=False).values
+    x_test = data_loader.load_data_onehot(x_test, load_class=False).values
+    y_train = y_train - 1
+    y_test = y_test - 1
+
+    # train
+    classify_train(x_train, x_test, y_train, y_test)
+    regression_train(x_train, x_test, y_train, y_test)
+
     config.is_trained = True
+    # train_data.to_csv(config.train_set_path, index=True, index_label="id")
+    # test_data.to_csv(config.test_set_path, index=True, index_label="id")
+    return train_data, test_data
 
 
 # print result
@@ -100,8 +123,8 @@ def predict_single_student(gender=nan,
     if not config.is_trained:
         raise Exception("Model isn't trained yet!")
     if pandas.isnull(StudentAbsenceDays) or pandas.isnull(VisitedResources) or \
-       pandas.isnull(raisedhands) or pandas.isnull(Discussion) or \
-       pandas.isnull(AnnouncementsView):
+            pandas.isnull(raisedhands) or pandas.isnull(Discussion) or \
+            pandas.isnull(AnnouncementsView):
         raise Exception("Must input StudentAbsenceDays, VisitedResources,"
                         "raisedHands AnnouncementsView and Discussion, "
                         "otherwise prediction is meaningless!")
@@ -133,10 +156,10 @@ def predict_batch_student(data_path):
         raise Exception("Model isn't trained yet!")
     data = data_loader.load_data_onehot(data_path, load_class=False)
     if data["StudentAbsenceDays_Under-7"].isnull().any() or \
-       data["VisitedResources"].isnull().any() or \
-       data["raisedhands"].isnull().any() or \
-       data["Discussion"].isnull().any() or \
-       data["AnnouncementsView"].isnull().any():
+            data["VisitedResources"].isnull().any() or \
+            data["raisedhands"].isnull().any() or \
+            data["Discussion"].isnull().any() or \
+            data["AnnouncementsView"].isnull().any():
         raise Exception("Must input StudentAbsenceDays, VisitedResources,"
                         "raisedHands AnnouncementsView and Discussion, "
                         "otherwise prediction is meaningless!")

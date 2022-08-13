@@ -5,6 +5,8 @@ from sklearn.ensemble import *
 
 training_data_path = "statistic/prediction/data/training_data.csv"
 test_data_path = "statistic/prediction/data/test.csv"
+train_set_path = "statistic/prediction/data/training_set.csv"
+test_set_path = "statistic/prediction/data/test_set.csv"
 
 is_trained = False
 
@@ -67,22 +69,30 @@ pandas.set_option("display.max_rows", 500)
 pandas.set_option("display.max_columns", 30)
 numpy.set_printoptions(threshold=numpy.Inf)
 
-
 # all models
 classify_models = [RandomForestClassifier(n_estimators=1000, class_weight="balanced", max_depth=18),
-                   AdaBoostClassifier(n_estimators=100, base_estimator=RandomForestClassifier(n_estimators=100, class_weight="balanced", max_depth=18)),
+                   AdaBoostClassifier(n_estimators=100,
+                                      base_estimator=RandomForestClassifier(n_estimators=100, class_weight="balanced",
+                                                                            max_depth=18)),
                    GradientBoostingClassifier(n_estimators=1000, max_depth=18),
                    ExtraTreesClassifier(n_estimators=1000, max_depth=18),
                    ]
 regression_models = [RandomForestRegressor(n_estimators=1000, max_depth=18),
-                     AdaBoostRegressor(n_estimators=100, base_estimator=RandomForestRegressor(n_estimators=10, max_depth=18)),
+                     AdaBoostRegressor(n_estimators=100,
+                                       base_estimator=RandomForestRegressor(n_estimators=10, max_depth=18)),
                      GradientBoostingRegressor(n_estimators=1000, max_depth=18),
                      ExtraTreesRegressor(n_estimators=1000, max_depth=18),
                      ]
 models = classify_models + regression_models
 
-
 # all kinds of result
 feature2chi2_p_value = {}  # feature_importance
-model2accuracy = {}        # accuracy of each model
-corr = None                # used to draw correlation matrix
+model2accuracy = {}  # accuracy of each model
+corr = None  # used to draw correlation matrix
+train_set = None
+test_set = None
+
+
+def export_train_test():
+    train_set.to_csv(train_set_path, index=True, index_label="id")
+    test_set.to_csv(test_set_path, index=True, index_label="id")

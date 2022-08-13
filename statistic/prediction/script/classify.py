@@ -11,14 +11,7 @@ import config
 from util import get_model_name
 
 
-def classify_train(data):
-    # train data and test data
-    x_features = list(data.columns.values)
-    x_features.remove("Class")
-    x = data[x_features].values
-    y = data["Class"].values
-    x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=None, train_size=0.8)
-
+def classify_train(x_train, x_test, y_train, y_test):
     # classify
     print("-----classify_train-----")
     for model in config.classify_models:

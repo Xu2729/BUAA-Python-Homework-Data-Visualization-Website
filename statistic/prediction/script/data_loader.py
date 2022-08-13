@@ -25,19 +25,25 @@ def segment(data):
 
 
 # load .csv, only change GradeID into number and Class into {0, 1, 2}
-def load_data_raw(data_path, load_class=True):
-    usecols = config.usecols.copy()
-    if not load_class:
-        usecols.remove("Class")
-    data = pandas.read_csv(data_path,
-                           delimiter=",",
-                           usecols=usecols,
-                           engine="c",
-                           converters={
-                               "GradeID": lambda x: nan if pandas.isnull(x) else int(x[2:4]),
-                               "Class": lambda x: int(int(x) - 1)
-                           })
-    return data.sort_index(axis=1)
+def load_data_raw(data_path, load_class=True, transform=True):
+    if transform:
+        usecols = config.usecols.copy()
+        if not load_class:
+            usecols.remove("Class")
+        data = pandas.read_csv(data_path,
+                               delimiter=",",
+                               usecols=usecols,
+                               engine="c",
+                               converters={
+                                   "GradeID": lambda x: nan if pandas.isnull(x) else int(x[2:4]),
+                                   "Class": lambda x: int(int(x) - 1)
+                               })
+        return data.sort_index(axis=1)
+    else:
+        usecols = config.all_features.copy()
+        if load_class:
+            usecols.append("Class")
+        return pandas.read_csv(data_path, delimiter=",", engine="c", usecols=usecols)
 
 
 # fill out labels of data that isn't in config.onehot_features + config.continuous_features
@@ -71,7 +77,11 @@ def load_data_onehot(data_path, load_class=True):
     labels = config.discrete_features + config.continuous_features
     if load_class:
         labels.append("Class")
-    original_data = segment(load_data_raw(data_path, load_class))[labels]
+    if type(data_path) == str:
+        data = load_data_raw(data_path, load_class)
+    else:
+        data = pandas.DataFrame(data_path, index=range(data_path.shape[0]), columns=config.all_features)
+    original_data = segment(data)[labels]
     discrete_features = list(set(config.discrete_features) & set(original_data.columns))
     onehot_data = pandas.get_dummies(original_data, columns=discrete_features)
     return fix_data(onehot_data)
