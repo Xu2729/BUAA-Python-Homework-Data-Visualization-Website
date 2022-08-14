@@ -27,7 +27,6 @@ def index(request):
     if request.method == "GET":
         ori_data.to_csv('statistic/data/_filter.csv', index=True, index_label="id")
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
-        print(list(args_dict["key_type"].keys()))
         return render(request, "index.html", args_dict)
 
     filter_dict, chart_type, key, group_by, mark_dict = parse_parameter(request, key_type)

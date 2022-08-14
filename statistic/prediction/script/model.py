@@ -12,10 +12,10 @@ from regression import *
 from numpy import nan
 
 
-# should be called before prediction, otherwise raise error
 def train_models():
     if config.is_trained:
         return
+
     data_loader.init_onehot_features()
 
     feature_importance.calculate_feature_importance()
@@ -45,13 +45,12 @@ def train_models():
     y_test = y_test - 1
 
     # train
-    classify_train(x_train, x_test, y_train, y_test)
-    regression_train(x_train, x_test, y_train, y_test)
+    classify_train(x_train, x_test, y_train, y_test, test_data)
+    regression_train(x_train, x_test, y_train, y_test, test_data)
 
     config.is_trained = True
-    # train_data.to_csv(config.train_set_path, index=True, index_label="id")
-    # test_data.to_csv(config.test_set_path, index=True, index_label="id")
-    return train_data, test_data
+    train_data.to_csv(config.train_data_path, index=True, index_label="id")
+    test_data.to_csv(config.test_data_path, index=True, index_label="id")
 
 
 # print result

@@ -52,7 +52,7 @@ def draw_heatmap():
     data = _mat2data(mat)
     heatmap = (
         HeatMap(
-            init_opts=opts.InitOpts(bg_color="white")
+            init_opts=opts.InitOpts(bg_color="white", width="950px")
         )
             .add_xaxis(axis)
             .add_yaxis("", axis, data, label_opts=opts.LabelOpts(is_show=True, position="inside"))
@@ -76,7 +76,7 @@ def draw_model_accuracy():
     y_axis = list(map(lambda x: round(float(x), 5), y_axis))
     bar = (
         Bar(
-            init_opts=opts.InitOpts(bg_color="white", width="1000px")
+            init_opts=opts.InitOpts(bg_color="white", width="970px")
         )
             .add_xaxis(x_axis)
             .add_yaxis("", y_axis, category_gap="30%",
@@ -99,7 +99,7 @@ def draw_feature_importance():
     y_axis = list(map(lambda x: round(float(x), 5), y_axis))
     bar = (
         Bar(
-            init_opts=opts.InitOpts(bg_color="white", height="900px", width="1050px")
+            init_opts=opts.InitOpts(bg_color="white", height="900px", width="970px")
         )
             .add_xaxis(x_axis)
             .add_yaxis("", y_axis, category_gap="20%",

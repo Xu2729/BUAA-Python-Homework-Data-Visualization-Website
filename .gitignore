@@ -5,6 +5,8 @@
 /statistic/templates/Feature_importance.html
 /statistic/templates/Heatmap.html
 /statistic/templates/Model-Accuracy.html
+/statistic/prediction/data/test_set.csv
+/statistic/prediction/data/training_set.csv
 /faster_config.yaml
 /venv/
 /.idea/
