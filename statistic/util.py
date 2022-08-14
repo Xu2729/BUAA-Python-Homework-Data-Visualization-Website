@@ -18,7 +18,7 @@ def require_login():
     return decorator
 
 
-def redict_error(request: HttpRequest, error_msg: str, next_url=None):
+def redirect_error(request: HttpRequest, error_msg: str, next_url=None):
     if next_url is None:
         next_url = request.path
     return render(request, "error.html", {"error_msg": error_msg, "next": next_url})

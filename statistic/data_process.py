@@ -22,6 +22,8 @@ def analysis_file(filename: str, filter_dict=None):
         data["Class"] = data["Class"].apply(parse_class)
     else:
         data = my_filter(filename, **filter_dict)
+    if len(data) == 0:
+        return None, None, None, data
     keys = data.columns
     description = data.describe()
     key_type = {}

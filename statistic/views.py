@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line, draw_frequency_histogram
-from statistic.util import require_login, redict_error, parse_parameter
+from statistic.util import require_login, redirect_error, parse_parameter
 from statistic.data_process import my_filter, analysis_file, select_data
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
@@ -34,12 +34,16 @@ def index(request):
     args_dict["tot_size"] = len(new_data)
 
     if len(new_data) == 0:
-        return redirect(request, "no matching data")
+        return redirect_error(request, "no matching data")
 
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
-        draw_pie(new_data, key, group_by, None, save_filename="statistic/templates/" + pic_name)
-        args_dict["pic_num"] = len(new_data[group_by].value_counts())
+        draw_pie(new_data, key, group_by, title="Demo: Topic statistic",
+                 save_filename="statistic/templates/" + pic_name)
+        if group_by is None:
+            args_dict["pic_num"] = 1
+        else:
+            args_dict["pic_num"] = len(new_data[group_by].value_counts())
     elif chart_type == "2":
         pic_name = "cache/show_bar_{}.html".format(key)
         draw_bar(new_data, key, group_by, mark_dict=mark_dict, save_filename="statistic/templates/" + pic_name)
@@ -51,7 +55,10 @@ def index(request):
         space = int(request.POST.get("space"))
         draw_frequency_histogram(new_data, key, space, group_by, mark_dict=mark_dict,
                                  save_filename="statistic/templates/" + pic_name)
-        args_dict["pic_num"] = len(new_data[group_by].value_counts())
+        if group_by is None:
+            args_dict["pic_num"] = 1
+        else:
+            args_dict["pic_num"] = len(new_data[group_by].value_counts())
 
     args_dict["pic_url"] = "/find/?path=" + pic_name
     new_data.to_csv("statistic/data/_filter.csv", index=True, index_label="id")
@@ -123,25 +130,25 @@ def show_radar(request):
 
 def upload_csv(request):
     if request.method != "POST":
-        return redict_error(request, "Illegal access", "/index/")
+        return redirect_error(request, "Illegal access", "/index/")
     try:
         csv_file = request.FILES["csv_file"]
         if not csv_file.name.endswith(".csv"):
-            return redict_error(request, "Wrong file type", "/index/")
+            return redirect_error(request, "Wrong file type", "/index/")
         if csv_file.multiple_chunks():
-            return redict_error(request, "File size exceeds limit(2.5MB)", "/index/")
+            return redirect_error(request, "File size exceeds limit(2.5MB)", "/index/")
         with open('statistic/data/temp.csv', 'wb') as f:
             for line in csv_file.chunks():
                 f.write(line)
         return redirect('/index/?file=true')
     except Exception as e:
         print(e)
-        return redict_error(request, "An error occurred while saving the file", "/index/")
+        return redirect_error(request, "An error occurred while saving the file", "/index/")
 
 
 def download_csv(request):
     if request.method != "GET":
-        return redict_error(request, "Illegal access", "/index/")
+        return redirect_error(request, "Illegal access", "/index/")
     res = HttpResponse(content_type="text/csv")
     res["Content-Disposition"] = "attachment; filename=\"selectData.csv"
     writer = csv.writer(res)
@@ -184,12 +191,20 @@ def predict(request):
     return render(request, "predict.html", {"result": result, "is_show": True})
 
 
-def test(request):
-    return render(request, "pic_test.html")
-
-
 def page_not_found(request, exception):
-    return redict_error(request, "Page not found", "/index/")
+    return redirect_error(request, "404 Page not found", "/index/")
+
+
+def access_denied(request, exception):
+    return redirect_error(request, "403 Access denied", "/index/")
+
+
+def bad_request(request, exception):
+    return redirect_error(request, "400 Bad request", "/index/")
+
+
+def server_error(request):
+    return redirect_error(request, "500 Server error", "/index/")
 
 
 def display(request):

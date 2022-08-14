@@ -39,8 +39,10 @@ urlpatterns = [
     path("analysis/model/construction", views.analysis_model_construction),
     path("analysis/model/training", views.analysis_model_training),
     path("analysis/prediction", views.analysis_prediction),
-    path("test/", views.test),
 
 ]
 
 handler404 = views.page_not_found
+handler400 = views.bad_request
+handler403 = views.access_denied
+handler500 = views.server_error
