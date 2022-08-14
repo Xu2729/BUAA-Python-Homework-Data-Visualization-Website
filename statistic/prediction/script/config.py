@@ -5,8 +5,8 @@ from sklearn.ensemble import *
 
 training_data_path = "statistic/prediction/data/training_data.csv"
 test_path = "statistic/prediction/data/test.csv"
-train_data_path = "statistic/prediction/data/training_set.csv"
-test_data_path = "statistic/prediction/data/test_set.csv"
+train_data_path = "statistic/data/training_set.csv"
+test_data_path = "statistic/data/test_set.csv"
 
 is_trained = False
 

@@ -40,7 +40,7 @@
 <body>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
-
+    <!-- logo -->
     <div class="d-flex align-items-center justify-content-between">
         <div class="logo d-flex align-items-center">
             <img src="/static/assets/img/logo.png" alt="">
@@ -49,46 +49,39 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    <div class="search-bar d-none">
-        <form class="search-form d-flex align-items-center" method="POST" action="#">
-            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-        </form>
-    </div>
+    <!-- Data and time -->
+    <nav class="header-nav ms-auto">
+        <div id="time" style="font-size:large; font-weight: bold;"></div>
+    </nav>
+    <script>
+        getTime();
+        window.setInterval(getTime, 1000);
 
-    <nav class="header-nav ms-auto d-none">
+        function getTime(){
+            var date = new Date();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            if (hour < 10) hour = "0" + hour;
+            if (minute < 10) minute = "0" + minute;
+            if (second < 10) second = "0" + second;
+            document.getElementById("time").innerHTML = hour + ":" + minute + ":" + second;
+        }
+    </script>
+
+    <!-- User -->
+    <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
-
-            <li class="nav-item d-block d-lg-none">
-                <a class="nav-link nav-icon search-bar-toggle " href="#">
-                    <i class="bi bi-search"></i>
-                </a>
-            </li><!-- End Search Icon-->
-
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-bell"></i>
-                    <span class="badge bg-primary badge-number">4</span>
-                </a><!-- End Notification Icon -->
-            </li><!-- End Notification Nav -->
-
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-chat-left-text"></i>
-                    <span class="badge bg-success badge-number">3</span>
-                </a><!-- End Messages Icon -->
-            </li><!-- End Messages Nav -->
-
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="/static/assets/img/head.jpg" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">Hyggge</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">{{ user }}</span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
-                        <span>Web Designer</span>
+                        <h6>{{ user }}</h6>
+                        <span>VIP User</span>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
@@ -122,7 +115,7 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="/display/"> <!-- TODO: add url to href !!! -->
+            <a class="nav-link collapsed" href="/display/">
                 <i class="bi bi-layout-text-window-reverse"></i>
                 <span>Display</span>
             </a>
@@ -220,19 +213,15 @@
                         </div>
                         <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <!-- <label for="upload">
-                            <div class="text" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"> upload:</div> </label>  -->
                             <div class="row">
                                 <div class="col-5">
                                     <input type="file" class="input_file form-control" name="csv_file" id="upload">
                                 </div>
                                 <div class="col-4">
-                                    <input class="btn btn-success btn-md" type="submit" value="提交">
+                                    <input class="btn btn-success btn-md" type="submit" value="Upload" id="upload-file">
                                 </div>
                             </div>
-
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -249,13 +238,16 @@
                                     <i class="bi bi-people"></i>
                                 </div>
                                 <div class="ps-3">
-                                    <h6>Total {{ tot_size }}</h6>
+                                    <h6 >Total {{ tot_size }}</h6>
+                                    <a href="/download/csv/?file=_filter.csv">
+                                        <span class="badge" style="background-color: rgb(155, 155, 155)"><i class="bi bi-folder me-1" ></i> Export</span>
+                                        <!-- <span class="badge border-secondary border-1 text-secondary">Export Data</span> -->
+                                    </a>
                                     <!-- <span class="text-danger small pt-1 fw-bold"></span>  -->
 
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -719,7 +711,7 @@
                 filterRange.removeAttribute("disabled");
                 filterRange.setAttribute("required", "required");
                 // add the information about number range to filterValue
-                filterRange.placeholder = "Input A Range:  " + keyValueDict[newOption]["min"] + " ~ " + keyValueDict[newOption]["max"];
+                filterRange.placeholder = "Input A Range:  0 ~ 100";
             }
             $('.select').selectpicker('refresh');   // cost too much time!!!
         }
@@ -998,27 +990,9 @@
 
     // response to the submit event
     form.onsubmit = function () {
-        // verify chart type
-        // verifyChartType();
-        // verifyInput
         var ret = verifyInput();
         return ret;
     }
-
-
-    function verifyChartType() {
-        var checkBox = document.getElementById("check-box");
-        var chartType = document.getElementById("chart-type-submit");
-        switch (chartType.value) {
-            case "1" :
-                checkBox.setAttribute("class", "d-none");
-            case "2" :
-                checkBox.setAttribute("class", "");
-            case "3" :
-                checkBox.setAttribute("class", "");
-        }
-    }
-
 
     function verifyInput() {
         var keysOfIntType = ["AnnouncementsView", "Discussion", "VisitedResources", "raisedhands"];
@@ -1032,8 +1006,6 @@
             let index = keyBox.selectedIndex;
             let option = keyBox.options[index].value;
             if (keysOfIntType.includes(option)) {
-                var minBoundary = parseInt(keyValueDict[option]["min"]);
-                var maxBoundary = parseInt(keyValueDict[option]["max"]);
                 var userInput = inputBox.value.trim();
                 var list = userInput.split(";");
                 for (s of list) {
@@ -1045,8 +1017,22 @@
                             `example4 = "(1.0,2.0);[3.0,4.0];5.0"`);
                         return false;
                     }
+                    else if (!check(s.trim())) {
+                        alert(`The number entered is not within the given range, please re-enter!`);
+                        return false;
+                    }
                 }
             }
+        }
+        return true;
+    }
+
+    function check(s) {
+        var regex = /(\d+(\.\d+)?)/i
+        var list = regex.exec(s);
+        for (it of list) {
+            var number = parseFloat(it);
+            if (number < 0 || number > 100) return false;
         }
         return true;
     }

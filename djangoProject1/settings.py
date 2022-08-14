@@ -14,7 +14,7 @@ import os
 from pathlib import Path
 import yaml
 
-with open("faster_config.yaml", 'r') as stream:
+with open("config.yaml", 'r') as stream:
     _YAML_CONFIG = yaml.safe_load(stream)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

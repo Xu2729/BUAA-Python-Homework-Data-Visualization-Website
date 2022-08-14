@@ -1,4 +1,6 @@
 import re
+
+import pandas as pd
 from django.shortcuts import redirect, render
 from django.http import HttpRequest
 
@@ -89,3 +91,30 @@ def patten_range(s: str, is_float=False) -> list:
             else:
                 ans.append(int(v))
     return ans
+
+
+def get_predict_result() -> dict:
+    data = pd.read_csv("statistic/data/test_set.csv")
+    res = {"RandomForestClassifier": {}, "AdaBoostClassifier": {}, "GradientBoostingClassifier": {},
+           "ExtraTreesClassifier": {},
+           "RandomForestRegressor": {}, "AdaBoostRegressor": {}, "GradientBoostingRegressor": {},
+           "ExtraTreesRegressor": {}}
+    for k in res.keys():
+        temp_data = dict(data[k + "_is_right"].value_counts())
+        res[k]["Success"] = int(temp_data[True])
+        res[k]["Fail"] = int(temp_data[False])
+        res[k]["Total"] = res[k]["Success"] + res[k]["Fail"]
+        res[k]["Rate"] = "%.2f%%" % (100 * res[k]["Success"] / res[k]["Total"])
+    return res
+
+
+def user_render(request: HttpRequest, filename: str, args_dict=None):
+    if args_dict is None:
+        args_dict = {}
+    cookies = request.COOKIES
+    is_login = cookies.get("is_login")
+    if is_login != "True":
+        return redirect_error(request, "Login status error", "/index/")
+    user = cookies.get("user")
+    args_dict["user"] = user
+    return render(request, filename, args_dict)

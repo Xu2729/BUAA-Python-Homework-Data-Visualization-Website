@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from statistic.draw import draw_pie, draw_bar, draw_radar, draw_line, draw_frequency_histogram
-from statistic.util import require_login, redirect_error, parse_parameter
+from statistic.util import require_login, redirect_error, parse_parameter, get_predict_result, user_render
 from statistic.data_process import my_filter, analysis_file, select_data
 from django.contrib.auth.hashers import make_password, check_password
 from statistic.models import User
@@ -27,7 +27,7 @@ def index(request):
     if request.method == "GET":
         ori_data.to_csv('statistic/data/_filter.csv', index=True, index_label="id")
         args_dict["pic_url"] = "/show_pie/?filename=" + args_dict["filename"] + "&key=Topic"
-        return render(request, "index.html", args_dict)
+        return user_render(request, "index.html", args_dict)
 
     filter_dict, chart_type, key, group_by, mark_dict = parse_parameter(request, key_type)
     _, _, args_dict["key_description"], new_data = analysis_file(tot_filename, filter_dict)
@@ -62,7 +62,7 @@ def index(request):
 
     args_dict["pic_url"] = "/find/?path=" + pic_name
     new_data.to_csv("statistic/data/_filter.csv", index=True, index_label="id")
-    return render(request, "index.html", args_dict)
+    return user_render(request, "index.html", args_dict)
 
 
 def find(request):
@@ -150,7 +150,10 @@ def download_csv(request):
     if request.method != "GET":
         return redirect_error(request, "Illegal access", "/index/")
     res = HttpResponse(content_type="text/csv")
-    res["Content-Disposition"] = "attachment; filename=\"selectData.csv"
+    if request.GET.get("file") == "_filter.csv":
+        res["Content-Disposition"] = "attachment; filename=\"selectData.csv"
+    else:
+        res["Content-Disposition"] = "attachment; filename=\"" + request.GET.get("file")
     writer = csv.writer(res)
     with open("statistic/data/" + request.GET.get("file"), "r") as f:
         reader = csv.reader(f)
@@ -175,12 +178,14 @@ def error(request):
     return render(request, "error.html", {"error_msg": "Illegal access", "next": "/index/"})
 
 
+@require_login()
 def predict(request):
     keys = ['gender', 'Nationality', 'PlaceofBirth', 'StageID', 'GradeID', 'SectionID', 'Topic', 'Semester', 'Relation',
             'ParentAnsweringSurvey', 'ParentschoolSatisfaction']
     im_keys = ['raisedhands', 'VisitedResources', 'AnnouncementsView', 'Discussion']
+    data = get_predict_result()
     if request.method == "GET":
-        return render(request, "predict.html", {"is_show": False})
+        return user_render(request, "predict.html", {"is_show": False, "data": data})
     para_dict = {"StudentAbsenceDays": request.POST.get("StudentAbsenceDays")}
     for k in im_keys:
         para_dict[k] = int(request.POST.get(k))
@@ -188,7 +193,7 @@ def predict(request):
         if request.POST.get(k) != "Null":
             para_dict[k] = request.POST.get(k)
     result = predict_class(para_dict)
-    return render(request, "predict.html", {"result": result, "is_show": True})
+    return user_render(request, "predict.html", {"result": result, "is_show": True, "data": data})
 
 
 def page_not_found(request, exception):
@@ -207,10 +212,11 @@ def server_error(request):
     return redirect_error(request, "500 Server error", "/index/")
 
 
+@require_login()
 def display(request):
     res_dict = {"show": False}
     if request.method == "GET":
-        return render(request, "display.html")
+        return user_render(request, "display.html")
     students = request.POST.get("student-id")
     students = students.split(",")
     students = list(map(int, students))
@@ -222,32 +228,39 @@ def display(request):
     draw_radar(data, students,
                {"raisedhands": 100, "VisitedResources": 100, "AnnouncementsView": 100, "Discussion": 100}, None,
                save_filename="statistic/templates/cache/radar_display.html")
-    return render(request, "display.html", res_dict)
+    return user_render(request, "display.html", res_dict)
 
 
+@require_login()
 def analysis_data_analysis(request):
-    return render(request, "analysis-data-analysis.html")
+    return user_render(request, "analysis-data-analysis.html")
 
 
+@require_login()
 def analysis_data_overview(request):
-    return render(request, "analysis-data-overview.html")
+    return user_render(request, "analysis-data-overview.html")
 
 
+@require_login()
 def analysis_data_preprocessing(request):
-    return render(request, "analysis-data-preprocessing.html")
+    return user_render(request, "analysis-data-preprocessing.html")
 
 
+@require_login()
 def analysis_feature_selection(request):
-    return render(request, "analysis-feature-selection.html")
+    return user_render(request, "analysis-feature-selection.html")
 
 
+@require_login()
 def analysis_model_construction(request):
-    return render(request, "analysis-model-construction.html")
+    return user_render(request, "analysis-model-construction.html")
 
 
+@require_login()
 def analysis_model_training(request):
-    return render(request, "analysis-model-training.html")
+    return user_render(request, "analysis-model-training.html")
 
 
+@require_login()
 def analysis_prediction(request):
-    return render(request, "analysis-prediction.html")
+    return user_render(request, "analysis-prediction.html")

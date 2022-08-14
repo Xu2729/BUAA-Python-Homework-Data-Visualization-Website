@@ -49,6 +49,10 @@ def train_models():
     regression_train(x_train, x_test, y_train, y_test, test_data)
 
     config.is_trained = True
+
+    for k in ["RandomForestClassifier", "AdaBoostClassifier", "GradientBoostingClassifier", "ExtraTreesClassifier",
+              "RandomForestRegressor", "AdaBoostRegressor", "GradientBoostingRegressor", "ExtraTreesRegressor"]:
+        test_data[k] = test_data[k].apply(lambda x_: int(x_ + 0.1))
     train_data.to_csv(config.train_data_path, index=True, index_label="id")
     test_data.to_csv(config.test_data_path, index=True, index_label="id")
 
