@@ -57,7 +57,7 @@
         getTime();
         window.setInterval(getTime, 1000);
 
-        function getTime(){
+        function getTime() {
             var date = new Date();
             var hour = date.getHours();
             var minute = date.getMinutes();
@@ -138,7 +138,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/analysis/data/analysis" >
+                    <a href="/analysis/data/analysis">
                         <i class="bi bi-circle"></i><span>Data Analysis</span>
                     </a>
                 </li>
@@ -210,8 +210,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="card-title text">Please enter the id of the student whose details you want to view
-                            ...
+                        <div class="card-title text">Here you can enter the student ID to view the student's
+                            performance. You can also enter multiple student IDs for comparison.
                         </div>
                         <form action="/display/" method="POST" id="id-form">
                             {% csrf_token %}
@@ -244,20 +244,20 @@
                             <hr>
                             <table class="table table-bordered datatable">
                                 <thead>
-                                    <tr>
-                                        {% for v in data_head %}
+                                <tr>
+                                    {% for v in data_head %}
                                         <th class="text-center">{{ v }}</th>
-                                        {% endfor %}
-                                    </tr>
+                                    {% endfor %}
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    {% for line in data_body %}
+                                {% for line in data_body %}
                                     <tr>
                                         {% for v in line %}
-                                        <td class="text-center">{{ v }}</td>
+                                            <td class="text-center">{{ v }}</td>
                                         {% endfor %}
                                     </tr>
-                                    {% endfor %}
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>

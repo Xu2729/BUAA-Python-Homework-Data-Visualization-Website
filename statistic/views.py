@@ -38,7 +38,7 @@ def index(request):
 
     if chart_type == "1":
         pic_name = "cache/show_pie_{}.html".format(key)
-        draw_pie(new_data, key, group_by, title="Demo: Topic statistic",
+        draw_pie(new_data, key, group_by, None,
                  save_filename="statistic/templates/" + pic_name)
         if group_by is None:
             args_dict["pic_num"] = 1
@@ -97,7 +97,7 @@ def show_pie(request):
     key = request.GET.get("key")
     group_by = request.GET.get("group_by")
     data = my_filter(file_name, **{})
-    draw_pie(data, key, group_by, None, save_filename="statistic/templates/cache/show_pie_{}.html".format(key))
+    draw_pie(data, key, group_by, title="Demo: Topic statistic", save_filename="statistic/templates/cache/show_pie_{}.html".format(key))
     return render(request, "cache/show_pie_{}.html".format(key))
 
 
