@@ -64,17 +64,60 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link" href="/display/">
+            <a class="nav-link collapsed" href="/display/">
                 <i class="bi bi-layout-text-window-reverse"></i>
                 <span>Display</span>
             </a>
         </li><!-- End Display Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="/predict/">
-                <i class="bi bi-menu-button-wide"></i><span>Prediction</span>
+            <a class="nav-link" href="/predict/">
+                <i class="bi bi-menu-button-wide"></i><span>Predict</span>
             </a>
         </li><!-- End Prediction Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link  collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-journal-text"></i><span>Analysis</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="forms-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/analysis/data/overview">
+                        <i class="bi bi-circle"></i><span>Data Overview</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/analysis/data/analysis" >
+                        <i class="bi bi-circle"></i><span>Data Analysis</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/analysis/model/construction">
+                        <i class="bi bi-circle"></i><span>Model Construction</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/analysis/data/prepocessing">
+                        <i class="bi bi-circle"></i><span>Data Preprocessing</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/analysis/feature/selection">
+                        <i class="bi bi-circle"></i><span>Feature Selection</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/analysis/model/training">
+                        <i class="bi bi-circle"></i><span>Model Training</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/analysis/prediction">
+                        <i class="bi bi-circle"></i><span>Prediction</span>
+                    </a>
+                </li>
+            </ul>
+        </li><!-- End Forms Nav -->
 
         <li class="nav-heading">Pages</li>
 
@@ -91,8 +134,6 @@
                 <span>Login</span>
             </a>
         </li><!-- End Login Page Nav -->
-
-
     </ul>
 
 </aside><!-- End Sidebar-->

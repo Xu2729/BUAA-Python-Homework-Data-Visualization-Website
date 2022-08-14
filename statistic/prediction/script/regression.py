@@ -11,7 +11,7 @@ import config
 from util import get_model_name
 
 
-def regression_train(x_train, x_test, y_train, y_test):
+def regression_train(x_train, x_test, y_train, y_test, test_data):
     # regression
     print("-----regression_train-----")
     for model in config.regression_models:
@@ -22,6 +22,8 @@ def regression_train(x_train, x_test, y_train, y_test):
         predicted = model.predict(x_test)
         for i in range(predicted.__len__()):
             predicted[i] = int(round(predicted[i]))
+        test_data[get_model_name(model)] = predicted + 1
+        test_data[get_model_name(model) + "_is_right"] = (predicted + 1) == test_data["Class"]
 
         # evaluate
         accuracy_val = accuracy_score(expected, predicted)

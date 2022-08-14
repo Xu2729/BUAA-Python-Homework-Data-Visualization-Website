@@ -4,9 +4,9 @@ import pandas
 from sklearn.ensemble import *
 
 training_data_path = "statistic/prediction/data/training_data.csv"
-test_data_path = "statistic/prediction/data/test.csv"
-train_set_path = "statistic/prediction/data/training_set.csv"
-test_set_path = "statistic/prediction/data/test_set.csv"
+test_path = "statistic/prediction/data/test.csv"
+train_data_path = "statistic/prediction/data/training_set.csv"
+test_data_path = "statistic/prediction/data/test_set.csv"
 
 is_trained = False
 
@@ -89,10 +89,3 @@ models = classify_models + regression_models
 feature2chi2_p_value = {}  # feature_importance
 model2accuracy = {}  # accuracy of each model
 corr = None  # used to draw correlation matrix
-train_set = None
-test_set = None
-
-
-def export_train_test():
-    train_set.to_csv(train_set_path, index=True, index_label="id")
-    test_set.to_csv(test_set_path, index=True, index_label="id")

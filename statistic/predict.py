@@ -3,7 +3,6 @@ from statistic.prediction.script.model import predict_single_student
 
 def predict_class(para_dict: dict):
     result, _ = predict_single_student(**para_dict)
-    print(result)
     methods_1 = ["RandomForestClassifier", "AdaBoostClassifier", "GradientBoostingClassifier", "ExtraTreesClassifier"]
     methods_2 = ["RandomForestRegressor", "AdaBoostRegressor", "GradientBoostingRegressor", "ExtraTreesRegressor"]
     res = {}

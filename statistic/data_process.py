@@ -133,6 +133,4 @@ def select_data(data: DataFrame, pks: list):
         for key in keys:
             temp.append(str(temp_data[key]))
         ans_body.append(temp)
-    print(ans_head)
-    print(ans_body)
     return ans_head, ans_body
