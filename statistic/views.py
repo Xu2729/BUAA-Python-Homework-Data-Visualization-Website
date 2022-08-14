@@ -97,7 +97,8 @@ def show_pie(request):
     key = request.GET.get("key")
     group_by = request.GET.get("group_by")
     data = my_filter(file_name, **{})
-    draw_pie(data, key, group_by, title="Demo: Topic statistic", save_filename="statistic/templates/cache/show_pie_{}.html".format(key))
+    draw_pie(data, key, group_by, title="Demo: Topic statistic",
+             save_filename="statistic/templates/cache/show_pie_{}.html".format(key))
     return render(request, "cache/show_pie_{}.html".format(key))
 
 
@@ -140,6 +141,11 @@ def upload_csv(request):
         with open('statistic/data/temp.csv', 'wb') as f:
             for line in csv_file.chunks():
                 f.write(line)
+        with open('statistic/data/temp.csv', 'r') as f:
+            if f.readline() != "gender,Nationality,PlaceofBirth,StageID,GradeID,SectionID,Topic,Semester,Relation," \
+                               "raisedhands,VisitedResources,AnnouncementsView,Discussion,ParentAnsweringSurvey," \
+                               "ParentschoolSatisfaction,StudentAbsenceDays,Class\n":
+                return redirect_error(request, "Header error", "/index/")
         return redirect('/index/?file=true')
     except Exception as e:
         print(e)
