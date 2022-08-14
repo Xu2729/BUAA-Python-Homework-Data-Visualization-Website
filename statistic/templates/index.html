@@ -211,14 +211,14 @@
                     <div class="card-body">
                         <div class="card-title text">If you want to use the new data, please upload it here ...
                         </div>
-                        <form action="/upload/csv/" method="POST" enctype="multipart/form-data">
+                        <form action="/upload/csv/" method="POST" enctype="multipart/form-data" id="upload-form">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-5">
-                                    <input type="file" class="input_file form-control" name="csv_file" id="upload">
+                                    <input type="file" class="input_file form-control" name="csv_file" id="upload-file">
                                 </div>
                                 <div class="col-4">
-                                    <input class="btn btn-success btn-md" type="submit" value="Upload" id="upload-file">
+                                    <input class="btn btn-success btn-md" type="submit" value="Upload" id="upload-button">
                                 </div>
                             </div>
                         </form>
@@ -609,6 +609,20 @@
 <script src="/static/assets/vendor/php-email-form/validate.js"></script>
 <script src="/static/assets/vendor/vendor.min.js"></script>
 <script src="/static/assets/vendor/bootstrap/js/bootstrap-select.min.js"></script>
+
+<!-- upload file -->
+<script>
+    var uploadForm = document.getElementById("upload-form");
+    
+    uploadForm.onsubmit = function() {
+        var uploadFile = $("#upload-file").get(0).files[0];
+        if (!uploadFile) {
+            alert("You haven't selected a file!");
+            return false;
+        } 
+        return true;
+    }
+</script>
 
 <!-- whether filter or not -->
 <script>
