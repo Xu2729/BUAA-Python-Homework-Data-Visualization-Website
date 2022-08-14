@@ -42,7 +42,7 @@ def parse_parameter(request, key_type: dict):
     key = request.POST.get("chart-classify")
     chart_type = request.POST.get("chart-type")
     group_by = request.POST.get("chart-group")
-    if group_by == "Default":
+    if group_by == "NULL":
         group_by = None
     mark_data = request.POST.getlist("check-box")
     mark_dict = {}
