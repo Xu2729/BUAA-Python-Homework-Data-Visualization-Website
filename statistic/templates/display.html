@@ -220,7 +220,8 @@
                                     <div style="font-family: Avant Garde;">Student Id</div>
                                 </label>
                                 <div class="col-3">
-                                    <input type="text" class="form-control" name="student-id" id="student-id" required>
+                                    <input type="text" class="form-control" name="student-id" id="student-id" required
+                                        placeholder="0 ~ 479">
                                 </div>
                                 <div class="col-4">
                                     <input class="btn btn-danger btn-md" type="submit" value="Screen" id="submit">
@@ -329,6 +330,10 @@
             if (!regex.test(id.trim())) {
                 alert("Incorrect input format, please re-enter!\nExample of the correct format is as follows\n\n" +
                     "example1: 124\n" + "example2: 152,253,114,258");
+                return false;
+            } 
+            else if (parseInt(id.trim()) < 0 || parseInt(id.trim()) > 479) {
+                alert("Id should be between 0 and 479!");
                 return false;
             }
         }
