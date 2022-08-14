@@ -173,15 +173,15 @@ def predict(request):
             'ParentAnsweringSurvey', 'ParentschoolSatisfaction']
     im_keys = ['raisedhands', 'VisitedResources', 'AnnouncementsView', 'Discussion']
     if request.method == "GET":
-        return render(request, "predict.html")
+        return render(request, "predict.html", {"is_show": False})
     para_dict = {"StudentAbsenceDays": request.POST.get("StudentAbsenceDays")}
     for k in im_keys:
         para_dict[k] = int(request.POST.get(k))
     for k in keys:
-        if request.POST.get(k) != "NULL":
+        if request.POST.get(k) != "Null":
             para_dict[k] = request.POST.get(k)
     result = predict_class(para_dict)
-    return render(request, "predict.html", {"result": result})
+    return render(request, "predict.html", {"result": result, "is_show": True})
 
 
 def test(request):
