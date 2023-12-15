@@ -1,6 +1,10 @@
-# 运行方法
+# BUAA Python 全英文课程大作业
 
-## Windows
+本项目为北航计算机学院 2022 年夏季学期 Python 程序设计（全英文）课程大作业项目
+
+## 运行方法
+
+### Windows
 
 建立虚拟环境
 
@@ -45,7 +49,7 @@ python manage.py runserver 0.0.0.0:8000 --insecure
 # 这样就能通过 <ip>:8000 进行访问了
 ```
 
-## Linux
+### Linux
 
 建立虚拟环境
 
@@ -87,7 +91,7 @@ python3 manage.py runserver 0.0.0.0:8000 --insecure
 # 这样就能通过 <ip>:8000 进行访问了
 ```
 
-## 关于数据库
+### 关于数据库
 
 目前仓库中的 config.yaml 使用的是 ECS 的 MySQL 数据库，可能比较慢，开发用建议修改为本地数据库
 
